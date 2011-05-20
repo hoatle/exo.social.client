@@ -23,7 +23,55 @@ package org.exoplatform.social.client.api.model;
  * @since May 19, 2011
  */
 public interface Like extends Model {
+
+  /**
+   * The fields that represent the Identity object in json form. <p/> <p> All of the fields that comments can have.
+   * </p>
+   */
+  public static enum Field {
+    /** the json field for activityId. */
+    ACTIVITY_ID("activityId"),
+    /** the json field for userId. */
+    USER_ID("userId");
+
+    /**
+     * The json field that the instance represents.
+     */
+    private final String jsonString;
+
+    /**
+     * create a field base on the a json element.
+     *
+     * @param jsonString the name of the element
+     */
+    private Field(String jsonString) {
+      this.jsonString = jsonString;
+    }
+
+    /**
+     * emit the field as a json element.
+     *
+     * @return the field name
+     */
+    @Override
+    public String toString() {
+      return jsonString;
+    }
+  }
+
+  /**
+   * Gets the activity associated with this like.
+   * <p/>
+   * This method must be lazy loading.
+   *
+   * @return the activity
+   */
   Activity getActivity();
 
-  Identity getIdentityId();
+  /**
+   * Gets the identity associated with this like.
+   *
+   * @return the identity
+   */
+  Identity getIdentity();
 }
