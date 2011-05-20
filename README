@@ -6,13 +6,46 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 1. How to build
 
 * Dependencies:
-  + json_simple-1.1.1 (compiled)
+  + json_simple-1.1.1 (compiled): http://code.google.com/p/json-simple/
 
   + junit-4.8.2 (test)
 
 
 * Use maven, tested on maven-3.x, should work well on maven-2.x.
-* Use json-simple library which is not on maven repositiy, need to install this artifact on local repositiy.
+* Use json-simple library which is not on maven repository, need to install this artifact on local repository.
 
-  + Install json-simple
+  + cd to lib, run this maven command:
+  mvn install:install-file -Dfile=json_simple-1.1.jar -DgroupId=com.google.code -DartifactId=json_simple -Dversion=1.1 -Dpackaging=jar
+
+* Use this command to build project: mvn clean install
+
+
+ 2. How to use this library
+
+ * Sample code:
+
+    //Create the client context object
+    ClientContext clientContext = new ClientContextImpl();
+    //AuthSchema can be any supported auth schema, currently basic auth;
+    // later, must use OAuth
+    AuthSchema basicAuthSchema = new BasicAuthSchemaImpl();
+    basicAuthSchema.setUsername("demo");
+    basicAuthSchema.setPassword("gtn");
+    clientContext.setAuthSchema(basicAuthSchema);
+    clientContext.setHost("http://localhost");
+    clientContext.setPort("8080"); //80 as default
+    clientContext.setPortalContainerName("socialdemo");
+    clientContext.setRestContextName("rest-socialdemo");
+    clientContext.setRestVersion("1");
+
+    //Set client context to Client object
+
+    Client client = new ClientImpl();
+    client.setClientContext(clientContext);
+
+    //it's all for Client to work, now just get the Service to use
+    ActivityService activityService = client.getActivityService();
+
+    IdentityService identityService = client.getIdentityService();
+    //...
 
