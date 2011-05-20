@@ -1,0 +1,18 @@
+eXo Social Client Java Library
+
+http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
+
+
+1. How to build
+
+* Dependencies:
+  + json_simple-1.1.1 (compiled)
+
+  + junit-4.8.2 (test)
+
+
+* Use maven, tested on maven-3.x, should work well on maven-2.x.
+* Use json-simple library which is not on maven repositiy, need to install this artifact on local repositiy.
+
+  + Install json-simple
+
