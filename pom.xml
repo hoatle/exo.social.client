@@ -11,11 +11,18 @@
   <url>http://exoplatform.org/company/en/platform/exo-extended-services/exo-social</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <json_simple.version>1.1</json_simple.version>
 
     <junit.version>4.8.2</junit.version>
   </properties>
 
   <dependencies>
+    <dependency>
+      <groupId>com.google.code</groupId>
+      <artifactId>json_simple</artifactId>
+      <version>${json_simple.version}</version>
+    </dependency>
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
