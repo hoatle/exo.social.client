@@ -29,7 +29,7 @@ import java.util.List;
 public interface ListAccess<E> {
 
   /**
-   * <p>Retrieves an array of objects from the list.
+   * <p>Retrieves an array of objects from the list access.
    * <p/>
    * <p>The index value and the lenght value cannot be negative, and the sum of the index and the length cannot be
    * greater than the list size. Those values are considered as non correct.<p>
@@ -37,18 +37,22 @@ public interface ListAccess<E> {
    * @param index the index
    * @param limit the limit
    * @return the array
-   * @throws Exception                any exception that would prevent access to the list
-   * @throws IllegalArgumentException if the index value or the length value are not correct
    */
   E[] load(int index, int limit);
 
+  /**
+   * Retrieves a list of objects from the list access.
+   *
+   * @param index
+   * @param limit
+   * @return a list
+   */
   List<E> loadAsList(int index, int limit);
 
   /**
    * Returns the list size.
    *
    * @return the size
-   * @throws Exception any exception that would prevent access to the list
    */
   int getSize();
 }
