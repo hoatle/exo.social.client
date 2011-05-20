@@ -25,32 +25,92 @@ package org.exoplatform.social.client.api.model;
 public interface Identity extends Model {
 
   /**
+   * The fields that represent the Identity object in json form.
+   *
+   * <p>
+   * All of the fields that comments can have.
+   * </p>
+   *
+   */
+  public static enum Field {
+    /** the json field for identity id. */
+    ID("id"),
+    /** the json field for userId. */
+    PROVIDER_ID("providerId"),
+    /** the json field for activityId. */
+    REMOTE_ID("remoteId");
+
+    /**
+     * The json field that the instance represents.
+     */
+    private final String jsonString;
+
+    /**
+     * create a field base on the a json element.
+     *
+     * @param jsonString the name of the element
+     */
+    private Field(String jsonString) {
+      this.jsonString = jsonString;
+    }
+
+    /**
+     * emit the field as a json element.
+     *
+     * @return the field name
+     */
+    @Override
+    public String toString() {
+      return jsonString;
+    }
+  }
+
+  /**
+   * Gets the identity id.
+   *
+   * @return the identity id
+   */
+  String getId();
+
+  /**
+   * Sets the identity id.
+   *
+   * @param id the identity id
+   */
+  void setId(String id);
+
+  /**
    * Gets identity provider id.
    *
-   * @return
+   * @return the provider id
    */
   String getProviderId();
 
   /**
    * Sets identity provider id.
    *
-   * @param providerId
+   * @param providerId the provider id
    */
   void setProviderId(String providerId);
 
   /**
    * Gets the remote identity id.
-   * @return
+   * @return the remote id
    */
   String getRemoteId();
 
   /**
    * Sets the remote identity id.
+   *
+   * @param remoteId the remote id
    */
-  void setRemoteId(String identityId);
+  void setRemoteId(String remoteId);
 
   /**
    * Gets the profile associated with this identity.
+   *
+   * This method must be lazy loading.
+   *
    * @return the associated profile.
    */
   Profile getProfile();
