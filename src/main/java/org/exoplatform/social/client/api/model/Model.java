@@ -16,12 +16,121 @@
  */
 package org.exoplatform.social.client.api.model;
 
+import java.util.List;
+import java.util.Map;
+
+import org.json.simple.JSONAware;
+import org.json.simple.JSONStreamAware;
+
 /**
- * The general model.
+ * The general model extends {@link org.json.simple.JSONObject}'s interfaces.
+ * <p/>
+ * Inspiration taken from: http://code.google.com/p/opensocial-java-client/source/browse/trunk/java/src/org/opensocial/models/Model.java
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since 5/19/11
+ * @since May 19, 2011
  */
-public interface Model {
+public interface Model extends Map, JSONAware, JSONStreamAware {
+
+  /**
+   * Returns the complete set of properties associated with the model instance.
+   *
+   * @return a string array
+   */
+  String[] getFieldNames();
+
+  /**
+   * Returns {@code true} if a value is associated with the specified field name, {@code false} otherwise.
+   *
+   * @param fieldName name of field to look up
+   * @return a boolean value
+   */
+  boolean hasField(String fieldName);
+
+  /**
+   * Returns the value of the specified field as an Object.
+   *
+   * @param fieldName name of field whose value is to be returned
+   * @return an object associated with fieldName
+   */
+  Object getField(String fieldName);
+
+  /**
+   * Returns the value of the specified field as a {@link Map}. Equivalent to {@code (Map) getField(fieldName)}, hence
+   * this method will throw a ClassCastException if the field does not implement Map.
+   *
+   * @param fieldName name of field whose value is to be returned
+   * @return a map associated with fieldName
+   * @see ClassCastException
+   */
+  Map getFieldAsMap(String fieldName);
+
+  /**
+   * Returns the value of the specified field as a {@link java.util.List}. Equivalent to {@code (List)
+   * getField(fieldName)}, hence this method will throw a ClassCastException if the field does not implement List.
+   *
+   * @param fieldName name of field whose value is to be returned
+   * @return a list associated with fieldName
+   * @see ClassCastException
+   */
+  List getFieldAsList(String fieldName);
+
+  /**
+   * Returns the value of the specified field as a {@link String}. Equivalent to {@code (String) getField(fieldName)},
+   * hence this method will throw a ClassCastException if the field is not of type String.
+   *
+   * @param fieldName name of field whose value is to be returned
+   * @return a string associated with fieldName
+   * @see ClassCastException
+   */
+  String getFieldAsString(String fieldName);
+
+  /**
+   * Returns the template parameter with the specified name.
+   *
+   * @param name name of template parameter whose value is to be returned
+   * @return a string associated with a name
+   */
+  String getTemplateParameter(String name);
+
+  /**
+   * Returns {@code true} if the value of the specified field implements {@link Map}, {@code false} otherwise.
+   *
+   * @param fieldName name of field to look up
+   * @return a boolean value
+   */
+  boolean isFieldMultikeyed(String fieldName);
+
+  /**
+   * Returns {@code true} if the value of the specified field implements {@link List}, {@code false} otherwise.
+   *
+   * @param fieldName name of field to look up
+   * @return a boolean value
+   */
+  boolean isFieldMultivalued(String fieldName);
+
+  /**
+   * Sets the value of the specified field to the passed Object.
+   *
+   * @param fieldName name of field to set
+   * @param value     object to associate with passed field name
+   */
+  void setField(String fieldName, Object value);
+
+  /**
+   * Adds the passed Object to the list field with the specified name.
+   *
+   * @param fieldName name of list field for which the passed item should be added
+   * @param item      item to add
+   */
+  void addToListField(String fieldName, Object item);
+
+  /**
+   * Adds a new template parameter with the specified name and value.
+   *
+   * @param name  name of new template parameter to add
+   * @param value value of template parameter to associate with passed name
+   */
+  void addTemplateParameter(String name, String value);
 
 }
