@@ -16,15 +16,13 @@
  */
 package org.exoplatform.social.client.core.auth;
 
-import javax.naming.directory.BasicAttribute;
-
 import org.exoplatform.social.client.api.auth.AuthSchema;
 
 /**
  * The basic authentication schema requiring username and password.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since  May 20, 2011
+ * @since May 20, 2011
  */
 public class BasicAuthSchemaImpl implements AuthSchema {
 
