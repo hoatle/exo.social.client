@@ -86,14 +86,6 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
   String getFieldAsString(String fieldName);
 
   /**
-   * Returns the template parameter with the specified name.
-   *
-   * @param name name of template parameter whose value is to be returned
-   * @return a string associated with a name
-   */
-  String getTemplateParameter(String name);
-
-  /**
    * Returns {@code true} if the value of the specified field implements {@link Map}, {@code false} otherwise.
    *
    * @param fieldName name of field to look up
@@ -124,13 +116,5 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param item      item to add
    */
   void addToListField(String fieldName, Object item);
-
-  /**
-   * Adds a new template parameter with the specified name and value.
-   *
-   * @param name  name of new template parameter to add
-   * @param value value of template parameter to associate with passed name
-   */
-  void addTemplateParameter(String name, String value);
 
 }
