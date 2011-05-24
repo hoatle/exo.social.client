@@ -109,4 +109,11 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    */
   void setField(String fieldName, Object value);
 
+  /**
+   * Adds the passed Object to the list field with the specified name.
+   *
+   * @param fieldName name of list field for which the passed item should be added
+   * @param item      item to add
+   */
+  void addToListField(String fieldName, Object item);
 }
