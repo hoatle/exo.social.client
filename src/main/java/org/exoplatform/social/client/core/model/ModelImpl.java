@@ -35,7 +35,7 @@ import org.json.simple.JSONObject;
 public class ModelImpl extends JSONObject implements Model {
 
   /**
-   * Returns the complete set of properties associated with the model instance.
+   * {@inheritDoc}
    */
   public String[] getFieldNames() {
     int i = 0;
@@ -51,51 +51,35 @@ public class ModelImpl extends JSONObject implements Model {
   }
 
   /**
-   * Returns {@code true} if a value is associated with the specified field name, {@code false} otherwise.
-   *
-   * @param fieldName name of field to look up
+   * {@inheritDoc}
    */
   public boolean hasField(String fieldName) {
     return containsKey(fieldName);
   }
 
   /**
-   * Returns the value of the specified field as an Object.
-   *
-   * @param fieldName name of field whose value is to be returned
+   * {@inheritDoc}
    */
   public Object getField(String fieldName) {
     return get(fieldName);
   }
 
   /**
-   * Returns the value of the specified field as a {@link Map}. Equivalent to {@code (Map) getField(fieldName)}, hence
-   * this method will throw a ClassCastException if the field does not implement Map.
-   *
-   * @param fieldName name of field whose value is to be returned
-   * @see ClassCastException
+   * {@inheritDoc}
    */
   public Map getFieldAsMap(String fieldName) {
     return (Map) get(fieldName);
   }
 
   /**
-   * Returns the value of the specified field as a {@link java.util.List}. Equivalent to {@code (List)
-   * getField(fieldName)}, hence this method will throw a ClassCastException if the field does not implement List.
-   *
-   * @param fieldName name of field whose value is to be returned
-   * @see ClassCastException
+   * {@inheritDoc}
    */
   public List getFieldAsList(String fieldName) {
     return (List) get(fieldName);
   }
 
   /**
-   * Returns the value of the specified field as a {@link String}. Equivalent to {@code (String) getField(fieldName)},
-   * hence this method will throw a ClassCastException if the field is not of type String.
-   *
-   * @param fieldName name of field whose value is to be returned
-   * @see ClassCastException
+   * {@inheritDoc}
    */
   public String getFieldAsString(String fieldName) {
     try {
@@ -106,28 +90,11 @@ public class ModelImpl extends JSONObject implements Model {
   }
 
   /**
-   * Returns {@code true} if the value of the specified field implements {@link Map}, {@code false} otherwise.
-   *
-   * @param fieldName name of field to look up
+   * {@inheritDoc}
    */
   public boolean isFieldMultikeyed(String fieldName) {
     Object field = get(fieldName);
-    if (field.getClass().equals(String.class) ||
-            field.getClass().equals(JSONArray.class)) {
-      return false;
-    }
-
-    return true;
-  }
-
-  /**
-   * Returns {@code true} if the value of the specified field implements {@link List}, {@code false} otherwise.
-   *
-   * @param fieldName name of field to look up
-   */
-  public boolean isFieldMultivalued(String fieldName) {
-    Object field = get(fieldName);
-    if (field.getClass().equals(JSONArray.class)) {
+    if (field instanceof Map) {
       return true;
     }
 
@@ -135,22 +102,28 @@ public class ModelImpl extends JSONObject implements Model {
   }
 
   /**
-   * Sets the value of the specified field to the passed Object.
-   *
-   * @param fieldName name of field to set
-   * @param value     object to associate with passed field name
+   * {@inheritDoc}
+   */
+  public boolean isFieldMultivalued(String fieldName) {
+    Object field = get(fieldName);
+    if (field instanceof List) {
+      return true;
+    }
+
+    return false;
+  }
+
+  /**
+   * {@inheritDoc}
    */
   public void setField(String fieldName, Object value) {
     put(fieldName, value);
   }
 
   /**
-   * Adds the passed Object to the list field with the specified name.
-   *
-   * @param fieldName name of list field for which the passed item should be added
-   * @param item      item to add
+   * {@inheritDoc}
    */
-  protected void addToListField(String fieldName, Object item) {
+  public void addToListField(String fieldName, Object item) {
     List<Object> listField;
 
     if (containsKey(fieldName)) {

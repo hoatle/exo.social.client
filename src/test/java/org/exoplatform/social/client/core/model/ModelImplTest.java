@@ -24,18 +24,21 @@ import java.util.Map;
 import org.exoplatform.social.client.api.model.Model;
 import org.junit.Test;
 
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 /**
  * Unit test for {@link ModelImpl}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since  May 20, 2011
+ * @since May 20, 2011
  */
 public class ModelImplTest {
 
@@ -112,12 +115,66 @@ public class ModelImplTest {
 
   @Test
   public void shouldGetFieldAsString() {
+    Model model = new ModelImpl();
+    final String stringValue = "string value";
+    model.put("key", stringValue);
 
+    String value = model.getFieldAsString("key");
+
+    assertThat("value must be: " + stringValue, value, is(stringValue));
   }
 
   @Test
-  public void shouldThrowClassCastExceptionToGetFieldAsString() {
+  public void shouldWorkWithIsFieldMultikeyed() {
 
+    final Map<String, String> myMap = new HashMap<String, String>();
+    myMap.put("mapKey", "mapValue");
+
+    Model model = new ModelImpl();
+    model.put("keyMap", myMap);
+    model.put("keyString", "string value");
+
+    assertThat("model.isFieldMultikeyed(\"keyMap\") must be true", model.isFieldMultikeyed("keyMap"), is(true));
+    assertThat("model.isFieldMultikeyed(\"keyString\") must be false", model.isFieldMultikeyed("keyString"), is(false));
+  }
+
+  @Test
+  public void shouldWorkWithIsFieldMultivalued() {
+    final List<String> myList = new ArrayList<String>();
+    myList.add("foo");
+    myList.add("bar");
+    Model model = new ModelImpl();
+    model.put("keyList", myList);
+    model.put("keyString", "string value");
+
+    assertThat("model.isFieldMultivalued(\"keyList\") must be true", model.isFieldMultivalued("keyList"), is(true));
+    assertThat("model.isFieldMultivalued(\"keyString\") must be false", model.isFieldMultivalued("keyString"),
+            is(false));
+  }
+
+  @Test
+  public void shouldWorkWithSetField() {
+    Model model = new ModelImpl();
+    model.setField("fooKey", "fooValue");
+    assertThat("model.getFieldAsString(\"fooKey\") must be: fooValue", model.getFieldAsString("fooKey"),
+            equalTo("fooValue"));
+    model.setField("fooKey", "barValue");
+    assertThat("model.getFieldAsString(\"fooKey\") must be: barValue", model.getFieldAsString("fooKey"),
+            equalTo("barValue"));
+  }
+
+  @Test
+  public void shouldWorkWithAddToListField() {
+    Model model = new ModelImpl();
+    final String fooKey = "fooKey";
+    model.addToListField(fooKey, "hello");
+    assertThat("model.isFieldMultivalued(fooKey) must be true", model.isFieldMultivalued(fooKey), is(true));
+    model.addToListField(fooKey, "world");
+    assertThat("model.getFieldAsList(fooKey).size() must return 2", model.getFieldAsList(fooKey).size(), is(2));
+    assertThat("(String)model.getFieldAsList(fooKey).get(0) must return hello",
+               (String)model.getFieldAsList(fooKey).get(0), equalTo("hello"));
+    assertThat("(String)model.getFieldAsList(fooKey).get(1) must return world",
+               (String)model.getFieldAsList(fooKey).get(1), equalTo("world"));
   }
 
 
