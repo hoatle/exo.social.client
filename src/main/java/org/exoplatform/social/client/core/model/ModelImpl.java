@@ -14,92 +14,125 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.api.model;
+package org.exoplatform.social.client.core.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
-import org.json.simple.JSONAware;
-import org.json.simple.JSONStreamAware;
+import org.exoplatform.social.client.api.model.Model;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 
 /**
- * The general model extends {@link org.json.simple.JSONObject}'s interfaces.
- * <p/>
- * Inspiration taken from: http://code.google.com/p/opensocial-java-client/source/browse/trunk/java/src/org/opensocial/models/Model.java
+ * ModelImplTest implements {@link Model}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since May 19, 2011
+ * @since  May 20, 2011
  */
-public interface Model extends Map, JSONAware, JSONStreamAware {
+public class ModelImpl extends JSONObject implements Model {
 
   /**
    * Returns the complete set of properties associated with the model instance.
-   *
-   * @return a string array
    */
-  String[] getFieldNames();
+  public String[] getFieldNames() {
+    int i = 0;
+    String[] fieldNames = new String[size()];
+
+    Set<Map.Entry<String, Object>> fields = entrySet();
+    for (Map.Entry<String, Object> field : fields) {
+      fieldNames[i] = field.getKey();
+      i++;
+    }
+
+    return fieldNames;
+  }
 
   /**
    * Returns {@code true} if a value is associated with the specified field name, {@code false} otherwise.
    *
    * @param fieldName name of field to look up
-   * @return a boolean value
    */
-  boolean hasField(String fieldName);
+  public boolean hasField(String fieldName) {
+    return containsKey(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as an Object.
    *
    * @param fieldName name of field whose value is to be returned
-   * @return an object associated with fieldName
    */
-  Object getField(String fieldName);
+  public Object getField(String fieldName) {
+    return get(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as a {@link Map}. Equivalent to {@code (Map) getField(fieldName)}, hence
    * this method will throw a ClassCastException if the field does not implement Map.
    *
    * @param fieldName name of field whose value is to be returned
-   * @return a map associated with fieldName
    * @see ClassCastException
    */
-  Map getFieldAsMap(String fieldName);
+  public Map getFieldAsMap(String fieldName) {
+    return (Map) get(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as a {@link java.util.List}. Equivalent to {@code (List)
    * getField(fieldName)}, hence this method will throw a ClassCastException if the field does not implement List.
    *
    * @param fieldName name of field whose value is to be returned
-   * @return a list associated with fieldName
    * @see ClassCastException
    */
-  List getFieldAsList(String fieldName);
+  public List getFieldAsList(String fieldName) {
+    return (List) get(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as a {@link String}. Equivalent to {@code (String) getField(fieldName)},
    * hence this method will throw a ClassCastException if the field is not of type String.
    *
    * @param fieldName name of field whose value is to be returned
-   * @return a string associated with fieldName
    * @see ClassCastException
    */
-  String getFieldAsString(String fieldName);
+  public String getFieldAsString(String fieldName) {
+    try {
+      return (String) get(fieldName);
+    } catch (ClassCastException e) {
+      return "" + get(fieldName);
+    }
+  }
 
   /**
    * Returns {@code true} if the value of the specified field implements {@link Map}, {@code false} otherwise.
    *
    * @param fieldName name of field to look up
-   * @return a boolean value
    */
-  boolean isFieldMultikeyed(String fieldName);
+  public boolean isFieldMultikeyed(String fieldName) {
+    Object field = get(fieldName);
+    if (field.getClass().equals(String.class) ||
+            field.getClass().equals(JSONArray.class)) {
+      return false;
+    }
+
+    return true;
+  }
 
   /**
    * Returns {@code true} if the value of the specified field implements {@link List}, {@code false} otherwise.
    *
    * @param fieldName name of field to look up
-   * @return a boolean value
    */
-  boolean isFieldMultivalued(String fieldName);
+  public boolean isFieldMultivalued(String fieldName) {
+    Object field = get(fieldName);
+    if (field.getClass().equals(JSONArray.class)) {
+      return true;
+    }
+
+    return false;
+  }
 
   /**
    * Sets the value of the specified field to the passed Object.
@@ -107,6 +140,27 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param fieldName name of field to set
    * @param value     object to associate with passed field name
    */
-  void setField(String fieldName, Object value);
+  public void setField(String fieldName, Object value) {
+    put(fieldName, value);
+  }
+
+  /**
+   * Adds the passed Object to the list field with the specified name.
+   *
+   * @param fieldName name of list field for which the passed item should be added
+   * @param item      item to add
+   */
+  protected void addToListField(String fieldName, Object item) {
+    List<Object> listField;
+
+    if (containsKey(fieldName)) {
+      listField = getFieldAsList(fieldName);
+    } else {
+      listField = new ArrayList<Object>();
+    }
+
+    listField.add(item);
+    put(fieldName, listField);
+  }
 
 }

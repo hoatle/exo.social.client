@@ -14,22 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core;
+package org.exoplatform.social.client.core.model;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 /**
- * Unit test for {@link org.exoplatform.social.client.core.auth.BasicAuthSchemaImpl}.
+ * Unit Test for {@link LikeImpl}
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since  May 20, 2011
+ * @since  May 24, 2011
  */
-public class BasicAuthSchemaImplTest extends TestCase {
+public class LikeImplTest {
 
-  /**
-   * Tests {@link org.exoplatform.social.client.core.auth.BasicAuthSchemaImpl#isAuthenticated()}.
-   */
-  public void testIsAuthenticated() {
-    //TODO write unit test
+  @Test
+  public void shouldCreateLikeInstance() {
+
   }
+
+
+  @Test
+  public void shouldGetIdentity() {
+
+  }
+
+  @Test
+  public void shouldGetActivity() {
+
+
+  }
+
+
 }
