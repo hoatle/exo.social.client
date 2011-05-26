@@ -34,9 +34,9 @@ public interface Like extends Model {
      */
     ACTIVITY_ID("activityId"),
     /**
-     * the json field for identityId.
+     * the json field for userId.
      */
-    IDENTITY_ID("identityId");
+    USER_ID("userId");
 
     /**
      * The json field that the instance represents.
@@ -78,18 +78,18 @@ public interface Like extends Model {
   void setActivityId(String activityId);
 
   /**
-   * Gets identity id.
+   * Gets user id.
    *
-   * @return the identity id
+   * @return the user id
    */
-  String getIdentityId();
+  String getUserId();
 
   /**
-   * Sets identity id.
+   * Sets user id.
    *
-   * @param identityId the identity id
+   * @param userId the user id
    */
-  void setIdentityId(String identityId);
+  void setUserId(String userId);
 
   /**
    * Gets the activity associated with this like.

@@ -39,11 +39,11 @@ public class LikeImpl extends ModelImpl implements Like {
    * Constructor.
    *
    * @param activityId the activity id
-   * @param identityId the identity id
+   * @param userId the user id
    */
-  public LikeImpl(String activityId, String identityId) {
+  public LikeImpl(String activityId, String userId) {
     setActivityId(activityId);
-    setIdentityId(identityId);
+    setUserId(userId);
   }
 
   /**
@@ -63,15 +63,15 @@ public class LikeImpl extends ModelImpl implements Like {
   /**
    * {@inheritDoc}
    */
-  public String getIdentityId() {
-    return getFieldAsString(Field.IDENTITY_ID.toString());
+  public String getUserId() {
+    return getFieldAsString(Field.USER_ID.toString());
   }
 
   /**
    * {@inheritDoc}
    */
-  public void setIdentityId(String identityId) {
-    setField(Field.IDENTITY_ID.toString(), identityId);
+  public void setUserId(String userId) {
+    setField(Field.USER_ID.toString(), userId);
   }
 
   /**
