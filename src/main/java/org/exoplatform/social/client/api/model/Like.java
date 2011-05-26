@@ -29,10 +29,14 @@ public interface Like extends Model {
    * </p>
    */
   public static enum Field {
-    /** the json field for activityId. */
+    /**
+     * the json field for activityId.
+     */
     ACTIVITY_ID("activityId"),
-    /** the json field for userId. */
-    USER_ID("userId");
+    /**
+     * the json field for identityId.
+     */
+    IDENTITY_ID("identityId");
 
     /**
      * The json field that the instance represents.
@@ -60,6 +64,34 @@ public interface Like extends Model {
   }
 
   /**
+   * Gets the activity id.
+   *
+   * @return the activity id
+   */
+  String getActivityId();
+
+  /**
+   * Sets the activity id.
+   *
+   * @param activityId the activity id
+   */
+  void setActivityId(String activityId);
+
+  /**
+   * Gets identity id.
+   *
+   * @return the identity id
+   */
+  String getIdentityId();
+
+  /**
+   * Sets identity id.
+   *
+   * @param identityId the identity id
+   */
+  void setIdentityId(String identityId);
+
+  /**
    * Gets the activity associated with this like.
    * <p/>
    * This method must be lazy loading.
@@ -70,6 +102,8 @@ public interface Like extends Model {
 
   /**
    * Gets the identity associated with this like.
+   * <p/>
+   * This method must be lazy loading.
    *
    * @return the identity
    */
