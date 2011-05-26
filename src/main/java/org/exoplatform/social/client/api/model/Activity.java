@@ -62,7 +62,7 @@ public interface Activity extends Model {
     /** the json field for id. */
     ID("id"),
     /** the json field for updated. */
-    LAST_UPDATED("updated"), /* Needed to support the RESTful api */
+    UPDATED("updated"), /* Needed to support the RESTful api */
     /** the json field for mediaItems. */
     //MEDIA_ITEMS("mediaItems"), /* Not yet supported */
     /** the json field for postedTime. */
