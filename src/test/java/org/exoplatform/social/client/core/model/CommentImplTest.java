@@ -39,10 +39,10 @@ public class CommentImplTest {
     final long postedTime = System.currentTimeMillis();
     Comment comment = new CommentImpl(id, userId, activityId, postedTime);
     assertThat("comment must not be null", comment, notNullValue());
-    assertThat(comment.getId(), equalTo(id));
-    assertThat(comment.getUserId(), equalTo(userId));
-    assertThat(comment.getActivityId(), equalTo(activityId));
-    assertThat(comment.getPostedTime(), equalTo(postedTime));
+    assertThat("comment.getId() must return: " + id, comment.getId(), equalTo(id));
+    assertThat("comment.getUserId() must return: " + userId, comment.getUserId(), equalTo(userId));
+    assertThat("comment.getActivityId() must return: " + activityId, comment.getActivityId(), equalTo(activityId));
+    assertThat("comment.getPostedTime() must return: " + postedTime, comment.getPostedTime(), equalTo(postedTime));
   }
 
   @Test
