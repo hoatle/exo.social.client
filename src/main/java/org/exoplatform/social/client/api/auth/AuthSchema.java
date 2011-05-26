@@ -30,4 +30,11 @@ public interface AuthSchema {
    * @return true or false.
    */
   boolean isAuthenticated();
+
+  /**
+   * Authenticates with the service provider.
+   *
+   * @return true or false.
+   */
+  boolean authenticate();
 }
