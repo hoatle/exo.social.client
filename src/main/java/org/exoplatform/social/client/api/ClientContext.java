@@ -16,8 +16,6 @@
  */
 package org.exoplatform.social.client.api;
 
-import org.exoplatform.social.client.api.auth.AuthSchema;
-
 /**
  * The client context to hold states of: host, port, portalContainerName,
  * restContextName and rest version and auth schema.
@@ -26,20 +24,6 @@ import org.exoplatform.social.client.api.auth.AuthSchema;
  * @since May 19, 2011
  */
 public interface ClientContext {
-
-  /**
-   * Gets the auth schema.
-   *
-   * @return the auth schema.
-   */
-  AuthSchema getAuthSchema();
-
-  /**
-   * Sets the auth schema.
-   *
-   * @param authSchema
-   */
-  void setAuthSchema(AuthSchema authSchema);
 
   /**
    * Gets host of the portal container to access services.

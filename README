@@ -26,17 +26,18 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
     //Create the client context object
     ClientContext clientContext = new ClientContextImpl();
-    //AuthSchema can be any supported auth schema, currently basic auth;
-    // later, must use OAuth
-    AuthSchema basicAuthSchema = new BasicAuthSchemaImpl();
-    basicAuthSchema.setUsername("demo");
-    basicAuthSchema.setPassword("gtn");
-    clientContext.setAuthSchema(basicAuthSchema);
     clientContext.setHost("http://localhost");
     clientContext.setPort("8080"); //80 as default
     clientContext.setPortalContainerName("socialdemo");
     clientContext.setRestContextName("rest-socialdemo");
     clientContext.setRestVersion("1");
+
+    //AuthSchema can be any supported auth schema, currently basic auth;
+    // later, must use OAuth
+    AuthSchema basicAuthSchema = new BasicAuthSchemaImpl();
+    basicAuthSchema.setUsername("demo");
+    basicAuthSchema.setPassword("gtn");
+    basicAuthSchema.setClientContext(clientContext);
 
     //Set client context to Client object
 

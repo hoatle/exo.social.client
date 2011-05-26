@@ -16,6 +16,8 @@
  */
 package org.exoplatform.social.client.api.auth;
 
+import org.exoplatform.social.client.api.ClientContext;
+
 /**
  * The authentication and authorization schema. The schema could be Basic or OAuth
  * auth schema.
@@ -24,17 +26,25 @@ package org.exoplatform.social.client.api.auth;
  * @since  May 19, 2011
  */
 public interface AuthSchema {
+
+  /**
+   * Sets the client context for context awareness.
+   *
+   * @param clientContext the client context.
+   */
+  public void setClientContext(ClientContext clientContext);
+
   /**
    * Check if a user is authenticated to service provider.
    *
    * @return true or false.
    */
-  boolean isAuthenticated();
+  boolean isAuthenticated(ClientContext clientContext);
 
   /**
    * Authenticates with the service provider.
    *
    * @return true or false.
    */
-  boolean authenticate();
+  boolean authenticate(ClientContext clientContext);
 }
