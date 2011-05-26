@@ -424,6 +424,8 @@ public interface Activity extends Model {
    * Gets list access of likes.
    * This is eXo Social's extended feature.
    *
+   * This must be lazy loading.
+   *
    * @return list of likes
    */
   ListAccess<Like> getLikes();
@@ -431,6 +433,8 @@ public interface Activity extends Model {
   /**
    * Gets list access of comments for this activity.
    * This is eXo Social's extended feature.
+   *
+   * This must be lazy loading.
    *
    * @return list of comments.
    */
