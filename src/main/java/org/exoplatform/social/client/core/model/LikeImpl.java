@@ -21,15 +21,64 @@ import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 
 /**
+ * Implementation of {@link Like}.
+ *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since 5/20/11
+ * @since May 20, 2011
  */
 public class LikeImpl extends ModelImpl implements Like {
+
+  /**
+   * Constructor without param.
+   */
+  public LikeImpl() {
+
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param activityId the activity id
+   * @param identityId the identity id
+   */
+  public LikeImpl(String activityId, String identityId) {
+    setActivityId(activityId);
+    setIdentityId(identityId);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public String getActivityId() {
+    return getFieldAsString(Field.ACTIVITY_ID.toString());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setActivityId(String activityId) {
+    setField(Field.ACTIVITY_ID.toString(), activityId);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public String getIdentityId() {
+    return getFieldAsString(Field.IDENTITY_ID.toString());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setIdentityId(String identityId) {
+    setField(Field.IDENTITY_ID.toString(), identityId);
+  }
 
   /**
    * {@inheritDoc}
    */
   public Activity getActivity() {
+    //TODO implement this
     return null;
   }
 
@@ -37,6 +86,7 @@ public class LikeImpl extends ModelImpl implements Like {
    * {@inheritDoc}
    */
   public Identity getIdentity() {
+    //TODO implement this
     return null;
   }
 

@@ -16,7 +16,12 @@
  */
 package org.exoplatform.social.client.core.model;
 
+import org.exoplatform.social.client.api.model.Like;
 import org.junit.Test;
+
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit Test for {@link LikeImpl}
@@ -28,7 +33,12 @@ public class LikeImplTest {
 
   @Test
   public void shouldCreateLikeInstance() {
-
+    final String activityId = "1234";
+    final String identityId = "56789";
+    Like like = new LikeImpl(activityId, identityId);
+    assertThat("like must not be null", like, notNullValue());
+    assertThat("like.getActivityId() must return: " + activityId , like.getActivityId(), equalTo(activityId));
+    assertThat("like.getIdentityId() must return: " + identityId, like.getIdentityId(), equalTo(identityId));
   }
 
 
@@ -42,6 +52,5 @@ public class LikeImplTest {
 
 
   }
-
 
 }
