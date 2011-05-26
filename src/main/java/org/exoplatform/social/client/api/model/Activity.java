@@ -291,7 +291,7 @@ public interface Activity extends Model {
    * @return a number between 0 and 1 representing the relative priority of this activity in
    *         relation to other activities from the same source
    */
-  Float getPriority();
+  Double getPriority();
 
   /**
    * Sets the priority, a number between 0 and 1 representing the relative priority of this activity
@@ -301,7 +301,7 @@ public interface Activity extends Model {
    * @param priority a number between 0 and 1 representing the relative priority of this activity in
    *                relation to other activities from the same source.
    */
-  void setPriority(Float priority);
+  void setPriority(Double priority);
 
   /**
    * Gets a string specifying the URL for the stream's favicon. Container support for this field is
