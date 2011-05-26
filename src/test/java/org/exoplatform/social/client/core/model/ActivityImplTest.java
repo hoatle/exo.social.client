@@ -122,4 +122,14 @@ public class ActivityImplTest {
     assertThat("activity.getTemplateParameter(\"foo3\") must return: bar3", activity.getTemplateParameter("foo3"),
             equalTo("bar3"));
   }
+
+  @Test
+  public void shouldGetLikes() {
+    //TODO complete this
+  }
+
+  @Test
+  public void shouldGetComments() {
+    //TODO Complete this
+  }
 }
