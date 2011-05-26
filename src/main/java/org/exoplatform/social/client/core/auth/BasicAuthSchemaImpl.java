@@ -47,6 +47,42 @@ public class BasicAuthSchemaImpl implements AuthSchema {
     this.password = password;
   }
 
+  /**
+   * Gets the user name.
+   *
+   * @return the user name
+   */
+  public String getUsername() {
+    return username;
+  }
+
+  /**
+   * Sets the user name.
+   *
+   * @param username the username
+   */
+  public void setUsername(String username) {
+    this.username = username;
+  }
+
+  /**
+   * Gets the password.
+   *
+   * @return the password
+   */
+  public String getPassword() {
+    return password;
+  }
+
+  /**
+   * Sets the password.
+   *
+   * @param password the password
+   */
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
 
   /**
    * {@inheritDoc}
@@ -56,4 +92,11 @@ public class BasicAuthSchemaImpl implements AuthSchema {
     return false;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  public boolean authenticate() {
+    //TODO implement this
+    return false;
+  }
 }
