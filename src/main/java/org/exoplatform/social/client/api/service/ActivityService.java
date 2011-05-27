@@ -39,6 +39,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * All these activities will be merged into one stream.
    *
    * @return the real time list access of {@link Activity}.
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException, ServiceException;
@@ -50,6 +51,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @param identity the identity.
    * @param period   the period of time
    * @return the real time list access
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   RealtimeListAccess<Activity> getActivityStream(Identity identity, Period period) throws AccessDeniedException,
@@ -61,6 +63,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    *
    * @param identityList the list of identities
    * @return the real time list access
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList) throws AccessDeniedException,
@@ -73,6 +76,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @param identityList the list of identities
    * @param period       the period of time
    * @return the real time list access
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList,
@@ -84,6 +88,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @param existingActivity the existing activity
    * @param newComment       the new created comment
    * @return the created comment
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   Comment createComment(Activity existingActivity, Comment newComment) throws AccessDeniedException, ServiceException;
@@ -92,7 +97,8 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * Gets an existing comment by its id.
    *
    * @param commentId the comment id
-   * @return the existing comment with the specified id.
+   * @return the existing comment with the specified id
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   Comment getComment(String commentId) throws AccessDeniedException, ServiceException;
@@ -102,6 +108,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    *
    * @param existingComment
    * @return the updated comment
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   Comment updateComment(Comment existingComment) throws AccessDeniedException, ServiceException;
@@ -110,6 +117,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * Deletes an existing comment.
    *
    * @param existingComment the existing comment
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   void deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException;
@@ -120,7 +128,8 @@ public interface ActivityService<Activity> extends Service<Activity> {
    *
    * @param existingActivity the existing activity
    * @param existingIdentity the existing identity
-   * @return the created {@link Like} instance.
+   * @return the created {@link Like} instance
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   Like like(Activity existingActivity, Identity existingIdentity) throws AccessDeniedException, ServiceException;
@@ -129,7 +138,8 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * Gets a like by its id.
    *
    * @param likeId the like id
-   * @return a like instance specified by likeId.
+   * @return a like instance specified by likeId
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   Like getLike(String likeId) throws AccessDeniedException, ServiceException;
@@ -138,6 +148,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * An identity unlikes an activity.
    *
    * @param existingLike the existing like
+   * @throws AccessDeniedException
    * @throws ServiceException
    */
   void unlike(Like existingLike) throws AccessDeniedException, ServiceException;
