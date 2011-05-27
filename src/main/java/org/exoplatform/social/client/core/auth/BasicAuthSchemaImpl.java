@@ -16,6 +16,7 @@
  */
 package org.exoplatform.social.client.core.auth;
 
+import org.exoplatform.social.client.api.ClientContext;
 import org.exoplatform.social.client.api.auth.AuthSchema;
 
 /**
@@ -27,14 +28,19 @@ import org.exoplatform.social.client.api.auth.AuthSchema;
 public class BasicAuthSchemaImpl implements AuthSchema {
 
   /**
-   * The username
+   * The username.
    */
   private String username;
 
   /**
-   * The password
+   * The password.
    */
   private String password;
+
+  /**
+   * The client context.
+   */
+  private ClientContext clientContext;
 
   /**
    * Constructor for basic authentication schema.
@@ -83,6 +89,13 @@ public class BasicAuthSchemaImpl implements AuthSchema {
     this.password = password;
   }
 
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setClientContext(ClientContext clientContext) {
+    this.clientContext = clientContext;
+  }
 
   /**
    * {@inheritDoc}
