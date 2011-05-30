@@ -22,7 +22,7 @@ package org.exoplatform.social.client.api.service;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since  May 19, 2011
  */
-public class ServiceException extends Exception {
+public class ServiceException extends RuntimeException {
 
   public String classService;
 
