@@ -34,9 +34,39 @@ import org.exoplatform.social.client.api.model.Like;
 public interface ActivityService<Activity> extends Service<Activity> {
 
   /**
+   * Gets activity stream which is associated with an identity: that user, his connections and his spaces' activities.
+   * These activities are filtered by specifying the list of app ids and the period of time that created these
+   * activities.
+   *
+   * For example:
+   * <pre>
+   *    Identity demoIdentity = identityService.get("123456789abcdef");
+   *    List<String> appIds = new ArrayList<String>();
+   *    appIds.add("all"); //all means all the activity types
+   *    //appIds.add("default"); // default means all the defined default activity types.
+   *    Period period = new PeriodImpl(12345, 23456);
+   *    RealtimeListAccess<Activity> activityListAccess = activityService.getActivityStream(demoIdentity, appIds, period);
+   * </pre>
+   *
+   * @param identity the identity
+   * @param appIds the list of identities
+   * @param period the period of time
+   * @return the real time list access
+   * @throws AccessDeniedException
+   * @throws ServiceException
+   */
+  RealtimeListAccess<Activity> getActivityStream(Identity identity, List<String> appIds,
+                                                 Period period) throws AccessDeniedException, ServiceException;
+
+  /**
    * Gets activity stream associated with an identity: that user, his connections and his spaces' activities.
    * <p/>
-   * All these activities will be merged into one stream.
+   * All these activities will be merged into one stream. This will return only activities with default core types.
+   *
+   * Short hand for:
+   * <pre>
+   *   getActivityStream(Identity, null, null);
+   * </pre>
    *
    * @return the real time list access of {@link Activity}.
    * @throws AccessDeniedException
@@ -45,8 +75,27 @@ public interface ActivityService<Activity> extends Service<Activity> {
   RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException, ServiceException;
 
   /**
+   * Gets activity stream associated with an identity: that user, his connections and his spaces' activities by
+   * specifying the type of activities to be retrieved.
+   * <p/>
+   * All these activities will be merged into one stream. Short hand for:
+   * <pre>
+   *   getActivityStream(Identity, List<String>, null);
+   * </pre>
+   *
+   * @return the real time list access of {@link Activity}.
+   * @throws AccessDeniedException
+   * @throws ServiceException
+   */
+  RealtimeListAccess<Activity> getActivityStream(Identity identity, List<String> appIds) throws AccessDeniedException,
+          ServiceException;
+
+  /**
    * Gets activity stream associated with an identity: that user, his connections and his spaces' activities which are
-   * specified in a period of time.
+   * specified in a period of time. Short hand for:
+   * <pre>
+   *   getActivityStream(Identity, null, Period);
+   * </pre>
    *
    * @param identity the identity.
    * @param period   the period of time
@@ -57,9 +106,25 @@ public interface ActivityService<Activity> extends Service<Activity> {
   RealtimeListAccess<Activity> getActivityStream(Identity identity, Period period) throws AccessDeniedException,
                                                                                           ServiceException;
 
+  /**
+   * Gets activity stream from a provided list of {@link Identity} by specifying identity list,
+   * the list of app ids to be retrieved and the period of time.
+   *
+   * @param identityList the identity list
+   * @param appIds the app id list
+   * @param period the period of time
+   * @return the realtime list access
+   * @throws AccessDeniedException
+   * @throws ServiceException
+   */
+  RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList, List<String> appIds,
+                                                 Period period) throws AccessDeniedException, ServiceException;
 
   /**
-   * Gets activity stream from a provided list of {@link Identity}.
+   * Gets activity stream from a provided list of {@link Identity}. Short hand for:
+   * <pre>
+   *   getActivityStream(List<Identity>, null, null);
+   * </pre>
    *
    * @param identityList the list of identities
    * @return the real time list access
@@ -71,7 +136,27 @@ public interface ActivityService<Activity> extends Service<Activity> {
 
 
   /**
+   * Gets activity stream from a provided list of {@link Identity} and specifying the activity with matched app ids
+   * to be retrieved. Short hand for:
+   * <pre>
+   *   getActivityStream(List<Identity>, List<String>, null);
+   * </pre>
+   *
+   * @param identityList the identity list
+   * @param appIds the list of app ids
+   * @return the real time list access
+   * @throws AccessDeniedException
+   * @throws ServiceException
+   */
+  RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList,
+                                                 List<String> appIds) throws AccessDeniedException, ServiceException;
+
+  /**
    * Gets activity stream from a provided list of {@link Identity} which is specified in a period of time.
+   * Short hand for:
+   * <pre>
+   *   getActivityStream(identityList, null, period);
+   * </pre>
    *
    * @param identityList the list of identities
    * @param period       the period of time
