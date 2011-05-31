@@ -34,7 +34,7 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
     //AuthSchema can be any supported auth schema, currently basic auth;
     // later, must use OAuth
-    AuthSchema basicAuthSchema = new BasicAuthSchemaImpl();
+    BasicAuthSchemaImpl basicAuthSchema = new BasicAuthSchemaImpl();
     basicAuthSchema.setUsername("demo");
     basicAuthSchema.setPassword("gtn");
     basicAuthSchema.setClientContext(clientContext);
