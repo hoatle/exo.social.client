@@ -17,7 +17,7 @@
 package org.exoplatform.social.client.api.common;
 
 /**
- * This Period is used to indicate the start and end time.
+ * This Period is used to indicate the start and end timestamp.
  * The start and end are timestamp values.
  *
  *
@@ -26,29 +26,30 @@ package org.exoplatform.social.client.api.common;
  */
 public interface Period {
   /**
-   * Gets the start time.
+   * Gets the start timestamp.
    *
-   * @return the star time
+   * @return the start timestamp
    */
   long getStartTime();
 
   /**
-   * Sets the star time.
+   * Sets the star timestamp.
    *
-   * @param startTime the star time
+   * @param startTime the start timestamp
    */
   void setStartTime(long startTime);
 
   /**
-   * Gets the stop time.
+   * Gets the end timestamp.
    *
-   * @return the stop time
+   * @return the end timestamp
    */
-  long getStopTime();
+  long getEndTime();
 
   /**
-   * Sets the stop time.
-   * @param stopTime the stop time
+   * Sets the stop timestamp.
+   *
+   * @param endTime the end timestamp
    */
-  void setStopTime(long stopTime);
+  void setEndTime(long endTime);
 }
