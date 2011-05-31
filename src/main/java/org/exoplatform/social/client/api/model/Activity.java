@@ -21,14 +21,17 @@ import java.util.Map;
 
 import org.exoplatform.social.client.api.common.ListAccess;
 
+import com.google.inject.ImplementedBy;
+
 /**
  * eXo Social Activity model based on OpenSocial Activity Spec 0.8.1:
  * http://www.opensocial.org/Technical-Resources/opensocial-spec-v081/opensocial-reference#opensocial.Activity
- * and <tt>org.exoplatform.social.core.activity.model.ExoSocialActivity</tt> class on eXo Social project.
+ * and <tt>org.exoplatform.social.api.activity.model.ExoSocialActivity</tt> class on eXo Social project.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
+@ImplementedBy(ActivityImpl.class)
 public interface Activity extends Model {
 
   /**

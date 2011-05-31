@@ -18,6 +18,8 @@ package org.exoplatform.social.client.api.auth;
 
 import org.exoplatform.social.client.api.ClientContext;
 
+import com.google.inject.ImplementedBy;
+
 /**
  * The authentication and authorization schema. The schema could be Basic or OAuth
  * auth schema.
@@ -25,6 +27,7 @@ import org.exoplatform.social.client.api.ClientContext;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since  May 19, 2011
  */
+@ImplementedBy(BasicAuthSchemaImpl.class)
 public interface AuthSchema {
 
   /**

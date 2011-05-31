@@ -22,6 +22,8 @@ import java.util.Map;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONStreamAware;
 
+import com.google.inject.ImplementedBy;
+
 /**
  * The general model extends {@link org.json.simple.JSONObject}'s interfaces.
  * <p/>
@@ -30,6 +32,7 @@ import org.json.simple.JSONStreamAware;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
+@ImplementedBy(ModelImpl.class)
 public interface Model extends Map, JSONAware, JSONStreamAware {
 
   /**

@@ -14,11 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.model;
-
-import org.exoplatform.social.client.api.model.Activity;
-import org.exoplatform.social.client.api.model.Identity;
-import org.exoplatform.social.client.api.model.Like;
+package org.exoplatform.social.client.api.model;
 
 /**
  * Implementation of {@link Like}.

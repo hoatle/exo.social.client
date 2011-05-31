@@ -14,10 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.model;
-
-import org.exoplatform.social.client.api.model.Identity;
-import org.exoplatform.social.client.api.model.Profile;
+package org.exoplatform.social.client.api.model;
 
 /**
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>

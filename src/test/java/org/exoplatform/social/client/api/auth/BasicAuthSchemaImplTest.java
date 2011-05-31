@@ -14,28 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.model;
+package org.exoplatform.social.client.api.auth;
 
-import org.exoplatform.social.client.api.model.Identity;
 import org.junit.Test;
 
-import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertThat;
-
 /**
- * Unit Test for {@link IdentityImpl}
+ * Unit test for {@link org.exoplatform.social.client.api.auth.BasicAuthSchemaImpl}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since May 25, 2011
+ * @since  May 20, 2011
  */
-public class IdentityImplTest {
+public class BasicAuthSchemaImplTest {
 
   @Test
-  public void shouldCreteInstanceAndGetFields() {
-    Identity identity = new IdentityImpl("123", "organization", "demo");
-    assertThat("identity.getId() must return 123", identity.getId(), equalTo("123"));
-    assertThat("identity.getProviderId() must return organization", identity.getProviderId(), equalTo("organization"));
-    assertThat("identity.getRemoteId() must return demo", identity.getRemoteId(), equalTo("demo"));
-    //assertThat("identity.getProfile() must not be null", identity.getProfile(), notNullValue());
+  public void shouldFailToAuthenticate() {
+    //TODO write unit test
+  }
+
+
+
+  @Test
+  public void shouldSucceedToAuthenticate() {
+    //TODO write unit test
   }
 }

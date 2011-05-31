@@ -16,12 +16,15 @@
  */
 package org.exoplatform.social.client.api.model;
 
+import com.google.inject.ImplementedBy;
+
 /**
  * eXo Social Identity.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
+@ImplementedBy(IdentityImpl.class)
 public interface Identity extends Model {
 
   /**
