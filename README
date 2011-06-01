@@ -11,7 +11,7 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
   + junit-4.8.2 (test)
 
 
-* Use maven, tested on maven-3.x, should work well on maven-2.x.
+* Use maven, works on maven-3.x.
 * Use json-simple library which is not on maven repository, need to install this artifact on local repository.
 
   + cd to lib, run this maven command:
