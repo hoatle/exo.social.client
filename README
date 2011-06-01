@@ -7,16 +7,15 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
 * Dependencies:
   + json_simple-1.1 (compiled): http://code.google.com/p/json-simple/
-  + guice-3.0-no_aop (compiled): http://code.google.com/p/google-guice/
+  + guice-3.0 (compiled): http://code.google.com/p/google-guice/
   + junit-4.8.2 (test)
 
 
 * Use maven, works on maven-3.x.
 * Use json-simple library which is not on maven repository, need to install this artifact on local repository.
 
-  + cd to lib, run this maven command:
+  + cd to lib directory, run this maven command:
   mvn install:install-file -Dfile=json_simple-1.1.jar -DgroupId=com.googlecode -DartifactId=json_simple -Dversion=1.1 -Dpackaging=jar
-  mvn install:install-file -Dfile=guice-3.0-no_aop.jar -DgroupId=com.google.inject -DartifactId=guice -Dversion=3.0-no_aop -Dpackaging=jar
 
 * Use this command to build project: mvn clean install
 

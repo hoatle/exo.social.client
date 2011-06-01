@@ -20,7 +20,8 @@
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <json_simple.version>1.1</json_simple.version>
-    <guice.version>3.0-no_aop</guice.version>
+    <!--<guice.version>3.0-no_aop</guice.version>-->
+    <guice.version>3.0</guice.version>
 
     <junit.version>4.8.2</junit.version>
 
