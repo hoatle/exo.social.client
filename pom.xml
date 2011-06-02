@@ -9,6 +9,14 @@
 
   <name>exo.social.client</name>
   <url>http://exoplatform.org/company/en/platform/exo-extended-services/exo-social</url>
+  <inceptionYear>2011</inceptionYear>
+
+  <organization>
+    <name>eXo Platform</name>
+    <url>http://www.exoplatform.org</url>
+  </organization>
+
+
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <json_simple.version>1.1</json_simple.version>
@@ -16,7 +24,35 @@
     <junit.version>4.8.2</junit.version>
 
     <maven-surefire-plugin.version>2.7.2</maven-surefire-plugin.version>
+
+    <!-- ***************** -->
+    <!-- webdav required to safely deploy large artifacts -->
+    <!-- ***************** -->
+    <exo.releases.repo.url>dav:http://repository.exoplatform.org/service/local/staging/deploy/maven2/</exo.releases.repo.url>
+    <exo.snapshots.repo.url>dav:http://repository.exoplatform.org/content/repositories/exo-snapshots/</exo.snapshots.repo.url>
   </properties>
+
+  <distributionManagement>
+    <repository>
+      <id>repository.exoplatform.org</id>
+      <url>${exo.releases.repo.url}</url>
+    </repository>
+    <snapshotRepository>
+      <id>repository.exoplatform.org</id>
+      <url>${exo.snapshots.repo.url}</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+  <scm>
+    <connection>scm:git:git://github.com/exosocial/exo.social.client.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/exosocial/exo.social.client.git</developerConnection>
+    <url>https://github.com/exosocial/exo.social.client</url>
+  </scm>
+
+  <issueManagement>
+    <system>GitHub</system>
+    <url>https://github.com/exosocial/exo.social.client/issues/</url>
+  </issueManagement>
 
   <dependencies>
     <dependency>
