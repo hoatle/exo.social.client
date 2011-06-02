@@ -17,12 +17,10 @@
 package org.exoplatform.social.client.core.common;
 
 import org.exoplatform.social.client.api.common.Period;
-import org.exoplatform.social.client.core.common.PeriodImpl;
-
 import org.junit.Test;
 
-import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
@@ -75,7 +73,7 @@ public class PeriodImplTest {
    * Tests {@link PeriodImpl#setEndTime(long)}
    */
   @Test
-  public void testSetEndTime() {
+  public void shouldSetEndTime() {
     Period period = new PeriodImpl();
     assertThat("period must not be null", period, notNullValue());
     assertThat("period.getEndTime() must return: 0", period.getEndTime(), equalTo(0L));
@@ -91,7 +89,7 @@ public class PeriodImplTest {
    * Tests {@link PeriodImpl#setStartTime(long)}
    */
   @Test
-  public void testSetStartTime() {
+  public void shouldSetStartTime() {
     Period period = new PeriodImpl();
     assertThat("period must not be null", period, notNullValue());
     assertThat("period.getStartTime() must return: 0", period.getStartTime(), equalTo(0L));
