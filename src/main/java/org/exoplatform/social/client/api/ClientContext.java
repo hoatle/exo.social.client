@@ -16,13 +16,16 @@
  */
 package org.exoplatform.social.client.api;
 
+import com.google.inject.ImplementedBy;
+
 /**
  * The client context to hold states of: host, port, portalContainerName,
- * restContextName and rest version and auth schema.
+ * restContextName and rest version.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
+@ImplementedBy(ClientContextImpl.class)
 public interface ClientContext {
 
   /**

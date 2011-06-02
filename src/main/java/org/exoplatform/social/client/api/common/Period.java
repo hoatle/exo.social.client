@@ -16,6 +16,8 @@
  */
 package org.exoplatform.social.client.api.common;
 
+import com.google.inject.ImplementedBy;
+
 /**
  * This Period is used to indicate the start and end timestamp.
  * The start and end are timestamp values.
@@ -24,6 +26,7 @@ package org.exoplatform.social.client.api.common;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since  May 20, 2011
  */
+@ImplementedBy(PeriodImpl.class)
 public interface Period {
   /**
    * Gets the start timestamp.

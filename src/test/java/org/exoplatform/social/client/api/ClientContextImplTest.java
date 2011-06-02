@@ -14,9 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core;
+package org.exoplatform.social.client.api;
 
-import org.exoplatform.social.client.api.ClientContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
