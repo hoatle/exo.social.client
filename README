@@ -19,6 +19,10 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
 * Use this command to build project: mvn clean install
 
+* Jenkins build: https://ci.exoplatform.org/job/social-client-master-ci/
+* Sonar report: https://sonar.exoplatform.org/dashboard/index/81870
+* Ohloh report: https://www.ohloh.net/p/exo-social-client/
+* Artifact deployment: http://repository.exoplatform.org/content/groups/public/org/exoplatform/social/exo.social.client/
 
  2. How to use this library
 
