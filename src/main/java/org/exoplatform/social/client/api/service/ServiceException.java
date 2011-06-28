@@ -45,6 +45,6 @@ public class ServiceException extends RuntimeException {
    */
   public String getClassService() {
     return classService;
-  };
+  }
 
 }

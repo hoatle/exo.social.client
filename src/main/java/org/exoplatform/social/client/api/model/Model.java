@@ -19,6 +19,7 @@ package org.exoplatform.social.client.api.model;
 import java.util.List;
 import java.util.Map;
 
+import org.exoplatform.social.client.api.event.PropertyChangeListener;
 import org.json.simple.JSONAware;
 import org.json.simple.JSONStreamAware;
 
@@ -116,4 +117,26 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param item      item to add
    */
   void addToListField(String fieldName, Object item);
+  
+  /**
+   * Adds a property change event listener to this model
+   * 
+   * @param listener The listener to be added
+   */
+  void addPropertyChangeListener(PropertyChangeListener listener);
+  
+  /**
+   * Removes a property change event listener which was added to this model.
+   *
+   * @param listener The listener to be removed.
+   */
+  void removePropertyChangeListener(PropertyChangeListener listener);
+  
+  /**
+   * Gets the property change listeners registered and associated with this property change listener. If this
+   * property change has no listeners registered, a zero-length array is returned.
+   * 
+   * @return an array of listeners
+   */
+  PropertyChangeListener[] findPropertyChangeListeners();
 }
