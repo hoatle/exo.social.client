@@ -28,15 +28,16 @@ import org.exoplatform.social.client.core.util.CRUDLifecycleSupport;
 import org.exoplatform.social.client.core.util.LifecycleSupport;
 
 /**
- * Abstract implementation of the <b>Lifecycle</b> interface, providing common 
- * functionality required when Component execution
+ * Abstract implementation of the <b>Lifecycle</b> interface, CRUDLifecycle interface, 
+ * and Service interface, moreover providing common 
+ * functionality required when Service execution
  * 
  * @author thanh_vucong
  *
  * @param <M> The object which implements Model interface
  * @param <S> The object which implements Service interface
  */
-public abstract class AbstractLifecycle<M, S> implements Service<M>, CRUDLifecycle<M>, Lifecycle<M,S> {
+public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>, Lifecycle<M,S> {
 
   /**
    * Has this component been started?
