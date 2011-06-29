@@ -40,20 +40,22 @@ public class CommentImpl extends ModelImpl implements Comment {
    * Constructor.
    *
    * @param id         the comment id
-   * @param userId     the user id
+   * @param identityId the identity id
    * @param activityId the activity id
    * @param postedTime the posted time
    */
-  public CommentImpl(String id, String userId, String activityId, Long postedTime) {
+  public CommentImpl(String id, String identityId, String activityId, Long postedTime, String createdAt) {
     setId(id);
-    setUserId(userId);
+    setIdentityId(identityId);
     setActivityId(activityId);
     setPostedTime(postedTime);
+    setCreatedAt(createdAt);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getId() {
     return getFieldAsString(Field.ID.toString());
   }
@@ -61,6 +63,7 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setId(String id) {
     setField(Field.ID.toString(), id);
   }
@@ -68,20 +71,23 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
-  public String getUserId() {
-    return getFieldAsString(Field.USER_ID.toString());
+  @Override
+  public String getIdentityId() {
+    return getFieldAsString(Field.IDENTITY_ID.toString());
   }
 
   /**
    * {@inheritDoc}
    */
-  public void setUserId(String userId) {
-    setField(Field.USER_ID.toString(), userId);
+  @Override
+  public void setIdentityId(String identityId) {
+    setField(Field.IDENTITY_ID.toString(), identityId);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getActivityId() {
     return getFieldAsString(Field.ACTIVITY_ID.toString());
   }
@@ -89,6 +95,7 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setActivityId(String activityId) {
     setField(Field.ACTIVITY_ID.toString(), activityId);
   }
@@ -96,6 +103,7 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getContent() {
     return getFieldAsString(Field.CONTENT.toString());
   }
@@ -103,6 +111,7 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setContent(String content) {
     setField(Field.CONTENT.toString(), content);
   }
@@ -110,6 +119,7 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Long getPostedTime() {
     return (Long) getField(Field.POSTED_TIME.toString());
   }
@@ -117,6 +127,7 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setPostedTime(Long postedTime) {
     setField(Field.POSTED_TIME.toString(), postedTime);
   }
@@ -124,6 +135,23 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
+  public String getCreatedAt() {
+    return getFieldAsString(Field.CREATED_AT.toString());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setCreatedAt(String createdAt) {
+    setField(Field.CREATED_AT.toString(), createdAt);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public Activity getActivity() {
     return null;  //To change body of implemented methods use File | Settings | File Templates.
   }
@@ -131,6 +159,7 @@ public class CommentImpl extends ModelImpl implements Comment {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Identity getIdentity() {
     return null;  //To change body of implemented methods use File | Settings | File Templates.
   }

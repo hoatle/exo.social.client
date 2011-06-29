@@ -34,15 +34,17 @@ public class CommentImplTest {
   @Test
   public void shouldCreateInstanceAndGetFields() {
     final String id = "123sdge234";
-    final String userId = "john";
+    final String identityId = "136492yf9wfhw";
     final String activityId = "12345689abcdefgh";
     final long postedTime = System.currentTimeMillis();
-    Comment comment = new CommentImpl(id, userId, activityId, postedTime);
+    final String createdAt = "Tue Jun 21 15:09:19 +0700 2011";
+    Comment comment = new CommentImpl(id, identityId, activityId, postedTime, createdAt);
     assertThat("comment must not be null", comment, notNullValue());
     assertThat("comment.getId() must return: " + id, comment.getId(), equalTo(id));
-    assertThat("comment.getUserId() must return: " + userId, comment.getUserId(), equalTo(userId));
+    assertThat("comment.getIdentityId() must return: " + identityId, comment.getIdentityId(), equalTo(identityId));
     assertThat("comment.getActivityId() must return: " + activityId, comment.getActivityId(), equalTo(activityId));
     assertThat("comment.getPostedTime() must return: " + postedTime, comment.getPostedTime(), equalTo(postedTime));
+    assertThat("comment.getCreatedAt() must return: " + createdAt, comment.getCreatedAt(), equalTo(createdAt));
   }
 
   @Test

@@ -17,7 +17,7 @@
 package org.exoplatform.social.client.api.model;
 
 /**
- * eXo Social Comment.
+ * The Comment model.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
@@ -35,13 +35,15 @@ public interface Comment extends Model {
   public static enum Field {
     ID("id"),
     /** the json field for userId. */
-    USER_ID("userId"),
+    IDENTITY_ID("identityId"),
     /** the json field for activityId. */
     ACTIVITY_ID("activityId"),
      /** the json field for streamTitle. */
     CONTENT("content"),
     /** the json field for postedTime. */
-    POSTED_TIME("postedTime");
+    POSTED_TIME("postedTime"),
+    /** the json field for createdAt. */
+    CREATED_AT("createdAt");
 
     /**
      * The json field that the instance represents.
@@ -83,18 +85,18 @@ public interface Comment extends Model {
   void setId(String id);
 
   /**
-   * Gets user id who posted this comment.
+   * Gets identity id who posted this comment.
    *
-   * @return the user id
+   * @return the identity id
    */
-  String getUserId();
+  String getIdentityId();
 
   /**
-   * Sets user id who posted this comment.
+   * Sets identity id who posted this comment.
    *
-   * @param userId the user id
+   * @param identidyId the identity id
    */
-  void setUserId(String userId);
+  void setIdentityId(String identidyId);
 
   /**
    * Gets the activity id which is associated with this comment.
@@ -137,6 +139,20 @@ public interface Comment extends Model {
    * @param postedTime the posted time of this comment.
    */
   void setPostedTime(Long postedTime);
+
+  /**
+   * Gets the created at of this comment as a time string value.
+   *
+   * @return the time string value
+   */
+  String getCreatedAt();
+
+  /**
+   * Sets the created at of this comment as a time string value.
+   *
+   * @param createdAt the time string value
+   */
+  void setCreatedAt(String createdAt);
 
   /**
    * Gets the activity is associated with this comment.
