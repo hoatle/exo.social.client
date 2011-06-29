@@ -17,6 +17,7 @@
 package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.Profile;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -32,10 +33,12 @@ public class IdentityImplTest {
 
   @Test
   public void shouldCreteInstanceAndGetFields() {
-    Identity identity = new IdentityImpl("123", "organization", "demo");
+    Profile profile = new ProfileImpl();
+    Identity identity = new IdentityImpl("123", "organization", "demo", profile);
     assertThat("identity.getId() must return 123", identity.getId(), equalTo("123"));
     assertThat("identity.getProviderId() must return organization", identity.getProviderId(), equalTo("organization"));
     assertThat("identity.getRemoteId() must return demo", identity.getRemoteId(), equalTo("demo"));
-    //assertThat("identity.getProfile() must not be null", identity.getProfile(), notNullValue());
+    //gets dedault value
+    assertThat("identity.getProfile() must be null", identity.getProfile(), equalTo((Profile)new ProfileImpl()));
   }
 }

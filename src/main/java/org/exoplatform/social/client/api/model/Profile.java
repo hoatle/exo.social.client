@@ -17,28 +17,30 @@
 package org.exoplatform.social.client.api.model;
 
 /**
- * eXo Social Identity.
+ * eXo Social Profile Model: for information for identities.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Identity extends Model {
-
+public interface Profile extends Model {
   /**
-   * The fields that represent the Identity object in json form.
-   *
-   * <p>
-   * All of the fields that comments can have.
-   * </p>
-   *
+   * The fields that represent the Profile object in json form. <p/> </p>
    */
   public static enum Field {
-    /** the json field for identity id. */
-    ID("id"),
-    /** the json field for userId. */
-    PROVIDER_ID("providerId"),
-    /** the json field for activityId. */
-    REMOTE_ID("remoteId");
+    /**
+     * The json field for identityId.
+     */
+    IDENTITY_ID("identityId"),
+
+    /**
+     * The json field for fullName.
+     */
+    FULL_NAME("fullName"),
+
+    /**
+     * The json field for avatarUrl.
+     */
+    AVATAR_URL("avatarUrl");
 
     /**
      * The json field that the instance represents.
@@ -46,7 +48,7 @@ public interface Identity extends Model {
     private final String jsonString;
 
     /**
-     * create a field base on the a json element.
+     * Creates a field base on the a json element.
      *
      * @param jsonString the name of the element
      */
@@ -55,7 +57,7 @@ public interface Identity extends Model {
     }
 
     /**
-     * emit the field as a json element.
+     * Emits the field as a json element.
      *
      * @return the field name
      */
@@ -66,57 +68,45 @@ public interface Identity extends Model {
   }
 
   /**
-   * Gets the identity id.
+   * Gets the identity id associated with this profile.
    *
    * @return the identity id
    */
-  String getId();
+  String getIdentityId();
 
   /**
-   * Sets the identity id.
+   * Sets the identity id associated with this profile.
    *
-   * @param id the identity id
+   * @param identityId the identity id
    */
-  void setId(String id);
+  void setIdentityId(String identityId);
 
   /**
-   * Gets identity provider id.
+   * Gets the full name of the associated identity.
    *
-   * @return the provider id
+   * @return the full name
    */
-  String getProviderId();
+  String getFullName();
 
   /**
-   * Sets identity provider id.
+   * Sets the full name of the associated identity.
    *
-   * @param providerId the provider id
+   * @param fullName the full name
    */
-  void setProviderId(String providerId);
+  void setFullName(String fullName);
 
   /**
-   * Gets the remote identity id.
-   * @return the remote id
-   */
-  String getRemoteId();
-
-  /**
-   * Sets the remote identity id.
+   * Gets the avatar url of the associated identity.
    *
-   * @param remoteId the remote id
+   * @return the avatar url
    */
-  void setRemoteId(String remoteId);
+  String getAvatarUrl();
 
   /**
-   * Gets the profile associated with this identity.
+   * Sets the avatar url of the associated identity.
    *
-   * @return the associated profile.
+   * @param avatarUrl the avatar url
    */
-  Profile getProfile();
+  void setAvatarUrl(String avatarUrl);
 
-  /**
-   * Sets the profile associated with this identity.
-   *
-   * @param profile the associated profile.
-   */
-  void setProfile(Profile profile);
 }

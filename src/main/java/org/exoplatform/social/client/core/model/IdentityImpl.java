@@ -17,6 +17,7 @@
 package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.Profile;
 
 /**
  * Implementation of {@link Identity}.
@@ -26,9 +27,13 @@ import org.exoplatform.social.client.api.model.Identity;
  */
 public class IdentityImpl extends ModelImpl implements Identity {
 
+  /**
+   * The associated profile with this identity.
+   */
+  private Profile profile;
 
   /**
-   * Constructor without any param
+   * Constructor without any param.
    */
   public IdentityImpl() {
 
@@ -41,15 +46,17 @@ public class IdentityImpl extends ModelImpl implements Identity {
    * @param providerId the identity provider id
    * @param remoteId   the remote id
    */
-  public IdentityImpl(String id, String providerId, String remoteId) {
+  public IdentityImpl(String id, String providerId, String remoteId, Profile profile) {
     setId(id);
     setProviderId(providerId);
     setRemoteId(remoteId);
+    setProfile(profile);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getId() {
     return getFieldAsString(Field.ID.toString());
   }
@@ -57,6 +64,7 @@ public class IdentityImpl extends ModelImpl implements Identity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setId(String id) {
     setField(Field.ID.toString(), id);
   }
@@ -64,6 +72,7 @@ public class IdentityImpl extends ModelImpl implements Identity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getProviderId() {
     return getFieldAsString(Field.PROVIDER_ID.toString());
   }
@@ -71,6 +80,7 @@ public class IdentityImpl extends ModelImpl implements Identity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setProviderId(String providerId) {
     setField(Field.PROVIDER_ID.toString(), providerId);
   }
@@ -78,6 +88,7 @@ public class IdentityImpl extends ModelImpl implements Identity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getRemoteId() {
     return getFieldAsString(Field.REMOTE_ID.toString());
   }
@@ -85,8 +96,25 @@ public class IdentityImpl extends ModelImpl implements Identity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setRemoteId(String remoteId) {
     setField(Field.REMOTE_ID.toString(), remoteId);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Profile getProfile() {
+    return profile;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setProfile(Profile newProfile) {
+    this.profile = newProfile;
   }
 
 }
