@@ -28,28 +28,22 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
  * Sample code:
 
-    //Create the client context object
-    ClientContext clientContext = new ClientContextImpl();
-    clientContext.setHost("http://localhost");
-    clientContext.setPort("8080"); //80 as default
-    clientContext.setPortalContainerName("socialdemo");
-    clientContext.setRestContextName("rest-socialdemo");
-    clientContext.setRestVersion("1");
-
-    //AuthSchema can be any supported auth schema, currently basic auth;
-    // later, must use OAuth
-    BasicAuthSchemaImpl basicAuthSchema = new BasicAuthSchemaImpl();
-    basicAuthSchema.setUsername("demo");
-    basicAuthSchema.setPassword("gtn");
-    basicAuthSchema.setClientContext(clientContext);
-
-    //Set client context to Client object
+    // Context information
+    ClientContext.setHost("http://platform35.demo.exoplatform.org");
+    ClientContext.setPort(80);
+    ClientContext.setPortalContainerName("portal");
+    ClientContext.setRestContextName("rest");
+    ClientContext.setRestVersion("v1-alpha1");
+    ClientContext.setUsername("demo");
+    ClientContext.setPassword("gtn");
 
     Client client = new ClientImpl();
-    client.setClientContext(clientContext);
 
     //it's all for Client to work, now just get the Service to use
     ActivityService activityService = client.getActivityService();
 
     IdentityService identityService = client.getIdentityService();
     //...
+
+    ActivityService activityService = client.getActivityService();
+    Activity activity = (Activity) activityService.get("123456789");

@@ -105,13 +105,4 @@ public interface Identity extends Model {
    * @param remoteId the remote id
    */
   void setRemoteId(String remoteId);
-
-  /**
-   * Gets the profile associated with this identity.
-   *
-   * This method must be lazy loading.
-   *
-   * @return the associated profile.
-   */
-  Profile getProfile();
 }

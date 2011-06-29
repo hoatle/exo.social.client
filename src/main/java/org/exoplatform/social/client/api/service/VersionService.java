@@ -14,37 +14,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.api.auth;
-
-import org.exoplatform.social.client.api.ClientContext;
+package org.exoplatform.social.client.api.service;
 
 /**
- * The authentication and authorization schema. The schema could be Basic or OAuth
- * auth schema.
+ * VersionService is used to get the latest and supported social rest api version.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since  May 19, 2011
+ * @since Jun 29, 2011
  */
-public interface AuthSchema {
+public interface VersionService {
+  /**
+   * Gets the latest social rest api version, this version number should be used as the latest and stable version.
+   * This latest version is consider to include all new features and updates.
+   *
+   * @return the latest version
+   */
+  String getLatest();
 
   /**
-   * Sets the client context for context awareness.
+   * Gets the supported social rest api versions, this is for backward compatible. If a client application is using
+   * an older social rest api version, it should just work. The array MUST have the latest to oldest order. For
+   * example: [v2, v1, v1-beta1], not [v1, v2, v1-beta1]
    *
-   * @param clientContext the client context.
+   * @return an array of supported versions
    */
-  public void setClientContext(ClientContext clientContext);
-
-  /**
-   * Check if a user is authenticated to service provider.
-   *
-   * @return true or false.
-   */
-  boolean isAuthenticated();
-
-  /**
-   * Authenticates with the service provider.
-   *
-   * @return true or false.
-   */
-  boolean authenticate();
+  String[] getSupported();
 }

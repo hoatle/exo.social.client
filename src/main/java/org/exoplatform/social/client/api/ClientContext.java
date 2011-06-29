@@ -23,35 +23,43 @@ package org.exoplatform.social.client.api;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface ClientContext {
+public class ClientContext {
 
   /**
    * Gets host of the portal container to access services.
    *
    * @return the host
    */
-  String getHost();
+  public static String getHost() {
+    return host;
+  }
 
   /**
    * Sets host of the portal container to access services.
    *
-   * @param host the host
+   * @param newHost the host
    */
-  void setHost(String host);
+  public static void setHost(String newHost) {
+    host = newHost;
+  }
 
   /**
    * Gets port of the portal container to access services.
    *
    * @return the port
    */
-  int getPort();
+  public static int getPort() {
+    return port;
+  }
 
   /**
    * Sets port of the portal container to access services.
    *
-   * @param port the port
+   * @param newPort the port
    */
-  void setPort(int port);
+  public static void setPort(int newPort) {
+    port = newPort;
+  }
 
   /**
    * Gets portal container name of the portal container.
@@ -59,41 +67,98 @@ public interface ClientContext {
    *
    * @return the portal container name
    */
-  String getPortalContainerName();
+  public static String getPortalContainerName() {
+    return portalContainerName;
+  }
 
   /**
    * Sets the portal container name of the portal container.
    *
-   * @param portalContainerName the portal container name
+   * @param newPortalContainerName the portal container name
    */
-  void setPortalContainerName(String portalContainerName);
+  public static void setPortalContainerName(String newPortalContainerName) {
+    portalContainerName = newPortalContainerName;
+  }
 
   /**
    * Gets the rest context name of the portal container.
    *
    * @return the rest context name
    */
-  String getRestContextName();
+  public static String getRestContextName() {
+    return restContextName;
+  }
 
   /**
    * Sets the rest context name of the portal container.
    *
-   * @param restContextName the rest context name
+   * @param newRestContextName the rest context name
    */
-  void setRestContextName(String restContextName);
+  public static void setRestContextName(String newRestContextName) {
+    restContextName = newRestContextName;
+  }
+
 
   /**
    * Gets the eXo Social Rest version.
    *
    * @return the eXo Social Rest version
    */
-  String getRestVersion();
+  public static String getRestVersion() {
+    return restVersion;
+  }
 
   /**
-   * Set the eXo Social Rest version.
+   * Sets the eXo Social Rest version.
    *
-   * @param restVersion the eXo Social Rest version
+   * @param newRestVersion the eXo Social Rest version
    */
-  void setRestVersion(String restVersion);
+  public static void setRestVersion(String newRestVersion) {
+    restVersion = newRestVersion;
+  }
 
+  /**
+   * Gets the user name for basic authentication.
+   *
+   * @return the user name
+   */
+  public static String getUsername() {
+    return username;
+  }
+
+  /**
+   * Sets the user name for basic authentication.
+   *
+   * @param newUsername the user name
+   */
+  public static void setUsername(String newUsername) {
+    username = newUsername;
+  }
+
+  /**
+   * Gets the password for basic authentication
+   *
+   * @return the password
+   */
+  public static String getPassword() {
+    return password;
+  }
+
+  /**
+   * Sets the password for basic authentication.
+   *
+   * @param newPassword the password
+   */
+  public static void setPassword(String newPassword) {
+    password = newPassword;
+  }
+
+
+  private static String host;
+  private static int port;
+  private static String portalContainerName;
+  private static String restContextName;
+  private static String restVersion;
+  private static String username;
+  private static String password;
 }

@@ -17,9 +17,10 @@
 package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.Identity;
-import org.exoplatform.social.client.api.model.Profile;
 
 /**
+ * Implementation of {@link Identity}.
+ *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 25, 2011
  */
@@ -88,11 +89,4 @@ public class IdentityImpl extends ModelImpl implements Identity {
     setField(Field.REMOTE_ID.toString(), remoteId);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public Profile getProfile() {
-    //TODO implement this
-    return null;
-  }
 }

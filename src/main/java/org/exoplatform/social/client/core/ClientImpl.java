@@ -14,42 +14,29 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.api.common;
+package org.exoplatform.social.client.core;
+
+import org.exoplatform.social.client.api.Client;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.service.ActivityService;
+import org.exoplatform.social.client.api.service.IdentityService;
 
 /**
- * This Period is used to indicate the start and end timestamp.
- * The start and end are timestamp values.
- *
+ * Implementation for {@link Client}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since  May 20, 2011
+ * @since June 28, 2011
  */
-public interface Period {
-  /**
-   * Gets the start timestamp.
-   *
-   * @return the start timestamp
-   */
-  long getStartTime();
+public class ClientImpl implements Client {
 
-  /**
-   * Sets the star timestamp.
-   *
-   * @param startTime the start timestamp
-   */
-  void setStartTime(long startTime);
 
-  /**
-   * Gets the end timestamp.
-   *
-   * @return the end timestamp
-   */
-  long getEndTime();
+  @Override
+  public ActivityService getActivityService() throws AccessDeniedException {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
 
-  /**
-   * Sets the stop timestamp.
-   *
-   * @param endTime the end timestamp
-   */
-  void setEndTime(long endTime);
+  @Override
+  public IdentityService getIdentityService() throws AccessDeniedException {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
 }

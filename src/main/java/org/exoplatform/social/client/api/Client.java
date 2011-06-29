@@ -18,7 +18,6 @@ package org.exoplatform.social.client.api;
 
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.service.ActivityService;
-import org.exoplatform.social.client.api.service.ConnectionService;
 import org.exoplatform.social.client.api.service.IdentityService;
 
 /**
@@ -28,22 +27,6 @@ import org.exoplatform.social.client.api.service.IdentityService;
  * @since May 19, 2011
  */
 public interface Client {
-  /**
-   * Gets the client context.
-   *
-   * @return the client context
-   */
-  ClientContext getClientContext();
-
-
-  /**
-   * Sets the client context.
-   *
-   * @param clientContext the client context
-   */
-  void setClientContext(ClientContext clientContext);
-
-
   /**
    * Gets activity service to work with activities.
    *
@@ -57,12 +40,5 @@ public interface Client {
    * @return the identity service
    */
   IdentityService getIdentityService() throws AccessDeniedException;
-
-  /**
-   * Gets the connection service to get/update connection information.
-   *
-   * @return the connection service
-   */
-  ConnectionService getConnectionService() throws AccessDeniedException;
 
 }

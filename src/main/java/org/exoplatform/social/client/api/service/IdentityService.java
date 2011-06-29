@@ -22,6 +22,6 @@ package org.exoplatform.social.client.api.service;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since  May 19, 2011
  */
-public interface IdentityService extends Service {
+public interface IdentityService<Identity> extends Service<Identity> {
 
 }

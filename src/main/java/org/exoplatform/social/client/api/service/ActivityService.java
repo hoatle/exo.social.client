@@ -16,10 +16,7 @@
  */
 package org.exoplatform.social.client.api.service;
 
-import java.util.List;
-
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.common.Period;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
@@ -41,131 +38,16 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * For example:
    * <pre>
    *    Identity demoIdentity = identityService.get("123456789abcdef");
-   *    List<String> appIds = new ArrayList<String>();
-   *    appIds.add("all"); //all means all the activity types
-   *    //appIds.add("default"); // default means all the defined default activity types.
-   *    Period period = new PeriodImpl(12345, 23456);
-   *    RealtimeListAccess<Activity> activityListAccess = activityService.getActivityStream(demoIdentity, appIds, period);
+   *    RealtimeListAccess<Activity> activityListAccess = activityService.getActivityStream(demoIdentity);
    * </pre>
    *
    * @param identity the identity
-   * @param appIds the list of identities
-   * @param period the period of time
    * @return the real time list access
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  RealtimeListAccess<Activity> getActivityStream(Identity identity, List<String> appIds,
-                                                 Period period) throws AccessDeniedException, ServiceException;
-
-  /**
-   * Gets activity stream associated with an identity: that user, his connections and his spaces' activities.
-   * <p/>
-   * All these activities will be merged into one stream. This will return only activities with default core types.
-   *
-   * Short hand for:
-   * <pre>
-   *   getActivityStream(Identity, null, null);
-   * </pre>
-   *
-   * @return the real time list access of {@link Activity}.
    * @throws AccessDeniedException
    * @throws ServiceException
    */
   RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException, ServiceException;
 
-  /**
-   * Gets activity stream associated with an identity: that user, his connections and his spaces' activities by
-   * specifying the type of activities to be retrieved.
-   * <p/>
-   * All these activities will be merged into one stream. Short hand for:
-   * <pre>
-   *   getActivityStream(Identity, List<String>, null);
-   * </pre>
-   *
-   * @return the real time list access of {@link Activity}.
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  RealtimeListAccess<Activity> getActivityStream(Identity identity, List<String> appIds) throws AccessDeniedException,
-          ServiceException;
-
-  /**
-   * Gets activity stream associated with an identity: that user, his connections and his spaces' activities which are
-   * specified in a period of time. Short hand for:
-   * <pre>
-   *   getActivityStream(Identity, null, Period);
-   * </pre>
-   *
-   * @param identity the identity.
-   * @param period   the period of time
-   * @return the real time list access
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  RealtimeListAccess<Activity> getActivityStream(Identity identity, Period period) throws AccessDeniedException,
-                                                                                          ServiceException;
-
-  /**
-   * Gets activity stream from a provided list of {@link Identity} by specifying identity list,
-   * the list of app ids to be retrieved and the period of time.
-   *
-   * @param identityList the identity list
-   * @param appIds the app id list
-   * @param period the period of time
-   * @return the realtime list access
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList, List<String> appIds,
-                                                 Period period) throws AccessDeniedException, ServiceException;
-
-  /**
-   * Gets activity stream from a provided list of {@link Identity}. Short hand for:
-   * <pre>
-   *   getActivityStream(List<Identity>, null, null);
-   * </pre>
-   *
-   * @param identityList the list of identities
-   * @return the real time list access
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList) throws AccessDeniedException,
-                                                                                     ServiceException;
-
-
-  /**
-   * Gets activity stream from a provided list of {@link Identity} and specifying the activity with matched app ids
-   * to be retrieved. Short hand for:
-   * <pre>
-   *   getActivityStream(List<Identity>, List<String>, null);
-   * </pre>
-   *
-   * @param identityList the identity list
-   * @param appIds the list of app ids
-   * @return the real time list access
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList,
-                                                 List<String> appIds) throws AccessDeniedException, ServiceException;
-
-  /**
-   * Gets activity stream from a provided list of {@link Identity} which is specified in a period of time.
-   * Short hand for:
-   * <pre>
-   *   getActivityStream(identityList, null, period);
-   * </pre>
-   *
-   * @param identityList the list of identities
-   * @param period       the period of time
-   * @return the real time list access
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  RealtimeListAccess<Activity> getActivityStream(List<Identity> identityList,
-                                                 Period period) throws AccessDeniedException, ServiceException;
 
   /**
    * Creates a new comment to this activity.
@@ -187,16 +69,6 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws ServiceException
    */
   Comment getComment(String commentId) throws AccessDeniedException, ServiceException;
-
-  /**
-   * Updates an existing comment.
-   *
-   * @param existingComment
-   * @return the updated comment
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  Comment updateComment(Comment existingComment) throws AccessDeniedException, ServiceException;
 
   /**
    * Deletes an existing comment.
