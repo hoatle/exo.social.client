@@ -64,28 +64,6 @@ public class SocialHttpClientSupport {
   }
   
   /**
-   * Invoking the social rest service via Get
-   * @param targetURL 
-   * @return
-   * @throws IOException 
-   * @throws ClientProtocolException 
-   */
-  public static HttpResponse executeGetDefault(String targetURL) throws ClientProtocolException, IOException {
-    
-    HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
-    DefaultHttpClient httpClient = new DefaultHttpClient();
-    
-    httpClient.getCredentialsProvider().setCredentials(new AuthScope(targetHost.getHostName(), targetHost.getPort()), 
-                                                       new UsernamePasswordCredentials("demo", "gtn"));
-    
-
-    HttpGet httpget = new HttpGet(targetURL);
-    Header header = new BasicHeader("Content-Type", "application/json");
-    httpget.setHeader(header);
-    return httpClient.execute(targetHost, httpget);
-  }
-  
-  /**
    * Invoking the social rest service via Post
    * @param targetURL 
    * @return

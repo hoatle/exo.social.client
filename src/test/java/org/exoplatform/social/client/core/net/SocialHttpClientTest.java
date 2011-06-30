@@ -20,8 +20,11 @@ import junit.framework.Assert;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.core.model.ActivityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,14 +36,14 @@ import org.junit.Test;
  * Jun 29, 2011  
  */
 public class SocialHttpClientTest extends AbstractClientTest {
-
-  
   private final String targetURL = "/rest-socialdemo/private/api/social/v1-alpha1/socialdemo/activity/d51715397f0001010077b5d08ddf12fc.json?poster_identity=1&number_of_comments=10&activity_stream=t";
   @Before
   public void setUp() throws Exception {
     super.setUp();
     SocialClientContext.setUsername("demo");
     SocialClientContext.setPassword("gtn");
+    SocialClientContext.setHost("192.168.1.94");
+    SocialClientContext.setPort(8080);
   }
   
   @After
@@ -49,27 +52,21 @@ public class SocialHttpClientTest extends AbstractClientTest {
     SocialClientContext.setUsername("");
     SocialClientContext.setPassword("");
   }
-  
-  /*
+   
   @Test
-  public void testExecuteGetActivityWithDefault() throws Exception {
-    HttpResponse response = SocialHttpClientSupport.executeGetDefault(targetURL);
-    Assert.assertNotNull("HttpResponse must not be NULL.", response);
-    DumpHttpResponse.dumpHeader(response);
-    HttpEntity entity = SocialHttpClientSupport.processContent(response);
-    Assert.assertNotNull("HttpEntity must not be NULL.", entity);
-    DumpHttpResponse.dumpContent(entity);
-    SocialHttpClientSupport.consume(entity);
-  }*/
-  
-  @Test
-  public void testExecuteGetActivityWithHttpClientCustomize() throws Exception {
+  public void testExecuteGetActivityWithHttpClient() throws Exception {
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL);
     Assert.assertNotNull("HttpResponse must not be NULL.", response);
     DumpHttpResponse.dumpHeader(response);
     HttpEntity entity = SocialHttpClientSupport.processContent(response);
     Assert.assertNotNull("HttpEntity must not be NULL.", entity);
     DumpHttpResponse.dumpContent(entity);
+    
+    if (entity.getContentLength() != -1) {
+      String body = EntityUtils.toString(entity);
+      ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, body);
+      Assert.assertTrue(model.getId().length() > 0);
+    }
     SocialHttpClientSupport.consume(entity);
   }
 }
