@@ -38,6 +38,7 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.BasicHttpProcessor;
 import org.apache.http.protocol.HttpContext;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.net.SocialHttpClient;
@@ -86,13 +87,13 @@ public final class SocialHttpClientImpl implements SocialHttpClient {
     //delegate = new DefaultHttpClient(ccm, params);
     
     delegate = new DefaultHttpClient(ccm, params) {
-      /*
+      
       @Override
       protected BasicHttpProcessor createHttpProcessor() {
           // Add interceptor to prevent making requests from main thread.
           BasicHttpProcessor processor = super.createHttpProcessor();
           return processor;
-      }*/
+      }
       
       @Override
       protected HttpContext createHttpContext() {
@@ -106,8 +107,7 @@ public final class SocialHttpClientImpl implements SocialHttpClient {
       }
     };
     
-    delegate.getCredentialsProvider().setCredentials(new AuthScope(SocialClientContext.getHost(), SocialClientContext.getPort()), 
-                                            new UsernamePasswordCredentials(SocialClientContext.getUsername(), SocialClientContext.getPassword()));
+    
     
   }
   
@@ -175,6 +175,13 @@ public final class SocialHttpClientImpl implements SocialHttpClient {
     return delegate.execute(target, request, responseHandler, context);
   }
   
+  @Override
+  public void setBasicAuthenticateToRequest() {
+    if (delegate == null) return;
+    delegate.getCredentialsProvider().setCredentials(new AuthScope(SocialClientContext.getHost(), SocialClientContext.getPort()), 
+                                                     new UsernamePasswordCredentials(SocialClientContext.getUsername(), SocialClientContext.getPassword()));
+    
+  }
   
 
 }

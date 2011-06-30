@@ -14,36 +14,49 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.net;
+package org.exoplatform.social.client.core.service;
+
+import junit.framework.Assert;
 
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.service.VersionService;
+import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by The eXo Platform SAS
  * Author : eXoPlatform
  *          exo@exoplatform.com
- * Jun 29, 2011  
+ * Jun 30, 2011  
  */
-public abstract class AbstractClientTest {
+public class VersionServiceImplTest extends AbstractClientTest {
 
+  private VersionService service = null;
   @Before
   public void setUp() throws Exception {
-    SocialClientContext.setHost("192.168.1.94");
-    SocialClientContext.setPort(8080);
-    SocialClientContext.setUsername("demo");
-    SocialClientContext.setPassword("gtn");
-    SocialClientContext.setProtocol("http");
+    super.setUp();
+    service = new VersionServiceImpl();
   }
   
   @After
   public void tearDown() throws Exception {
-
-    SocialClientContext.setHost(null);
-    SocialClientContext.setPort(0);
-    SocialClientContext.setUsername(null);
-    SocialClientContext.setPassword(null);
-    SocialClientContext.setProtocol(null);
+    super.tearDown();
+    service = null;
   }
+   
+  @Test
+  public void testGetLatestVersion() throws Exception {
+    String version = service.getLatest();
+    Assert.assertEquals("Verifying rest service version.", SocialClientContext.getRestVersion(), version);
+  }
+  
+  @Test
+  public void testGetSupportedVersion() throws Exception {
+    String[] versions = service.getSupported();
+    Assert.assertTrue("Rest Service version support greater than zero.", versions.length > 0);
+    Assert.assertEquals("Verifying rest service version.", SocialClientContext.getRestVersion(), versions[0]);
+  }
+  
 }
