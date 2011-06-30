@@ -16,13 +16,14 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.exoplatform.social.client.api.common.ListAccess;
 import org.exoplatform.social.client.api.model.Activity;
+import org.exoplatform.social.client.api.model.ActivityStream;
 import org.exoplatform.social.client.api.model.Comment;
+import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 
 /**
@@ -43,6 +44,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getId() {
     return getFieldAsString(Field.ID.toString());
   }
@@ -50,6 +52,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setId(String id) {
     setField(Field.ID.toString(), id);
   }
@@ -57,6 +60,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getTitle() {
     return getFieldAsString(Field.TITLE.toString());
   }
@@ -64,6 +68,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setTitle(String title) {
     setField(Field.TITLE.toString(), title);
   }
@@ -71,6 +76,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getTitleId() {
     return getFieldAsString(Field.TITLE_ID.toString());
   }
@@ -78,6 +84,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setTitleId(String titleId) {
     setField(Field.TITLE_ID.toString(), titleId);
   }
@@ -85,6 +92,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getAppId() {
     return getFieldAsString(Field.APP_ID.toString());
   }
@@ -92,55 +100,16 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setAppId(String appId) {
     setField(Field.APP_ID.toString(), appId);
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  public String getBody() {
-    return getFieldAsString(Field.BODY.toString());
-  }
 
   /**
    * {@inheritDoc}
    */
-  public void setBody(String body) {
-    setField(Field.BODY.toString(), body);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public String getBodyId() {
-    return getFieldAsString(Field.BODY_ID.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setBodyId(String bodyId) {
-    setField(Field.BODY_ID.toString(), bodyId);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public String getExternalId() {
-    return getFieldAsString(Field.EXTERNAL_ID.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setExternalId(String externalId) {
-    setField(Field.EXTERNAL_ID.toString(), externalId);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Long getPostedTime() {
     return (Long) getField(Field.POSTED_TIME.toString());
   }
@@ -148,6 +117,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setPostedTime(Long postedTime) {
     setField(Field.POSTED_TIME.toString(), postedTime);
   }
@@ -155,20 +125,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
-  public Date getUpdated() {
-    return (Date) getField(Field.UPDATED.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setUpdated(Date updated) {
-    setField(Field.UPDATED.toString(), updated);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Double getPriority() {
     return (Double) getField(Field.PRIORITY.toString());
   }
@@ -176,6 +133,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setPriority(Double priority) {
     setField(Field.PRIORITY.toString(), priority);
   }
@@ -183,62 +141,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
-  public String getStreamFaviconUrl() {
-    return getFieldAsString(Field.STREAM_FAVICON_URL.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setStreamFaviconUrl(String streamFaviconUrl) {
-    setField(Field.STREAM_FAVICON_URL.toString(), streamFaviconUrl);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public String getStreamSourceUrl() {
-    return getFieldAsString(Field.STREAM_SOURCE_URL.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setStreamSourceUrl(String streamSourceUrl) {
-    setField(Field.STREAM_SOURCE_URL.toString(), streamSourceUrl);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public String getStreamTitle() {
-    return getFieldAsString(Field.STREAM_TITLE.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setStreamTitle(String streamTitle) {
-    setField(Field.STREAM_TITLE.toString(), streamTitle);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public String getStreamUrl() {
-    return getFieldAsString(Field.STREAM_URL.toString());
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  public void setStreamUrl(String streamUrl) {
-    setField(Field.STREAM_URL.toString(), streamUrl);
-  }
-
-  /**
-   * {@inheritDoc}
-   */
+  @Override
   public Map<String, String> getTemplateParams() {
     return getFieldAsMap(Field.TEMPLATE_PARAMS.toString());
   }
@@ -246,6 +149,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setTemplateParams(Map<String, String> templateParams) {
     setField(Field.TEMPLATE_PARAMS.toString(), templateParams);
   }
@@ -253,36 +157,86 @@ public class ActivityImpl extends ModelImpl implements Activity {
   /**
    * {@inheritDoc}
    */
-  public String getUrl() {
-    return getFieldAsString(Field.URL.toString());
+  @Override
+  public String getIdentityId() {
+    return getFieldAsString(Field.IDENTITY_ID.toString());
   }
 
   /**
    * {@inheritDoc}
    */
-  public void setUrl(String url) {
-    setField(Field.URL.toString(), url);
+  @Override
+  public void setIdentityId(String identityId) {
+    setField(Field.IDENTITY_ID.toString(), identityId);
   }
 
   /**
    * {@inheritDoc}
    */
-  public String getUserId() {
-    return getFieldAsString(Field.USER_ID.toString());
+  @Override
+  public boolean isLiked() {
+    return Boolean.parseBoolean(getFieldAsString(Field.LIKED.toString()));
   }
 
   /**
    * {@inheritDoc}
    */
-  public void setUserId(String userId) {
-    setField(Field.USER_ID.toString(), userId);
-  }
-
-  public ListAccess<Like> getLikes() {
+  @Override
+  public List<Like> getLikes() {
+    //TODO implement this
     return null;  //To change body of implemented methods use File | Settings | File Templates.
   }
 
-  public ListAccess<Comment> getComments() {
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public Identity getPosterIdentity() {
+    //TODO implement this
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setPosterIdentity(Identity posterIdentity) {
+    //TODO implement this
+    //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Comment> getAvailableComments() {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int getTotalNumberOfComments() {
+    //TODO implement this
+    return 0;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public List<Comment> getTotalComments() {
+    //TODO implement this
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public ActivityStream getActivityStream() {
+    //TODO implement this
     return null;  //To change body of implemented methods use File | Settings | File Templates.
   }
 
