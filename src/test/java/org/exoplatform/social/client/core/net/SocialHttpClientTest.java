@@ -78,11 +78,11 @@ public class SocialHttpClientTest extends AbstractClientTest {
   
   @Test
   public void testGetByteArrayForPostActivity() throws Exception {
-    String jsonActivity = "{\"numberOfComments\":1,\"identityId\":\"d5039b437f0001010011fd153a4fcbd8\",\"liked\":true}";
+    String jsonActivity = "{\"title\":\"title from SocialHttlClientTest\",\"identityId\":\"d5039b437f0001010011fd153a4fcbd8\",\"liked\":true}";
     ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, jsonActivity);
     System.out.println(model.toJSONString());
     Assert.assertNotNull(model);
-    byte[] data = SocialHttpClientSupport.getBytesFromModel(model);
+    byte[] data = SocialHttpClientSupport.convertModelToByteArray(model);
     Assert.assertNotNull(data);
     Assert.assertTrue(data.length > 0);
   }
