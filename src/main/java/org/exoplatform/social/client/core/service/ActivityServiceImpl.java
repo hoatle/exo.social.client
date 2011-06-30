@@ -16,6 +16,7 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.Activity;
@@ -24,6 +25,8 @@ import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.model.ActivityImpl;
+import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 
 /**
  * Implementation of {@link ActivityService}.
@@ -32,6 +35,7 @@ import org.exoplatform.social.client.api.service.ServiceException;
  * @since Jun 28, 2011
  */
 public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<Activity>> implements ActivityService<Activity> {
+  private static final String BASE_URL = SocialHttpClientSupport.buildURLFromContext(true);
 
   /**
    * {@inheritDoc}
@@ -47,8 +51,22 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    */
   @Override
   public Activity get(String uuid) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    final String GET_ACTIVITY_REQUEST_URL = BASE_URL+uuid+".json";
+    try {
+      Activity resultActivity = new ActivityImpl();
+      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != 200){
+
+      }
+
+      SocialHttpClientSupport.processContent(response);
+
+
+      return resultActivity;
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
   /**

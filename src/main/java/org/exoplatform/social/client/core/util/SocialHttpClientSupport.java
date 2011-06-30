@@ -161,4 +161,19 @@ public class SocialHttpClientSupport {
       }
     }
   }
+  /**
+   *
+   * @author Ly Minh Phuong - http://phuonglm.net
+   * @param isPrivate
+   * @return
+   */
+  public static String buildURLFromContext(boolean isPrivate){
+    String privateURL = "";
+    if(isPrivate){
+      privateURL = "private";
+    }
+    return SocialClientContext.getProtocol()+"://"+SocialClientContext.getHost()+":"+ SocialClientContext.getPort()+
+           "/" + SocialClientContext.getRestContextName() + "/" +privateURL + "/api/social/"+ SocialClientContext.getRestVersion() +
+           "/" + SocialClientContext.getPortalContainerName() + "/";
+  }
 }
