@@ -94,7 +94,7 @@ public class SocialHttpClientSupport {
     try {
       
       
-      ByteArrayEntity entity = new ByteArrayEntity(getBytesFromModel(model));
+      ByteArrayEntity entity = new ByteArrayEntity(convertModelToByteArray(model));
       httpPost.setEntity(entity);
       return httpClient.execute(targetHost, httpPost);
     } catch (ClientProtocolException cpex) {
@@ -113,7 +113,7 @@ public class SocialHttpClientSupport {
    * @return
    * @throws IOException
    */
-  public static byte[] getBytesFromModel(Model model) throws IOException {
+  public static byte[] convertModelToByteArray(Model model) throws IOException {
     if (model == null) {
       return null;
     }

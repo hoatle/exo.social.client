@@ -16,14 +16,27 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import java.io.IOException;
+
+import junit.framework.Assert;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.model.ActivityImpl;
+import org.exoplatform.social.client.core.net.DumpHttpResponse;
+import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.json.simple.parser.ParseException;
 
 /**
  * Implementation of {@link ActivityService}.
@@ -38,7 +51,6 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    */
   @Override
   public Activity create(Activity newInstance) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -47,8 +59,16 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    */
   @Override
   public Activity get(String uuid) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    final String targetURL = "" + uuid;
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    try {
+      return SocialJSONDecodingSupport.parser(ActivityImpl.class, response);
+    } catch (IOException ioex) {
+      throw new ServiceException(ActivityServiceImpl.class, "IOException when reads Json Content.", ioex);
+      
+    } catch (ParseException pex) {
+      throw new ServiceException(ActivityServiceImpl.class, "ParseException when reads Json Content.", pex);
+    }
   }
 
   /**
