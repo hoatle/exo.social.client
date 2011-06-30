@@ -18,6 +18,7 @@ package org.exoplatform.social.client.core.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -28,9 +29,11 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.message.BasicHeader;
 import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.model.Model;
 import org.exoplatform.social.client.api.net.SocialHttpClient;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.net.SocialHttpClientException;
@@ -80,7 +83,7 @@ public class SocialHttpClientSupport {
    * @throws IOException 
    * @throws ClientProtocolException 
    */
-  public static HttpResponse executePost(String targetURL) throws SocialHttpClientException {
+  public static HttpResponse executePost(String targetURL, POLICY authPolicy, Model model) throws SocialHttpClientException {
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
     HttpClient httpClient = SocialHttpClientImpl.newInstance();
 
@@ -88,9 +91,11 @@ public class SocialHttpClientSupport {
     HttpPost httpPost = new HttpPost(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
     httpPost.setHeader(header);
-    
-    
     try {
+      
+      
+      ByteArrayEntity entity = new ByteArrayEntity(getBytesFromModel(model));
+      httpPost.setEntity(entity);
       return httpClient.execute(targetHost, httpPost);
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -98,6 +103,23 @@ public class SocialHttpClientSupport {
       throw new SocialHttpClientException(ioex.toString(), ioex);
     }
    
+  }
+  
+  /**
+   * Gets the byte array from Model object which provides 
+   * to HttpPost to Rest Service.
+   * 
+   * @param model Model object
+   * @return
+   * @throws IOException
+   */
+  public static byte[] getBytesFromModel(Model model) throws IOException {
+    if (model == null) {
+      return null;
+    }
+    StringWriter writer = new StringWriter();
+    model.writeJSONString(writer);
+    return writer.getBuffer().toString().getBytes("UTF-8");
   }
   
   

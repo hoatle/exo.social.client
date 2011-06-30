@@ -16,11 +16,15 @@
  */
 package org.exoplatform.social.client.core.util;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.model.Model;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
@@ -41,6 +45,7 @@ public class SocialJSONDecodingSupport {
    * @param clazz Class type.
    * @param jsonContent Json content which you need to create the Model
    * @throws ParseException Throw this exception if any
+   * 
    */
   public static <T extends Model> T parser(final Class<T> clazz, String jsonContent) throws ParseException {
     JSONParser parser = new JSONParser();
@@ -60,6 +65,31 @@ public class SocialJSONDecodingSupport {
       }
     };
     return (T) parser.parse(jsonContent, containerFactory);
+  }
+  
+  /**
+   * Parse JSON text into java Model object from the input source.
+   * and then it's base on the class type.
+   * 
+   * @param <T> Generic type must extend from Model.
+   * @param clazz Class type.
+   * @param response HttpResponse which getting the JSONContent.
+   * @throws ParseException Throw this exception if any
+   * @throws IOException Throw this exception if any
+   */
+  public static <T extends Model> T parser(final Class<T> clazz, HttpResponse response) throws IOException, ParseException {
+    //Read InputStream from HttpResponse to Buffered
+    HttpEntity entity = SocialHttpClientSupport.processContent(response);
+    //Check the content length
+    if (entity.getContentLength() != -1) {
+      //getting the HttpResponse content
+      String jsonContent = EntityUtils.toString(entity);
+      //close stream
+      SocialHttpClientSupport.consume(entity);
+      return parser(clazz, jsonContent);
+    } else {
+      return null;
+    }
   }
   
   /**
