@@ -25,7 +25,7 @@ import org.exoplatform.social.client.api.service.ServiceException;
  * @author thanh_vucong
  *
  */
-public class MockService extends AbstractLifecycle<MockModel, MockService> {
+public class MockService extends ServiceBase<MockModel, MockService> {
 
   @Override
   public MockModel create(MockModel newInstance) throws AccessDeniedException, ServiceException {

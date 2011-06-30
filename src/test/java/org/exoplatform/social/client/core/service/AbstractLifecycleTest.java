@@ -35,7 +35,7 @@ import org.junit.Before;
 public abstract class AbstractLifecycleTest {
 
   protected Model mockModel = null;
-  protected AbstractLifecycle<MockModel, MockService> mockService = null;
+  protected ServiceBase<MockModel, MockService> mockService = null;
   protected MockLifecycleListener captureLifecycle = null;
   protected MockCRUDLifecycleListener captureCRUDLifecycle = null;
   protected MockPropertyChangeListener capturePropertyChange = null;
