@@ -16,6 +16,9 @@
  */
 package org.exoplatform.social.client.api;
 
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+
 /**
  * The client context to hold states of: host, port, portalContainerName,
  * restContextName and rest version and auth schema.
@@ -23,7 +26,7 @@ package org.exoplatform.social.client.api;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public class ClientContext {
+public class SocialClientContext {
 
   /**
    * Gets host of the portal container to access services.
@@ -153,12 +156,75 @@ public class ClientContext {
     password = newPassword;
   }
 
+  
 
-  private static String host;
-  private static int port;
+  /**
+   * Gets protocol of the portal container to access services.
+   * @return
+   */
+  public static String getProtocol() {
+    return protocol;
+  }
+
+  /**
+   * Sets protocol of the portal container to access services.
+   * @param protocol
+   */
+  public static void setProtocol(String protocol) {
+    SocialClientContext.protocol = protocol;
+  }
+
+  /**
+   * Gets current request and response context.
+   *
+   * @return current context
+   */
+  public Context getCurrentContext() {
+    return currentContext;
+  }
+
+  /**
+   * Sets current request and response context.
+   *
+   * @param currentContext the current context
+   */
+  public void setCurrentContext(Context currentContext) {
+    this.currentContext = currentContext;
+  }
+
+  private static String host = "127.0.0.1";
+  private static int port = 8080;
+  private static String protocol = "http";
   private static String portalContainerName;
   private static String restContextName;
   private static String restVersion;
   private static String username;
   private static String password;
+  
+  private Context currentContext;
+
+
+  /**
+   * Keeping the HttpRequest and HttpResponse for Social RestService
+   * @author thanh_vucong
+   *
+   */
+  public class Context {
+    private HttpRequest  request;
+
+    private HttpResponse response;
+
+    public Context(HttpRequest request, HttpResponse response) {
+      this.request = request;
+      this.response = response;
+    }
+
+    public HttpRequest getRequest() {
+      return request;
+    }
+
+    public HttpResponse getResponse() {
+      return response;
+    }
+  }
 }

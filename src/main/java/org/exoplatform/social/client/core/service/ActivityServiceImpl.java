@@ -31,7 +31,7 @@ import org.exoplatform.social.client.api.service.ServiceException;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 28, 2011
  */
-public class ActivityServiceImpl extends AbstractLifecycle<Activity, ActivityService<Activity>> implements ActivityService<Activity> {
+public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<Activity>> implements ActivityService<Activity> {
 
   /**
    * {@inheritDoc}
