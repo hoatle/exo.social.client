@@ -34,7 +34,6 @@ import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.net.SocialHttpClient;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.net.SocialHttpClientException;
-import org.exoplatform.social.client.core.net.DumpHttpResponse;
 import org.exoplatform.social.client.core.net.SocialHttpClientImpl;
 
 /**
@@ -85,9 +84,12 @@ public class SocialHttpClientSupport {
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
     HttpClient httpClient = SocialHttpClientImpl.newInstance();
 
+    
     HttpPost httpPost = new HttpPost(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
     httpPost.setHeader(header);
+    
+    
     try {
       return httpClient.execute(targetHost, httpPost);
     } catch (ClientProtocolException cpex) {
@@ -132,7 +134,6 @@ public class SocialHttpClientSupport {
     if (response == null)
       throw new NullPointerException("HttpResponse argument is not NULL.");
     HttpEntity entity = processContent(response);
-    DumpHttpResponse.dumpContent(entity);
     String content = null;
     try {
       if (entity.getContentLength() != -1) {
