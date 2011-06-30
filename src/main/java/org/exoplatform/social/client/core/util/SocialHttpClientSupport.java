@@ -29,8 +29,12 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.net.SocialHttpClient;
+import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.net.SocialHttpClientException;
+import org.exoplatform.social.client.core.net.DumpHttpResponse;
 import org.exoplatform.social.client.core.net.SocialHttpClientImpl;
 
 /**
@@ -44,20 +48,30 @@ public class SocialHttpClientSupport {
   /**
    * Invokes the social rest service via Get
    * @param targetURL 
+   * @param withBasicAuthenticate Making the Request to Rest Service with Basic Authenticate.
    * @return
    * @throws IOException 
    * @throws ClientProtocolException 
    */
-  public static HttpResponse executeGet(String targetURL) throws ClientProtocolException, IOException {
+  public static HttpResponse executeGet(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
     SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
+    if (POLICY.BASIC_AUTH == authPolicy) { 
+      httpClient.setBasicAuthenticateToRequest();
+    }
     
-    HttpGet httpget = new HttpGet(targetURL);
+    HttpGet httpGet = new HttpGet(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
-    httpget.setHeader(header);
+    httpGet.setHeader(header);
+    
     
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
-    return httpClient.execute(targetHost, httpget);
-   
+    try {
+      return httpClient.execute(targetHost, httpGet);
+    } catch (ClientProtocolException cpex) {
+      throw new SocialHttpClientException(cpex.toString(), cpex);
+    } catch (IOException ioex) {
+      throw new SocialHttpClientException(ioex.toString(), ioex);
+    }
   }
   
   /**
@@ -67,14 +81,20 @@ public class SocialHttpClientSupport {
    * @throws IOException 
    * @throws ClientProtocolException 
    */
-  public static HttpResponse executePost(String targetURL) throws ClientProtocolException, IOException {
+  public static HttpResponse executePost(String targetURL) throws SocialHttpClientException {
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
     HttpClient httpClient = SocialHttpClientImpl.newInstance();
 
-    HttpPost httppost = new HttpPost(targetURL);
+    HttpPost httpPost = new HttpPost(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
-    httppost.setHeader(header);
-    return httpClient.execute(targetHost, httppost);
+    httpPost.setHeader(header);
+    try {
+      return httpClient.execute(targetHost, httpPost);
+    } catch (ClientProtocolException cpex) {
+      throw new SocialHttpClientException(cpex.toString(), cpex);
+    } catch (IOException ioex) {
+      throw new SocialHttpClientException(ioex.toString(), ioex);
+    }
    
   }
   
@@ -86,15 +106,44 @@ public class SocialHttpClientSupport {
    * @throws IllegalStateException
    * @throws IOException
    */
-  public static HttpEntity processContent(HttpResponse response) throws IllegalStateException, IOException {
+  public static HttpEntity processContent(HttpResponse response) throws SocialHttpClientException {
     if (response == null)
       throw new NullPointerException("HttpResponse argument is not NULL.");
     HttpEntity entity = response.getEntity();
     //Reading the content to the buffered.
     if (entity != null) {
-      entity = new BufferedHttpEntity(entity);
+      try {
+        entity = new BufferedHttpEntity(entity);
+      } catch (IOException ioex) {
+        throw new SocialHttpClientException(ioex.toString(), ioex);
+      }
     }
     return entity;
+  }
+  
+  /**
+   * Executes the HttpResponse with read the content to buffered.
+   * @param response HttpResponse to process.
+   * @return Content of HttpResponse.
+   * @throws IllegalStateException
+   * @throws IOException
+   */
+  public static String getContent(HttpResponse response) throws SocialHttpClientException {
+    if (response == null)
+      throw new NullPointerException("HttpResponse argument is not NULL.");
+    HttpEntity entity = processContent(response);
+    DumpHttpResponse.dumpContent(entity);
+    String content = null;
+    try {
+      if (entity.getContentLength() != -1) {
+        content = EntityUtils.toString(entity);
+      } else {
+        throw new SocialHttpClientException("Content of response is empty.");
+      }
+    } catch (IOException ioex) {
+      throw new SocialHttpClientException(ioex.toString(), ioex);
+    }
+    return content;
   }
   
   /**

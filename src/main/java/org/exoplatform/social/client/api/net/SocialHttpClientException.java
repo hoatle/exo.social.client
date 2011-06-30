@@ -14,36 +14,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.net;
-
-import org.exoplatform.social.client.api.SocialClientContext;
-import org.junit.After;
-import org.junit.Before;
+package org.exoplatform.social.client.api.net;
 
 /**
  * Created by The eXo Platform SAS
  * Author : eXoPlatform
  *          exo@exoplatform.com
- * Jun 29, 2011  
+ * Jun 30, 2011  
  */
-public abstract class AbstractClientTest {
+@SuppressWarnings("serial")
+public class SocialHttpClientException extends RuntimeException {
 
-  @Before
-  public void setUp() throws Exception {
-    SocialClientContext.setHost("192.168.1.94");
-    SocialClientContext.setPort(8080);
-    SocialClientContext.setUsername("demo");
-    SocialClientContext.setPassword("gtn");
-    SocialClientContext.setProtocol("http");
+
+  /**
+   * Constructor for SocialHttpClientException.
+   *
+   * @param message      the message of exception
+   * @param cause        the cause of exception
+   */
+  public SocialHttpClientException(String message, Throwable cause) {
+    super(message, cause);
   }
   
-  @After
-  public void tearDown() throws Exception {
-
-    SocialClientContext.setHost(null);
-    SocialClientContext.setPort(0);
-    SocialClientContext.setUsername(null);
-    SocialClientContext.setPassword(null);
-    SocialClientContext.setProtocol(null);
+  /**
+   * Constructor for SocialHttpClientException.
+   * @param message the message of exception
+   */
+  public SocialHttpClientException(String message) {
+    super(message, null);
   }
+  
 }

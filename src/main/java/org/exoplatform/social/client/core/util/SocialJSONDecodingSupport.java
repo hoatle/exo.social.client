@@ -16,8 +16,10 @@
  */
 package org.exoplatform.social.client.core.util;
 
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.exoplatform.social.client.api.model.Model;
 import org.json.simple.parser.ContainerFactory;
@@ -58,5 +60,25 @@ public class SocialJSONDecodingSupport {
       }
     };
     return (T) parser.parse(jsonContent, containerFactory);
+  }
+  
+  /**
+   * Parse JSON text into java Map object from the input source.
+   *  
+   * @param jsonContent Json content which you need to create the Model
+   * @throws ParseException Throw this exception if any
+   */
+  public static Map parser(String jsonContent) throws ParseException {
+    JSONParser parser = new JSONParser();
+    ContainerFactory containerFactory = new ContainerFactory() {
+      public List creatArrayContainer() {
+        return new LinkedList();
+      }
+
+      public Map createObjectContainer() {
+          return new LinkedHashMap();
+      }
+    };
+    return (Map) parser.parse(jsonContent, containerFactory);
   }
 }

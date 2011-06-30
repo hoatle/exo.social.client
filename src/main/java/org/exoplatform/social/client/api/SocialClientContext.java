@@ -197,7 +197,7 @@ public class SocialClientContext {
   private static String protocol = "http";
   private static String portalContainerName;
   private static String restContextName;
-  private static String restVersion;
+  private static String restVersion = "v1-alpha1";
   private static String username;
   private static String password;
   

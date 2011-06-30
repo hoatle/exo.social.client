@@ -14,36 +14,46 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.net;
+package org.exoplatform.social.client.core.util;
 
-import org.exoplatform.social.client.api.SocialClientContext;
+import java.util.Map;
+
+import junit.framework.Assert;
+
+import org.exoplatform.social.client.core.model.ActivityImpl;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Created by The eXo Platform SAS
  * Author : eXoPlatform
  *          exo@exoplatform.com
- * Jun 29, 2011  
+ * Jun 30, 2011  
  */
-public abstract class AbstractClientTest {
+public class SocialJSONDecodingSupportTest {
 
   @Before
   public void setUp() throws Exception {
-    SocialClientContext.setHost("192.168.1.94");
-    SocialClientContext.setPort(8080);
-    SocialClientContext.setUsername("demo");
-    SocialClientContext.setPassword("gtn");
-    SocialClientContext.setProtocol("http");
+    
   }
   
   @After
   public void tearDown() throws Exception {
-
-    SocialClientContext.setHost(null);
-    SocialClientContext.setPort(0);
-    SocialClientContext.setUsername(null);
-    SocialClientContext.setPassword(null);
-    SocialClientContext.setProtocol(null);
+    
+  }
+  
+  @Test
+  public void testJSONParserWithClassType() throws Exception {
+    String jsonActivity = "{\"numberOfComments\":1,\"identityId\":\"d5039b437f0001010011fd153a4fcbd8\",\"liked\":true,}";
+    ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, jsonActivity);
+    Assert.assertEquals("d5039b437f0001010011fd153a4fcbd8", model.getIdentityId());
+  }
+  
+  @Test
+  public void testJSONParser() throws Exception {
+    String jsonActivity = "{\"numberOfComments\":1,\"identityId\":\"d5039b437f0001010011fd153a4fcbd8\",\"liked\":true,}";
+    Map modelMap = SocialJSONDecodingSupport.parser(jsonActivity);
+    Assert.assertEquals("d5039b437f0001010011fd153a4fcbd8", modelMap.get("identityId"));
   }
 }
