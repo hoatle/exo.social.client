@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.VersionService;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
@@ -39,7 +40,7 @@ public class VersionServiceImpl implements VersionService {
   private final static String SUPPORTED_FIELD = "versions";
   @Override
   public String getLatest() {
-    final String targetURL = "/rest-socialdemo/api/social/version/latest.json";
+    final String targetURL = "/" + SocialClientContext.getRestContextName() + "/api/social/version/latest.json";
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     String content = SocialHttpClientSupport.getContent(response);
     try {
@@ -52,7 +53,7 @@ public class VersionServiceImpl implements VersionService {
 
   @Override
   public String[] getSupported() {
-    final String targetURL = "/rest-socialdemo/api/social/version/supported.json";
+    final String targetURL = "/" + SocialClientContext.getRestContextName() + "/api/social/version/supported.json";
 
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     String content = SocialHttpClientSupport.getContent(response);
