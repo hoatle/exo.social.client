@@ -16,13 +16,15 @@
  */
 package org.exoplatform.social.client.core.net;
 
+import java.util.Map;
+
 import junit.framework.Assert;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
+import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
-import org.exoplatform.social.client.core.model.ActivityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.junit.After;
@@ -33,36 +35,56 @@ import org.junit.Test;
  * Created by The eXo Platform SAS
  * Author : eXoPlatform
  *          exo@exoplatform.com
- * Jun 29, 2011  
+ * Jun 30, 2011  
  */
-public class SocialHttpClientTest extends AbstractClientTest {
+public class VersionHttpClientTest extends AbstractClientTest {
+
   @Before
   public void setUp() throws Exception {
     super.setUp();
-   
+    
   }
   
   @After
   public void tearDown() throws Exception {
     super.tearDown();
-    
   }
-   
+  
   @Test
-  public void testExecuteGetActivityWithHttpClient() throws Exception {
-    final String targetURL = "/rest-socialdemo/private/api/social/v1-alpha1/socialdemo/activity/d51715397f0001010077b5d08ddf12fc.json?poster_identity=1&number_of_comments=10&activity_stream=t";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+  public void testGetLatestVersion() throws Exception {
+    final String targetURL = "/rest-socialdemo/api/social/version/latest.json";
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     Assert.assertNotNull("HttpResponse must not be NULL.", response);
     DumpHttpResponse.dumpHeader(response);
     HttpEntity entity = SocialHttpClientSupport.processContent(response);
     Assert.assertNotNull("HttpEntity must not be NULL.", entity);
     DumpHttpResponse.dumpContent(entity);
-    
     if (entity.getContentLength() != -1) {
       String body = EntityUtils.toString(entity);
-      ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, body);
-      Assert.assertTrue(model.getId().length() > 0);
+      Map versionMap = SocialJSONDecodingSupport.parser(body);
+      Assert.assertEquals("Verifying the version of rest service.", SocialClientContext.getRestVersion(), versionMap.get("version"));
     }
+    
+    SocialHttpClientSupport.consume(entity);
+  }
+  
+  @Test
+  public void testGetSupportedVersion() throws Exception {
+    final String targetURL = "/rest-socialdemo/api/social/version/supported.json";
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
+    Assert.assertNotNull("HttpResponse must not be NULL.", response);
+    DumpHttpResponse.dumpHeader(response);
+    HttpEntity entity = SocialHttpClientSupport.processContent(response);
+    Assert.assertNotNull("HttpEntity must not be NULL.", entity);
+    DumpHttpResponse.dumpContent(entity);
+    if (entity.getContentLength() != -1) {
+      String body = EntityUtils.toString(entity);
+      Map versionMap = SocialJSONDecodingSupport.parser(body);
+      String supportedVersion = (String) versionMap.get("version");
+      String[] versions = supportedVersion.split(",");
+      Assert.assertTrue("Verifying the version of rest service.", versions.length > 0);
+    }
+    
     SocialHttpClientSupport.consume(entity);
   }
 }

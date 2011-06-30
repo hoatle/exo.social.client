@@ -23,6 +23,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
+import org.exoplatform.social.client.api.net.SocialHttpClientException;
 
 /**
  * Created by The eXo Platform SAS
@@ -38,10 +39,18 @@ public class DumpHttpResponse {
    * @throws ParseException
    * @throws IOException
    */
-  public static void dumpContent(HttpEntity entity) throws ParseException, IOException {
+  public static void dumpContent(HttpEntity entity) throws SocialHttpClientException {
     if (entity.getContentLength() != -1) {
-      String body = EntityUtils.toString(entity);
-      System.out.println("BODY::" + body);
+      String body;
+      try {
+        body = EntityUtils.toString(entity);
+        System.out.println("BODY::" + body);
+      } catch (ParseException pex) {
+        throw new SocialHttpClientException("dumpContent() is parsing error.", pex);
+      } catch (IOException ioex) {
+        throw new SocialHttpClientException("dumpContent() is IO error.", ioex);
+      }
+      
     }
   }
 
