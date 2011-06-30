@@ -25,5 +25,14 @@ import org.apache.http.client.HttpClient;
  * Jun 29, 2011  
  */
 public interface SocialHttpClient extends HttpClient {
-
+  
+  public enum POLICY {
+    NO_AUTH,
+    BASIC_AUTH
+  }
+  /**
+   * Setting the basic authenticate which uses 
+   * the username/password in <code>SocialClientContext</code>
+   */
+  public void setBasicAuthenticateToRequest();
 }
