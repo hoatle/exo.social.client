@@ -48,9 +48,9 @@ public class MockService extends ServiceBase<MockModel, MockService> {
   }
 
   @Override
-  public void delete(MockModel existingInstance) throws AccessDeniedException, ServiceException {
+  public MockModel delete(MockModel existingInstance) throws AccessDeniedException, ServiceException {
     // TODO Auto-generated method stub
-    
+    return null;
   }
 
 }
