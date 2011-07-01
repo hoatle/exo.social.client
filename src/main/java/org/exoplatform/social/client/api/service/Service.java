@@ -17,6 +17,8 @@
 package org.exoplatform.social.client.api.service;
 
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.event.Lifecycle;
+import org.exoplatform.social.client.api.model.Activity;
 
 /**
  * eXo Social Service.
