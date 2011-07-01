@@ -94,8 +94,7 @@ public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<I
    * @return
    */
   private String getTargetURLIdentityId(String remoteId) {
-    return "http://" + SocialClientContext.getHost() + ":" + SocialClientContext.getPort() + "/"
-            + SocialClientContext.getRestContextName() + "/"
+    return "/" + SocialClientContext.getRestContextName() + "/"
             + SocialClientContext.getPortalContainerName() + "/"
             + "social/identity/" + remoteId + "/id/show.json";
   }
