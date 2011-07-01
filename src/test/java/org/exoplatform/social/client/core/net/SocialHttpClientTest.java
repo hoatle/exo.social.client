@@ -54,16 +54,10 @@ public class SocialHttpClientTest extends AbstractClientTest {
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
     Assert.assertNotNull("HttpResponse must not be NULL.", response);
     DumpHttpResponse.dumpHeader(response);
-    HttpEntity entity = SocialHttpClientSupport.processContent(response);
-    Assert.assertNotNull("HttpEntity must not be NULL.", entity);
-    DumpHttpResponse.dumpContent(entity);
+    DumpHttpResponse.dumpContent(response);
     
-    if (entity.getContentLength() != -1) {
-      String body = EntityUtils.toString(entity);
-      ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, body);
-      Assert.assertTrue(model.getId().length() > 0);
-    }
-    SocialHttpClientSupport.consume(entity);
+    ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, response);
+    Assert.assertTrue(model.getId().length() > 0);
   }
   
   

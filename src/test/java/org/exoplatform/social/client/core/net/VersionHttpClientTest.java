@@ -56,16 +56,12 @@ public class VersionHttpClientTest extends AbstractClientTest {
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     Assert.assertNotNull("HttpResponse must not be NULL.", response);
     DumpHttpResponse.dumpHeader(response);
-    HttpEntity entity = SocialHttpClientSupport.processContent(response);
-    Assert.assertNotNull("HttpEntity must not be NULL.", entity);
-    DumpHttpResponse.dumpContent(entity);
-    if (entity.getContentLength() != -1) {
-      String body = EntityUtils.toString(entity);
-      Map versionMap = SocialJSONDecodingSupport.parser(body);
-      Assert.assertEquals("Verifying the version of rest service.", SocialClientContext.getRestVersion(), versionMap.get("version"));
-    }
+    DumpHttpResponse.dumpContent(response);
     
-    SocialHttpClientSupport.consume(entity);
+    String body = SocialHttpClientSupport.getContent(response);
+    Map versionMap = SocialJSONDecodingSupport.parser(body);
+    Assert.assertEquals("Verifying the version of rest service.", SocialClientContext.getRestVersion(), versionMap.get("version"));
+    
   }
   
   @Test
@@ -74,17 +70,13 @@ public class VersionHttpClientTest extends AbstractClientTest {
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     Assert.assertNotNull("HttpResponse must not be NULL.", response);
     DumpHttpResponse.dumpHeader(response);
-    HttpEntity entity = SocialHttpClientSupport.processContent(response);
-    Assert.assertNotNull("HttpEntity must not be NULL.", entity);
-    DumpHttpResponse.dumpContent(entity);
-    if (entity.getContentLength() != -1) {
-      String body = EntityUtils.toString(entity);
-      Map versionMap = SocialJSONDecodingSupport.parser(body);
-      String supportedVersion = (String) versionMap.get("version");
-      String[] versions = supportedVersion.split(",");
-      Assert.assertTrue("Verifying the version of rest service.", versions.length > 0);
-    }
+    DumpHttpResponse.dumpContent(response);
     
-    SocialHttpClientSupport.consume(entity);
+    String body = SocialHttpClientSupport.getContent(response);
+    
+    Map versionMap = SocialJSONDecodingSupport.parser(body);
+    String supportedVersion = (String) versionMap.get("versions");
+    String[] versions = supportedVersion.split(",");
+    Assert.assertTrue("Verifying the version of rest service.", versions.length > 0);
   }
 }

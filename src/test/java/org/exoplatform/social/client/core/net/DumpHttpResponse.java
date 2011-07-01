@@ -17,6 +17,9 @@
 package org.exoplatform.social.client.core.net;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -24,6 +27,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
 import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.net.SocialHttpClientException;
+import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 
 /**
  * Created by The eXo Platform SAS
@@ -32,23 +37,26 @@ import org.exoplatform.social.client.api.net.SocialHttpClientException;
  * Jun 29, 2011  
  */
 public class DumpHttpResponse {
-
+  
   /**
    * Dump the HttpResponse content which Rest Service to return.
    * @param entity Entity to dump
    * @throws ParseException
    * @throws IOException
    */
-  public static void dumpContent(HttpEntity entity) throws SocialHttpClientException {
-    if (entity.getContentLength() != -1) {
-      String body;
+  public static void dumpContent(HttpResponse response) throws SocialHttpClientException {
+    String responseContent = SocialHttpClientSupport.getContent(response);
+    if (responseContent.length() > 0) {
+      System.out.println("\n\n++++++++++CONTENT OF RESPONSE+++++++++++++++++++++++\n\n");
+      System.out.println("RESPONSE CONTENT::" + responseContent);
       try {
-        body = EntityUtils.toString(entity);
-        System.out.println("BODY::" + body);
-      } catch (ParseException pex) {
+          Map contentMap = SocialJSONDecodingSupport.parser(responseContent);
+          Set<Entry> list = contentMap.entrySet();
+          for(Entry e : list) {
+            System.out.println(e.getKey() +  "::" + e.getValue());
+          }
+      } catch (org.json.simple.parser.ParseException pex) {
         throw new SocialHttpClientException("dumpContent() is parsing error.", pex);
-      } catch (IOException ioex) {
-        throw new SocialHttpClientException("dumpContent() is IO error.", ioex);
       }
       
     }

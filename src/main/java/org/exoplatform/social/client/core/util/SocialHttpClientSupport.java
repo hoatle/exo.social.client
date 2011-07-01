@@ -31,6 +31,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.message.BasicHeader;
+import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.model.Model;
@@ -55,7 +56,7 @@ public class SocialHttpClientSupport {
    * @throws IOException 
    * @throws ClientProtocolException 
    */
-  public static HttpResponse executeGet(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
+  public static HttpResponse executeGet(String targetURL, POLICY authPolicy, HttpParams params) throws SocialHttpClientException {
     SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
     if (POLICY.BASIC_AUTH == authPolicy) { 
       httpClient.setBasicAuthenticateToRequest();
@@ -64,7 +65,10 @@ public class SocialHttpClientSupport {
     HttpGet httpGet = new HttpGet(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
     httpGet.setHeader(header);
-    
+    //Get method with the HttpParams
+    if (params != null) {
+      httpGet.setParams(params);
+    }
     
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
     try {
@@ -77,13 +81,25 @@ public class SocialHttpClientSupport {
   }
   
   /**
+   * Invokes the social rest service via Get
+   * @param targetURL 
+   * @param withBasicAuthenticate Making the Request to Rest Service with Basic Authenticate.
+   * @return
+   * @throws IOException 
+   * @throws ClientProtocolException 
+   */
+  public static HttpResponse executeGet(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
+    return executeGet(targetURL, authPolicy, null);
+  }
+  
+  /**
    * Invokes the social rest service via Post
    * @param targetURL 
    * @return
    * @throws IOException 
    * @throws ClientProtocolException 
    */
-  public static HttpResponse executePost(String targetURL, POLICY authPolicy, Model model) throws SocialHttpClientException {
+  public static HttpResponse executePost(String targetURL, POLICY authPolicy, HttpParams params, Model model) throws SocialHttpClientException {
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
     HttpClient httpClient = SocialHttpClientImpl.newInstance();
 
@@ -91,6 +107,10 @@ public class SocialHttpClientSupport {
     HttpPost httpPost = new HttpPost(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
     httpPost.setHeader(header);
+    //Post method with the HttpParams
+    if (params != null) {
+      httpPost.setParams(params);
+    }
     try {
       
       //Provides when uses post so does not have any data.
@@ -107,6 +127,28 @@ public class SocialHttpClientSupport {
     }
    
   }
+  
+  /**
+   * Invokes the social rest service via Post method with <code>Model</code> and HttpParams is null.
+   * @param targetURL 
+   * @return
+   * @throws IOException 
+   * @throws ClientProtocolException 
+   */
+  public static HttpResponse executePost(String targetURL, POLICY authPolicy, HttpParams params) throws SocialHttpClientException {
+    return executePost(targetURL, authPolicy, params, null);
+  }
+  
+  /**
+   * Invokes the social rest service via Post method with <code>Model</code> is null and HttpParams.
+   * @param targetURL 
+   * @return
+   * @throws IOException 
+   * @throws ClientProtocolException 
+   */
+  public static HttpResponse executePost(String targetURL, POLICY authPolicy, Model model) throws SocialHttpClientException {
+    return executePost(targetURL, authPolicy, null, model);
+  }
   /**
    * Invokes the social rest service via Post but does not provide the post data.
    * 
@@ -116,7 +158,7 @@ public class SocialHttpClientSupport {
    * @throws SocialHttpClientException
    */
   public static HttpResponse executePost(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
-    return executePost(targetURL, authPolicy, null);
+    return executePost(targetURL, authPolicy, null, null);
   }
   
   /**
