@@ -206,9 +206,9 @@ public class SocialHttpClientSupport {
   public static String buildURLFromContext(boolean isPrivate){
     String privateURL = "";
     if(isPrivate){
-      privateURL = "private";
+      privateURL = "/private";
     }
-    return "/" + SocialClientContext.getRestContextName() + "/" +privateURL + "/api/social/"+ SocialClientContext.getRestVersion() +
+    return "/" + SocialClientContext.getRestContextName() + privateURL + "/api/social/"+ SocialClientContext.getRestVersion() +
            "/" + SocialClientContext.getPortalContainerName() + "/";
   }
 }
