@@ -14,20 +14,34 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.api.auth;
+package org.exoplatform.social.client.api.net;
 
 /**
- * The Access Denied Exception when something needs authentication but
- * it is not authenticated yet.
- *
- * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since  May 20, 2011
+ * Created by The eXo Platform SAS
+ * Author : eXoPlatform
+ *          exo@exoplatform.com
+ * Jun 30, 2011  
  */
-public class AccessDeniedException extends RuntimeException {
-  public AccessDeniedException(){
-    
+@SuppressWarnings("serial")
+public class SocialHttpClientException extends RuntimeException {
+
+
+  /**
+   * Constructor for SocialHttpClientException.
+   *
+   * @param message      the message of exception
+   * @param cause        the cause of exception
+   */
+  public SocialHttpClientException(String message, Throwable cause) {
+    super(message, cause);
   }
-  public AccessDeniedException(String message){
-    super(message);
+  
+  /**
+   * Constructor for SocialHttpClientException.
+   * @param message the message of exception
+   */
+  public SocialHttpClientException(String message) {
+    super(message, null);
   }
+  
 }

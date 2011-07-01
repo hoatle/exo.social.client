@@ -16,14 +16,22 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
+import java.io.IOException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.json.simple.parser.ParseException;
 
 /**
  * Implementation of {@link ActivityService}.
@@ -31,14 +39,14 @@ import org.exoplatform.social.client.api.service.ServiceException;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 28, 2011
  */
-public class ActivityServiceImpl extends AbstractLifecycle<Activity, ActivityService<Activity>> implements ActivityService<Activity> {
+public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<Activity>> implements ActivityService<Activity> {
+  private static final String BASE_URL = SocialHttpClientSupport.buildURLFromContext(true);
 
   /**
    * {@inheritDoc}
    */
   @Override
   public Activity create(Activity newInstance) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -47,8 +55,24 @@ public class ActivityServiceImpl extends AbstractLifecycle<Activity, ActivitySer
    */
   @Override
   public Activity get(String uuid) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    final String GET_ACTIVITY_REQUEST_URL = BASE_URL+uuid+".json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != ServiceException.HTTP_OK){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          Activity activity = SocialJSONDecodingSupport.parser(Activity.class, responseContent);
+          return activity;
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
   /**
@@ -56,17 +80,32 @@ public class ActivityServiceImpl extends AbstractLifecycle<Activity, ActivitySer
    */
   @Override
   public Activity update(Activity existingInstance) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new ServiceException(ActivityServiceImpl.class,"Do Not Supported",null);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void delete(Activity existingInstance) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    
+  public Activity delete(Activity existingInstance) throws AccessDeniedException, ServiceException {
+    final String GET_ACTIVITY_REQUEST_URL = BASE_URL+existingInstance.getId()+".json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != ServiceException.HTTP_OK){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          Activity activity = SocialJSONDecodingSupport.parser(Activity.class, responseContent);
+          return activity;
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
 
@@ -76,8 +115,7 @@ public class ActivityServiceImpl extends AbstractLifecycle<Activity, ActivitySer
   @Override
   public RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException,
                                                                           ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new ServiceException(ActivityServiceImpl.class,"Do Not Supported",null);
   }
 
 

@@ -14,20 +14,25 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.api.auth;
+package org.exoplatform.social.client.api.net;
+
+import org.apache.http.client.HttpClient;
 
 /**
- * The Access Denied Exception when something needs authentication but
- * it is not authenticated yet.
- *
- * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since  May 20, 2011
+ * Created by The eXo Platform SAS
+ * Author : eXoPlatform
+ *          exo@exoplatform.com
+ * Jun 29, 2011  
  */
-public class AccessDeniedException extends RuntimeException {
-  public AccessDeniedException(){
-    
+public interface SocialHttpClient extends HttpClient {
+  
+  public enum POLICY {
+    NO_AUTH,
+    BASIC_AUTH
   }
-  public AccessDeniedException(String message){
-    super(message);
-  }
+  /**
+   * Setting the basic authenticate which uses 
+   * the username/password in <code>SocialClientContext</code>
+   */
+  public void setBasicAuthenticateToRequest();
 }

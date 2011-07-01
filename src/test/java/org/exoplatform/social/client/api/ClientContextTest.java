@@ -22,7 +22,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit Test for {@link ClientContext}.
+ * Unit Test for {@link SocialClientContext}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 28, 2011
@@ -31,34 +31,34 @@ public class ClientContextTest {
 
   @Test
   public void shouldGetDefaultValues() {
-    assertThat("ClientContext.getHost() must be null", ClientContext.getHost(), nullValue());
-    assertThat("ClientContext.getPort() must return 0", ClientContext.getPort(), equalTo(0));
-    assertThat("ClientContext.getPortalContainerName() must be null", ClientContext.getPortalContainerName(),
+    assertThat("ClientContext.getHost() must be null", SocialClientContext.getHost(), equalTo("127.0.0.1"));
+    assertThat("ClientContext.getPort() must return 0", SocialClientContext.getPort(), equalTo(8080));
+    assertThat("ClientContext.getPortalContainerName() must be null", SocialClientContext.getPortalContainerName(),
                nullValue());
 
-    assertThat("ClientContext.getRestContextName() must be null", ClientContext.getRestContextName(), nullValue());
-    assertThat("ClientContext.getRestVersion() must be null", ClientContext.getRestVersion(), nullValue());
-    assertThat("ClientContext.getUsername() must be null", ClientContext.getUsername(), nullValue());
-    assertThat("ClientContext.getPassword() must be null", ClientContext.getPassword(), nullValue());
+    assertThat("ClientContext.getRestContextName() must be null", SocialClientContext.getRestContextName(), nullValue());
+    assertThat("ClientContext.getRestVersion() must be null", SocialClientContext.getRestVersion(), nullValue());
+    assertThat("ClientContext.getUsername() must be null", SocialClientContext.getUsername(), nullValue());
+    assertThat("ClientContext.getPassword() must be null", SocialClientContext.getPassword(), nullValue());
   }
 
   @Test
   public void shouldGetSetValues() {
-    ClientContext.setHost("http://platform35.demo.exoplatform.org");
-    ClientContext.setPort(80);
-    ClientContext.setPortalContainerName("portal");
-    ClientContext.setRestContextName("rest");
-    ClientContext.setRestVersion("v1-alpha1");
-    ClientContext.setUsername("demo");
-    ClientContext.setPassword("gtn");
+    SocialClientContext.setHost("http://platform35.demo.exoplatform.org");
+    SocialClientContext.setPort(80);
+    SocialClientContext.setPortalContainerName("portal");
+    SocialClientContext.setRestContextName("rest");
+    SocialClientContext.setRestVersion("v1-alpha1");
+    SocialClientContext.setUsername("demo");
+    SocialClientContext.setPassword("gtn");
 
-    assertThat(ClientContext.getHost(), equalTo("http://platform35.demo.exoplatform.org"));
-    assertThat(ClientContext.getPort(), equalTo(80));
-    assertThat(ClientContext.getPortalContainerName(), equalTo("portal"));
-    assertThat(ClientContext.getRestContextName(), equalTo("rest"));
-    assertThat(ClientContext.getRestVersion(), equalTo("v1-alpha1"));
-    assertThat(ClientContext.getUsername(), equalTo("demo"));
-    assertThat(ClientContext.getPassword(), equalTo("gtn"));
+    assertThat(SocialClientContext.getHost(), equalTo("http://platform35.demo.exoplatform.org"));
+    assertThat(SocialClientContext.getPort(), equalTo(80));
+    assertThat(SocialClientContext.getPortalContainerName(), equalTo("portal"));
+    assertThat(SocialClientContext.getRestContextName(), equalTo("rest"));
+    assertThat(SocialClientContext.getRestVersion(), equalTo("v1-alpha1"));
+    assertThat(SocialClientContext.getUsername(), equalTo("demo"));
+    assertThat(SocialClientContext.getPassword(), equalTo("gtn"));
   }
 
 }

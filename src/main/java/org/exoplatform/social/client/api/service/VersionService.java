@@ -29,7 +29,7 @@ public interface VersionService {
    *
    * @return the latest version
    */
-  String getLatest();
+  String getLatest() throws ServiceException;
 
   /**
    * Gets the supported social rest api versions, this is for backward compatible. If a client application is using
@@ -38,5 +38,5 @@ public interface VersionService {
    *
    * @return an array of supported versions
    */
-  String[] getSupported();
+  String[] getSupported() throws ServiceException;
 }
