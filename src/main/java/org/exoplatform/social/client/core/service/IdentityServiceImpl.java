@@ -17,8 +17,10 @@
 package org.exoplatform.social.client.core.service;
 
 import java.io.IOException;
+import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
@@ -37,6 +39,8 @@ import org.json.simple.parser.ParseException;
  */
 public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<Identity>> implements IdentityService<Identity> {
 
+  private static final String ID = "id";
+  
   @Override
   public Identity create(Identity newInstance) throws AccessDeniedException, ServiceException {
     return null;
@@ -72,6 +76,26 @@ public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<I
    */
   @Override
   public String getIdentityId(String provider, String remoteId) {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    String targetURL = this.getTargetURLIdentityId(remoteId);
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    try {
+      String content = SocialHttpClientSupport.getContent(response);
+      Map map = SocialJSONDecodingSupport.parser(content);
+      return (String) map.get(ID);
+    } catch (Exception ex) {
+      throw new ServiceException(ActivityServiceImpl.class, "Exception when reads Json Content.", ex);
+    }
+  }
+  
+  /**
+   * Gets the target url of get identity id.
+   * 
+   * @param remoteId
+   * @return
+   */
+  private String getTargetURLIdentityId(String remoteId) {
+    return "/" + SocialClientContext.getRestContextName() + "/"
+            + SocialClientContext.getPortalContainerName() + "/"
+            + "social/identity/" + remoteId + "/id/show.json";
   }
 }
