@@ -182,6 +182,15 @@ public class SocialClientContext {
   public Context getCurrentContext() {
     return currentContext;
   }
+  
+
+  /**
+   * Getting Development mode.
+   * @return
+   */
+  public static boolean isDeveloping() {
+    return isDeveloping;
+  }
 
   /**
    * Sets current request and response context.
@@ -198,8 +207,9 @@ public class SocialClientContext {
   private static String portalContainerName;
   private static String restContextName = "rest-socialdemo";
   private static String restVersion = "v1-alpha1";
-  private static String username;
-  private static String password;
+  private static String username = "demo";
+  private static String password = "gtn";
+  private static boolean isDeveloping = true;
   
   private Context currentContext;
 

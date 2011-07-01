@@ -16,7 +16,15 @@
  */
 package org.exoplatform.social.client.core.net;
 
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.core.model.IdentityImpl;
+import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.junit.After;
 import org.junit.Before;
 
@@ -42,5 +50,35 @@ public abstract class AbstractClientTest {
     SocialClientContext.setUsername(null);
     SocialClientContext.setPassword(null);
     SocialClientContext.setProtocol(null);
+  }
+  
+  
+  /**
+   * Getting the DemoIdenityt
+   * @return
+   * @throws Exception
+   */
+  protected String getDemoIdentityId() throws Exception {
+    final String targetURL = "/" + SocialClientContext.getRestContextName() + "/socialdemo/social/identity/demo/id/show.json";
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    SocialHttpClientSupport.handleError(response);
+    String content = SocialHttpClientSupport.getContent(response);
+    Map identityMap = SocialJSONDecodingSupport.parser(content);
+    return (String) identityMap.get("id");
+  }
+  /**
+   * 
+   * @param uid
+   * @return
+   * @throws Exception
+   */
+  private Identity getDemoIdentityById(String uid) throws Exception {
+    final String targetURL = "/" + SocialClientContext.getRestContextName() + "/api/social/v1-alpha1/portal/identity/" + uid + ".json";
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    SocialHttpClientSupport.handleError(response);
+    DumpHttpResponse.dumpHeader(response);
+    DumpHttpResponse.dumpContent(response);
+    Identity gotDemoIdentity = SocialJSONDecodingSupport.parser(IdentityImpl.class, response);
+    return gotDemoIdentity;
   }
 }

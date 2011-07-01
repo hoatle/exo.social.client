@@ -21,8 +21,11 @@ import java.util.Map;
 import junit.framework.Assert;
 
 import org.apache.http.HttpResponse;
+import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.core.model.ActivityImpl;
+import org.exoplatform.social.client.core.model.IdentityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.junit.After;
@@ -84,7 +87,7 @@ public class SocialHttpClientTest extends AbstractClientTest {
   @Test
   public void testGetDemoIdentity() throws Exception {
     final String targetURL = "/rest-socialdemo/socialdemo/social/identity/demo/id/show.json";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     Assert.assertNotNull("HttpResponse must not be NULL.", response);
     SocialHttpClientSupport.handleError(response);
     DumpHttpResponse.dumpHeader(response);
@@ -97,4 +100,21 @@ public class SocialHttpClientTest extends AbstractClientTest {
     
     Assert.assertTrue(identityMap.size() > 0);
   }
+  
+  
+  @Test
+  public void testGetDemoIdentityFromAbstract() throws Exception {
+    String uid = getDemoIdentityId();
+    Assert.assertNotNull("Idenity DEMO id must not be null.", uid);
+    Assert.assertTrue("Idenity DEMO id must be greater than zero..", uid.length() > 0);
+    final String targetURL = "/" + SocialClientContext.getRestContextName() + "/api/social/v1-alpha1/portal/identity/" + uid + ".json";
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    SocialHttpClientSupport.handleError(response);
+    DumpHttpResponse.dumpHeader(response);
+    DumpHttpResponse.dumpContent(response);
+    Identity gotDemoIdentity = SocialJSONDecodingSupport.parser(IdentityImpl.class, response);
+    Assert.assertNotNull("DEMOIdentity must not be null.", gotDemoIdentity);
+  }
+  
+  
 }
