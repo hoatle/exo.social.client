@@ -26,26 +26,26 @@ import org.exoplatform.social.client.api.service.VersionService;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Client {
+public interface ClientServiceFactory {
 
   /**
    * Gets version service to find information about latest and supported social rest ap versions.
    *
    * @return the version service
    */
-  VersionService getVersionService();
+  VersionService createVersionService();
 
   /**
    * Gets activity service to work with activities.
    *
    * @return the activity service
    */
-  ActivityService getActivityService();
+  ActivityService createActivityService();
   /**
    * Gets account service for getting or updating identity info.
    *
    * @return the identity service
    */
-  IdentityService getIdentityService();
+  IdentityService createIdentityService();
 
 }

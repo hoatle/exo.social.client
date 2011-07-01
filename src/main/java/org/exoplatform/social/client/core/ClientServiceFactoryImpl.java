@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core;
 
-import org.exoplatform.social.client.api.Client;
+import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.VersionService;
@@ -25,12 +25,12 @@ import org.exoplatform.social.client.core.service.IdentityServiceImpl;
 import org.exoplatform.social.client.core.service.VersionServiceImpl;
 
 /**
- * Implementation for {@link Client}.
+ * Implementation for {@link org.exoplatform.social.client.api.ClientServiceFactory}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since June 28, 2011
  */
-public class ClientImpl implements Client {
+public class ClientServiceFactoryImpl implements ClientServiceFactory {
 
   private VersionService versionService;
   private ActivityService activityService;
@@ -40,7 +40,7 @@ public class ClientImpl implements Client {
    * {@inheritDoc}
    */
   @Override
-  public VersionService getVersionService() {
+  public VersionService createVersionService() {
     if (versionService == null) {
       versionService = new VersionServiceImpl();
     }
@@ -51,7 +51,7 @@ public class ClientImpl implements Client {
    * {@inheritDoc}
    */
   @Override
-  public ActivityService getActivityService() {
+  public ActivityService createActivityService() {
     if (activityService == null) {
       activityService = new ActivityServiceImpl();
     }
@@ -62,7 +62,7 @@ public class ClientImpl implements Client {
    * {@inheritDoc}
    */
   @Override
-  public IdentityService getIdentityService() {
+  public IdentityService createIdentityService() {
     if (identityService == null) {
       identityService = new IdentityServiceImpl();
     }

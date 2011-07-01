@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core;
 
-import org.exoplatform.social.client.api.Client;
+import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.VersionService;
@@ -28,43 +28,43 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit test for {@link ClientImpl}.
+ * Unit test for {@link ClientServiceFactoryImpl}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
  */
-public class ClientImplTest {
+public class ClientServiceFactoryImplTest {
 
-  private Client client;
+  private ClientServiceFactory clientServiceFactory;
 
 
   @Before
   public void setUp() {
-    client = new ClientImpl();
+    clientServiceFactory = new ClientServiceFactoryImpl();
   }
 
   @After
   public void tearDown() {
-    client = null;
+    clientServiceFactory = null;
   }
 
 
   @Test
   public void shouldGetVersionService() {
-    VersionService versionService = client.getVersionService();
+    VersionService versionService = clientServiceFactory.createVersionService();
     assertThat("versionService must not be null", versionService, notNullValue());
   }
 
 
   @Test
   public void shouldGetActivityService() {
-    ActivityService activityService = client.getActivityService();
+    ActivityService activityService = clientServiceFactory.createActivityService();
     assertThat("activityService must not be null", activityService, notNullValue());
   }
 
   @Test
   public void shouldGetIdentityService() {
-    IdentityService identityService = client.getIdentityService();
+    IdentityService identityService = clientServiceFactory.createIdentityService();
     assertThat("identityService must not be null", identityService, notNullValue());
   }
 

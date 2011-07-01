@@ -16,28 +16,24 @@
  */
 package org.exoplatform.social.client.core;
 
-import org.exoplatform.social.client.api.Client;
+import org.exoplatform.social.client.api.ClientServiceFactory;
+import org.junit.Test;
+
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
 
 /**
- * The client helper to get {@link org.exoplatform.social.client.api.Client} to work with services.
+ * Uni test for {@link ClientServiceFactoryHelper}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
  */
-public class ClientHelper {
+public class ClientServiceFactoryHelperTest {
 
-  private static Client client;
-
-  /**
-   * Gets the client.
-   *
-   * @return the client
-   */
-  public static Client getClient() {
-    if (client == null) {
-      client = new ClientImpl();
-    }
-    return client;
+  @Test
+  public void shouldGetClientInstance() {
+    ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
+    assertThat("clientServiceFactory must not be null", clientServiceFactory, notNullValue());
   }
 
 }
