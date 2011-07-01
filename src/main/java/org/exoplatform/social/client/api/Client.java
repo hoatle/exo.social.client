@@ -16,9 +16,9 @@
  */
 package org.exoplatform.social.client.api;
 
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
+import org.exoplatform.social.client.api.service.VersionService;
 
 /**
  * The main entry point to get eXo Social Services.
@@ -27,18 +27,25 @@ import org.exoplatform.social.client.api.service.IdentityService;
  * @since May 19, 2011
  */
 public interface Client {
+
+  /**
+   * Gets version service to find information about latest and supported social rest ap versions.
+   *
+   * @return the version service
+   */
+  VersionService getVersionService();
+
   /**
    * Gets activity service to work with activities.
    *
    * @return the activity service
    */
-  ActivityService getActivityService() throws AccessDeniedException;
-
+  ActivityService getActivityService();
   /**
    * Gets account service for getting or updating identity info.
    *
    * @return the identity service
    */
-  IdentityService getIdentityService() throws AccessDeniedException;
+  IdentityService getIdentityService();
 
 }
