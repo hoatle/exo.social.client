@@ -17,7 +17,6 @@
 package org.exoplatform.social.client.api.service;
 
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.event.Lifecycle;
 
 /**
  * eXo Social Service.
@@ -60,9 +59,10 @@ public interface Service<M> {
    * Deletes an existing instance.
    *
    * @param existingInstance
+   * @return the deleted instance
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  void delete(M existingInstance) throws AccessDeniedException, ServiceException;
+  M delete(M existingInstance) throws AccessDeniedException, ServiceException;
 
 }
