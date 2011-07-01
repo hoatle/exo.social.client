@@ -60,9 +60,10 @@ public interface Service<M> {
    * Deletes an existing instance.
    *
    * @param existingInstance
+   * @return DeletedInstance
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  void delete(M existingInstance) throws AccessDeniedException, ServiceException;
+  M delete(M existingInstance) throws AccessDeniedException, ServiceException;
 
 }
