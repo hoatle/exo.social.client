@@ -24,4 +24,12 @@ package org.exoplatform.social.client.api.service;
  */
 public interface IdentityService<Identity> extends Service<Identity> {
 
+  /**
+   * Gets the identity id from a remote id.
+   *
+   * @param remoteId the remote id
+   * @return the uuid
+   */
+  String getIdentityId(String provider, String remoteId);
+
 }

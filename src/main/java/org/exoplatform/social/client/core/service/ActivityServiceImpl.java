@@ -18,9 +18,7 @@ package org.exoplatform.social.client.core.service;
 
 import java.io.IOException;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.Activity;
@@ -81,9 +79,9 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public void delete(Activity existingInstance) throws AccessDeniedException, ServiceException {
+  public Activity delete(Activity existingInstance) throws AccessDeniedException, ServiceException {
     // TODO Auto-generated method stub
-    
+    return null;
   }
 
 
@@ -123,14 +121,14 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
   @Override
   public void deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException {
     // TODO Auto-generated method stub
-    
+
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Like like(Activity existingActivity, Identity existingIdentity) throws AccessDeniedException,
+  public Like like(Activity existingActivity) throws AccessDeniedException,
                                                                                 ServiceException {
     // TODO Auto-generated method stub
     return null;
@@ -140,18 +138,9 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public Like getLike(String likeId) throws AccessDeniedException, ServiceException {
+  public Like unlike(Activity existingActivity) throws AccessDeniedException, ServiceException {
     // TODO Auto-generated method stub
     return null;
-  }
-
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void unlike(Like existingLike) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    
   }
 
 }

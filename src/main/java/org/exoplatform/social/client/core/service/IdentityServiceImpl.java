@@ -62,9 +62,16 @@ public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<I
   }
 
   @Override
-  public void delete(Identity existingInstance) throws AccessDeniedException, ServiceException {
+  public Identity delete(Identity existingInstance) throws AccessDeniedException, ServiceException {
     // TODO Auto-generated method stub
-    
+    return null;
   }
 
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getIdentityId(String provider, String remoteId) {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
 }

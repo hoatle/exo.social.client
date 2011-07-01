@@ -93,9 +93,11 @@ public interface ActivityService<Activity> extends Service<Activity> {
   /**
    * The authenticated identity unlikes an existing activity.
    *
+   * @param existingActivity the existing activity
+   * @return the deleted {@link Like} instance.
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  void unlike(Activity existingActivity) throws AccessDeniedException, ServiceException;
+  Like unlike(Activity existingActivity) throws AccessDeniedException, ServiceException;
 
 }
