@@ -20,53 +20,52 @@ import org.exoplatform.social.client.api.Client;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.VersionService;
-import org.exoplatform.social.client.core.service.ActivityServiceImpl;
-import org.exoplatform.social.client.core.service.IdentityServiceImpl;
-import org.exoplatform.social.client.core.service.VersionServiceImpl;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
 
 /**
- * Implementation for {@link Client}.
+ * Unit test for {@link ClientImpl}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since June 28, 2011
+ * @since Jul 1, 2011
  */
-public class ClientImpl implements Client {
+public class ClientImplTest {
 
-  private VersionService versionService;
-  private ActivityService activityService;
-  private IdentityService identityService;
+  private Client client;
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public VersionService getVersionService() {
-    if (versionService == null) {
-      versionService = new VersionServiceImpl();
-    }
-    return versionService;
+
+  @Before
+  public void setUp() {
+    client = new ClientImpl();
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public ActivityService getActivityService() {
-    if (activityService == null) {
-      activityService = new ActivityServiceImpl();
-    }
-    return activityService;
+  @After
+  public void tearDown() {
+    client = null;
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public IdentityService getIdentityService() {
-    if (identityService == null) {
-      identityService = new IdentityServiceImpl();
-    }
-    return identityService;
+
+  @Test
+  public void shouldGetVersionService() {
+    VersionService versionService = client.getVersionService();
+    assertThat("versionService must not be null", versionService, notNullValue());
+  }
+
+
+  @Test
+  public void shouldGetActivityService() {
+    ActivityService activityService = client.getActivityService();
+    assertThat("activityService must not be null", activityService, notNullValue());
+  }
+
+  @Test
+  public void shouldGetIdentityService() {
+    IdentityService identityService = client.getIdentityService();
+    assertThat("identityService must not be null", identityService, notNullValue());
   }
 
 }
