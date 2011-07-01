@@ -23,6 +23,7 @@ import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.net.SocialHttpClient;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -50,7 +51,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     try {
       HttpResponse response = SocialHttpClientSupport.executePost(POST_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH, newInstance);
       int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != ServiceException.HTTP_OK){
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status "+statusCode,null);
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
@@ -75,7 +76,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     try {
       HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
       int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != ServiceException.HTTP_OK){
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status "+statusCode,null);
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
@@ -108,7 +109,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     try {
       HttpResponse response = SocialHttpClientSupport.executePost(DELETE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
       int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != ServiceException.HTTP_OK){
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
@@ -146,7 +147,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     try {
       HttpResponse response = SocialHttpClientSupport.executePost(CREATE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH,newComment);
       int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != ServiceException.HTTP_OK){
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
@@ -198,7 +199,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     try {
       HttpResponse response = SocialHttpClientSupport.executePost(DELETE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH);
       int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != ServiceException.HTTP_OK){
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
@@ -223,7 +224,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     try {
       HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
       int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != ServiceException.HTTP_OK){
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
@@ -250,7 +251,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     try {
       HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
       int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != ServiceException.HTTP_OK){
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
