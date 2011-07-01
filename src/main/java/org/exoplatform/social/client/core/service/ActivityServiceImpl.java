@@ -77,7 +77,6 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
       int statusCode = response.getStatusLine().getStatusCode();
       if(statusCode != ServiceException.HTTP_OK){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status "+statusCode,null);
-        
       } else {
         String responseContent = SocialHttpClientSupport.getContent(response);
         try{

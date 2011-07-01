@@ -24,5 +24,10 @@ package org.exoplatform.social.client.api.auth;
  * @since  May 20, 2011
  */
 public class AccessDeniedException extends RuntimeException {
-
+  public AccessDeniedException(){
+    //default contructor
+  }
+  public AccessDeniedException(String message){
+    super(message);
+  }
 }
