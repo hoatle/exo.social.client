@@ -81,33 +81,21 @@ public interface ActivityService<Activity> extends Service<Activity> {
 
 
   /**
-   * An identity likes an activity.
+   * The authenticate identity likes an existing activity.
    *
    * @param existingActivity the existing activity
-   * @param existingIdentity the existing identity
    * @return the created {@link Like} instance
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  Like like(Activity existingActivity, Identity existingIdentity) throws AccessDeniedException, ServiceException;
+  Like like(Activity existingActivity) throws AccessDeniedException, ServiceException;
 
   /**
-   * Gets a like by its id.
+   * The authenticated identity unlikes an existing activity.
    *
-   * @param likeId the like id
-   * @return a like instance specified by likeId
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  Like getLike(String likeId) throws AccessDeniedException, ServiceException;
-
-  /**
-   * An identity unlikes an activity.
-   *
-   * @param existingLike the existing like
-   * @throws AccessDeniedException
-   * @throws ServiceException
-   */
-  void unlike(Like existingLike) throws AccessDeniedException, ServiceException;
+  void unlike(Activity existingActivity) throws AccessDeniedException, ServiceException;
 
 }
