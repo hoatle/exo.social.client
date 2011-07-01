@@ -30,7 +30,7 @@ public abstract class AbstractClientTest {
 
   @Before
   public void setUp() throws Exception {
-    SocialClientContext.setHost("192.168.1.94");
+    SocialClientContext.setHost("127.0.0.1");
     SocialClientContext.setPort(8080);
     SocialClientContext.setUsername("demo");
     SocialClientContext.setPassword("gtn");
