@@ -93,9 +93,12 @@ public class SocialHttpClientSupport {
     httpPost.setHeader(header);
     try {
       
-      
-      ByteArrayEntity entity = new ByteArrayEntity(convertModelToByteArray(model));
-      httpPost.setEntity(entity);
+      //Provides when uses post so does not have any data.
+      byte[] postData = convertModelToByteArray(model);
+      if (postData != null) {
+        ByteArrayEntity entity = new ByteArrayEntity(convertModelToByteArray(model));
+        httpPost.setEntity(entity);
+      }
       return httpClient.execute(targetHost, httpPost);
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -103,6 +106,17 @@ public class SocialHttpClientSupport {
       throw new SocialHttpClientException(ioex.toString(), ioex);
     }
    
+  }
+  /**
+   * Invokes the social rest service via Post but does not provide the post data.
+   * 
+   * @param targetURL
+   * @param authPolicy
+   * @return
+   * @throws SocialHttpClientException
+   */
+  public static HttpResponse executePost(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
+    return executePost(targetURL, authPolicy, null);
   }
   
   /**
