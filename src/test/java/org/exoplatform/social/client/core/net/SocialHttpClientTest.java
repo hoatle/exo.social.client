@@ -16,11 +16,11 @@
  */
 package org.exoplatform.social.client.core.net;
 
+import java.util.Map;
+
 import junit.framework.Assert;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.core.model.ActivityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
@@ -79,5 +79,22 @@ public class SocialHttpClientTest extends AbstractClientTest {
     byte[] data = SocialHttpClientSupport.convertModelToByteArray(model);
     Assert.assertNotNull(data);
     Assert.assertTrue(data.length > 0);
+  }
+  
+  @Test
+  public void testGetDemoIdentity() throws Exception {
+    final String targetURL = "/rest-socialdemo/socialdemo/social/identity/demo/id/show.json";
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    Assert.assertNotNull("HttpResponse must not be NULL.", response);
+    SocialHttpClientSupport.handleError(response);
+    DumpHttpResponse.dumpHeader(response);
+    DumpHttpResponse.dumpContent(response);
+    
+    
+    String content = SocialHttpClientSupport.getContent(response);
+    Map identityMap = SocialJSONDecodingSupport.parser(content);
+    
+    
+    Assert.assertTrue(identityMap.size() > 0);
   }
 }

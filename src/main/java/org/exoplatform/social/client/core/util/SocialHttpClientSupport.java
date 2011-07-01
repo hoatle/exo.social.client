@@ -23,9 +23,11 @@ import java.io.StringWriter;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
@@ -49,9 +51,10 @@ import org.exoplatform.social.client.core.net.SocialHttpClientImpl;
 public class SocialHttpClientSupport {
 
   /**
-   * Invokes the social rest service via Get
+   * Invokes the social rest service via Get method
    * @param targetURL 
-   * @param withBasicAuthenticate Making the Request to Rest Service with Basic Authenticate.
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
+   * @param params HttpParams for Request
    * @return
    * @throws IOException 
    * @throws ClientProtocolException 
@@ -81,9 +84,9 @@ public class SocialHttpClientSupport {
   }
   
   /**
-   * Invokes the social rest service via Get
+   * Invokes the social rest service via Get method
    * @param targetURL 
-   * @param withBasicAuthenticate Making the Request to Rest Service with Basic Authenticate.
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
    * @return
    * @throws IOException 
    * @throws ClientProtocolException 
@@ -93,8 +96,10 @@ public class SocialHttpClientSupport {
   }
   
   /**
-   * Invokes the social rest service via Post
+   * Invokes the social rest service via Post method
    * @param targetURL 
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
+   * @param params HttpParams for Request
    * @return
    * @throws IOException 
    * @throws ClientProtocolException 
@@ -131,6 +136,8 @@ public class SocialHttpClientSupport {
   /**
    * Invokes the social rest service via Post method with <code>Model</code> and HttpParams is null.
    * @param targetURL 
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
+   * @param params HttpParams for Request
    * @return
    * @throws IOException 
    * @throws ClientProtocolException 
@@ -142,6 +149,7 @@ public class SocialHttpClientSupport {
   /**
    * Invokes the social rest service via Post method with <code>Model</code> is null and HttpParams.
    * @param targetURL 
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
    * @return
    * @throws IOException 
    * @throws ClientProtocolException 
@@ -150,16 +158,64 @@ public class SocialHttpClientSupport {
     return executePost(targetURL, authPolicy, null, model);
   }
   /**
-   * Invokes the social rest service via Post but does not provide the post data.
+   * Invokes the social rest service via Post but both <code>Model</code> and HttpParams are null.
    * 
    * @param targetURL
-   * @param authPolicy
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
    * @return
    * @throws SocialHttpClientException
    */
   public static HttpResponse executePost(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
     return executePost(targetURL, authPolicy, null, null);
   }
+  
+  
+  
+  
+  /**
+   * Invokes the social rest service via Delete method with HttpParams
+   * @param targetURL 
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
+   * @param params HttpParams for Request
+   * @return
+   * @throws IOException 
+   * @throws ClientProtocolException 
+   */
+  public static HttpResponse executeDelete(String targetURL, POLICY authPolicy, HttpParams params) throws SocialHttpClientException {
+    HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
+    HttpClient httpClient = SocialHttpClientImpl.newInstance();
+
+    
+    HttpDelete httpDelete = new HttpDelete(targetURL);
+    Header header = new BasicHeader("Content-Type", "application/json");
+    httpDelete.setHeader(header);
+    //Delete method with the HttpParams
+    if (params != null) {
+      httpDelete.setParams(params);
+    }
+    try {
+      return httpClient.execute(targetHost, httpDelete);
+    } catch (ClientProtocolException cpex) {
+      throw new SocialHttpClientException(cpex.toString(), cpex);
+    } catch (IOException ioex) {
+      throw new SocialHttpClientException(ioex.toString(), ioex);
+    }
+   
+  }
+  
+  
+  /**
+   * Invokes the social rest service via Delete method with HttpParams is null.
+   * @param targetURL 
+   * @param authPolicy POLICY.NO_AUTH/POLICY.BASIC_AUTH
+   * @return
+   * @throws IOException 
+   * @throws ClientProtocolException 
+   */
+  public static HttpResponse executeDelete(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
+    return executeDelete(targetURL, authPolicy, null);
+  }
+  
   
   /**
    * Gets the byte array from Model object which provides 
@@ -191,9 +247,14 @@ public class SocialHttpClientSupport {
       throw new NullPointerException("HttpResponse argument is not NULL.");
     HttpEntity entity = response.getEntity();
     //Reading the content to the buffered.
-    if (entity != null) {
+    //contentObtained = false: Content does not get yet.
+    //contentObtained = true: Content is buffered by BufferedHttpEntity.
+    if (entity != null && entity.isStreaming()) {
       try {
         entity = new BufferedHttpEntity(entity);
+        //important to setEntity return to Response. If don't assign again, next to get
+        //, you can not get the response content 
+        response.setEntity(entity);
       } catch (IOException ioex) {
         throw new SocialHttpClientException(ioex.toString(), ioex);
       }
@@ -237,6 +298,24 @@ public class SocialHttpClientSupport {
       if (inputstream != null) {
         inputstream.close();
       }
+    }
+  }
+  /**
+   * Handling the error code which contains in HttpResponse. 
+   * @param response HttpResponse
+   * @throws SocialHttpClientException
+   */
+  public static void handleError(HttpResponse response) throws SocialHttpClientException {
+    if (response.getStatusLine().getStatusCode() != 200) {
+      throw new SocialHttpClientException(response.getStatusLine().toString());
+    }
+  }
+  
+  public static void dumpHttpRequestHeader(HttpRequest request) {
+    Header[] headers = request.getAllHeaders();
+    System.out.println("\n\n++++++++++HEADER OF RESPONSE+++++++++++++++++++++++\n\n");
+    for (int i = 0; i < headers.length; i++) {
+      System.out.println(headers[i].getName() + " : " + headers[i].getValue());
     }
   }
 }

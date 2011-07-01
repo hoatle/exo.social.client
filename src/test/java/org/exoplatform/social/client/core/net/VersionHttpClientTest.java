@@ -75,8 +75,8 @@ public class VersionHttpClientTest extends AbstractClientTest {
     String body = SocialHttpClientSupport.getContent(response);
     
     Map versionMap = SocialJSONDecodingSupport.parser(body);
-    String supportedVersion = (String) versionMap.get("versions");
-    String[] versions = supportedVersion.split(",");
+    Object supportedVersion = versionMap.get("versions");
+    String[] versions = supportedVersion.toString().split(",");
     Assert.assertTrue("Verifying the version of rest service.", versions.length > 0);
   }
 }
