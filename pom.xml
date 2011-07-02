@@ -24,6 +24,7 @@
     <junit.version>4.8.2</junit.version>
 
     <maven-surefire-plugin.version>2.7.2</maven-surefire-plugin.version>
+    <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 
     <!-- ***************** -->
     <!-- webdav required to safely deploy large artifacts -->
@@ -88,6 +89,22 @@
         </plugin>
       </plugins>
     </pluginManagement>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <version>${maven-source-plugin.version}</version>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar-no-fork</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
   </build>
 
 </project>
