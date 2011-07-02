@@ -40,33 +40,31 @@ import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.core.net.SocialHttpClientImpl;
 
 /**
- * Created by The eXo Platform SAS
- * Author : eXoPlatform
- *          exo@exoplatform.com
- * Jun 29, 2011  
+ * Created by The eXo Platform SAS Author : eXoPlatform exo@exoplatform.com Jun 29, 2011
  */
 public class SocialHttpClientSupport {
 
   /**
    * Invokes the social rest service via Get
-   * @param targetURL 
-   * @param withBasicAuthenticate Making the Request to Rest Service with Basic Authenticate.
+   *
+   * @param targetURL
+   * @param authPolicy Making the Request to Rest Service with Basic Authenticate.
    * @return
-   * @throws IOException 
-   * @throws ClientProtocolException 
+   * @throws IOException
+   * @throws ClientProtocolException
    */
   public static HttpResponse executeGet(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
     SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
-    if (POLICY.BASIC_AUTH == authPolicy) { 
+    if (POLICY.BASIC_AUTH == authPolicy) {
       httpClient.setBasicAuthenticateToRequest();
     }
-    
+
     HttpGet httpGet = new HttpGet(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
     httpGet.setHeader(header);
-    
-    
-    HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
+
+
+    HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol());
     try {
       return httpClient.execute(targetHost, httpGet);
     } catch (ClientProtocolException cpex) {
@@ -75,24 +73,25 @@ public class SocialHttpClientSupport {
       throw new SocialHttpClientException(ioex.toString(), ioex);
     }
   }
-  
+
   /**
    * Invokes the social rest service via Post
-   * @param targetURL 
+   *
+   * @param targetURL
    * @return
-   * @throws IOException 
-   * @throws ClientProtocolException 
+   * @throws IOException
+   * @throws ClientProtocolException
    */
   public static HttpResponse executePost(String targetURL, POLICY authPolicy, Model model) throws SocialHttpClientException {
-    HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
+    HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol());
     HttpClient httpClient = SocialHttpClientImpl.newInstance();
 
-    
+
     HttpPost httpPost = new HttpPost(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
     httpPost.setHeader(header);
     try {
-      
+
       //Provides when uses post so does not have any data.
       byte[] postData = convertModelToByteArray(model);
       if (postData != null) {
@@ -105,11 +104,12 @@ public class SocialHttpClientSupport {
     } catch (IOException ioex) {
       throw new SocialHttpClientException(ioex.toString(), ioex);
     }
-   
+
   }
+
   /**
    * Invokes the social rest service via Post but does not provide the post data.
-   * 
+   *
    * @param targetURL
    * @param authPolicy
    * @return
@@ -118,11 +118,10 @@ public class SocialHttpClientSupport {
   public static HttpResponse executePost(String targetURL, POLICY authPolicy) throws SocialHttpClientException {
     return executePost(targetURL, authPolicy, null);
   }
-  
+
   /**
-   * Gets the byte array from Model object which provides 
-   * to HttpPost to Rest Service.
-   * 
+   * Gets the byte array from Model object which provides to HttpPost to Rest Service.
+   *
    * @param model Model object
    * @return
    * @throws IOException
@@ -135,18 +134,20 @@ public class SocialHttpClientSupport {
     model.writeJSONString(writer);
     return writer.getBuffer().toString().getBytes("UTF-8");
   }
-  
-  
+
+
   /**
    * Executes the HttpResponse with read the content to buffered.
+   *
    * @param response HttpResponse to process.
    * @return
    * @throws IllegalStateException
    * @throws IOException
    */
   public static HttpEntity processContent(HttpResponse response) throws SocialHttpClientException {
-    if (response == null)
+    if (response == null) {
       throw new NullPointerException("HttpResponse argument is not NULL.");
+    }
     HttpEntity entity = response.getEntity();
     //Reading the content to the buffered.
     if (entity != null) {
@@ -158,17 +159,19 @@ public class SocialHttpClientSupport {
     }
     return entity;
   }
-  
+
   /**
    * Executes the HttpResponse with read the content to buffered.
+   *
    * @param response HttpResponse to process.
    * @return Content of HttpResponse.
    * @throws IllegalStateException
    * @throws IOException
    */
   public static String getContent(HttpResponse response) throws SocialHttpClientException {
-    if (response == null)
+    if (response == null) {
       throw new NullPointerException("HttpResponse argument is not NULL.");
+    }
     HttpEntity entity = processContent(response);
     String content;
     try {
@@ -182,9 +185,10 @@ public class SocialHttpClientSupport {
     }
     return content;
   }
-  
+
   /**
    * Checks the entity and close InputStream
+   *
    * @param entity
    * @throws IllegalStateException
    * @throws IOException
@@ -196,5 +200,23 @@ public class SocialHttpClientSupport {
         inputstream.close();
       }
     }
+  }
+
+  /**
+   * Builds the common rest path from the context.
+   * /{restContextName}/|/{private}|/api/social/{restVersion}/{portalContainerName}/
+   * By using this common rest path, it's easy to append the resource name, for example: activity or identity.
+   *
+   * @param isPrivate indicates is the url needs authentication access.
+   * @return the string path
+   */
+  public static String buildCommonRestPathFromContext(boolean isPrivate) {
+    String privateURL = "";
+    if (isPrivate) {
+      privateURL = "/private";
+    }
+    return "/" + SocialClientContext.getRestContextName() + privateURL +
+            "/api/social/" + SocialClientContext.getRestVersion() +
+            "/" + SocialClientContext.getPortalContainerName() + "/";
   }
 }

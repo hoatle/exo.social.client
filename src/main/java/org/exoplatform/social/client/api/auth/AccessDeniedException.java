@@ -25,4 +25,19 @@ package org.exoplatform.social.client.api.auth;
  */
 public class AccessDeniedException extends RuntimeException {
 
+  /**
+   * Exception without any message.
+   */
+  public AccessDeniedException(){
+    super();
+  }
+
+  /**
+   * Exception with message.
+   *
+   * @param message the message
+   */
+  public AccessDeniedException(String message){
+    super(message);
+  }
 }

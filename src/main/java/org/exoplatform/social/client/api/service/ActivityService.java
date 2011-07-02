@@ -74,10 +74,11 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * Deletes an existing comment.
    *
    * @param existingComment the existing comment
+   * @return the deleted comment
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  void deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException;
+  Comment deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException;
 
 
   /**

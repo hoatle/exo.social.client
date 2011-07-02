@@ -16,8 +16,6 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import java.io.IOException;
-
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
@@ -25,13 +23,15 @@ import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.net.SocialHttpClient;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.model.ActivityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
-import org.json.simple.parser.ParseException;
+import org.exoplatform.social.client.core.model.LikeImpl;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 /**
  * Implementation of {@link ActivityService}.
@@ -40,13 +40,32 @@ import org.json.simple.parser.ParseException;
  * @since Jun 28, 2011
  */
 public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<Activity>> implements ActivityService<Activity> {
+  private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
 
   /**
    * {@inheritDoc}
    */
   @Override
   public Activity create(Activity newInstance) throws AccessDeniedException, ServiceException {
-    return null;
+    final String POST_ACTIVITY_REQUEST_URL = BASE_URL+"activity.json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executePost(POST_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH,
+                                                                  newInstance);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status "+statusCode,null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          Activity activity = SocialJSONDecodingSupport.parser(Activity.class, responseContent);
+          return activity;
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
   /**
@@ -54,15 +73,23 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    */
   @Override
   public Activity get(String uuid) throws AccessDeniedException, ServiceException {
-    final String targetURL = "" + uuid;
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    final String GET_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+uuid+".json";
     try {
-      return SocialJSONDecodingSupport.parser(ActivityImpl.class, response);
-    } catch (IOException ioex) {
-      throw new ServiceException(ActivityServiceImpl.class, "IOException when reads Json Content.", ioex);
-      
-    } catch (ParseException pex) {
-      throw new ServiceException(ActivityServiceImpl.class, "ParseException when reads Json Content.", pex);
+      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status "+statusCode,null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          Activity activity = SocialJSONDecodingSupport.parser(Activity.class, responseContent);
+          return activity;
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
     }
   }
 
@@ -71,8 +98,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    */
   @Override
   public Activity update(Activity existingInstance) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new ServiceException(ActivityServiceImpl.class,"Do Not Support",null);
   }
 
   /**
@@ -80,8 +106,24 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    */
   @Override
   public Activity delete(Activity existingInstance) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    final String DELETE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/destroy/"+existingInstance.getId()+".json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executePost(DELETE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          Activity activity = SocialJSONDecodingSupport.parser(Activity.class, responseContent);
+          return activity;
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
 
@@ -102,8 +144,24 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
   @Override
   public Comment createComment(Activity existingActivity, Comment newComment) throws AccessDeniedException,
                                                                                      ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    final String CREATE_COMMENT_REQUEST_URL = BASE_URL+"activity/"+existingActivity.getId()+"/comment.json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executePost(CREATE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH,newComment);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          Comment comment = SocialJSONDecodingSupport.parser(Comment.class, responseContent);
+          return comment;
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
   /**
@@ -111,36 +169,107 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    */
   @Override
   public Comment getComment(String commentId) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+//    final String GET_ACTIVITY_REQUEST_URL = BASE_URL+commentId+".json";
+//    try {
+//      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
+//      int statusCode = response.getStatusLine().getStatusCode();
+//      if(statusCode != ServiceException.HTTP_OK){
+//          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+//      } else {
+//        String responseContent = SocialHttpClientSupport.getContent(response);
+//        try{
+//          Comment comment = SocialJSONDecodingSupport.parser(Comment.class, responseContent);
+//          return comment;
+//        } catch (Exception e) {
+//          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+//        }
+//      }
+//    } catch (Exception e) {
+//      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+//    }
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-
+  public Comment deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException {
+    final String DELETE_COMMENT_REQUEST_URL = BASE_URL+"activity/"+existingComment.getActivityId() + "/comment/destroy/" +
+                                            existingComment.getId() + ".json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executePost(DELETE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          Comment comment = SocialJSONDecodingSupport.parser(Comment.class, responseContent);
+          return comment;
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Like like(Activity existingActivity) throws AccessDeniedException,
-                                                                                ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+  public Like like(Activity existingActivity) throws AccessDeniedException, ServiceException {
+    final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+existingActivity.getId()+"/like.json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          JSONObject responeJson = (JSONObject)JSONValue.parse(responseContent);
+          if((Boolean) responeJson.get("like")){
+            return new LikeImpl(existingActivity.getId(), null);
+          } else {
+            throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+          }
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+
   @Override
   public Like unlike(Activity existingActivity) throws AccessDeniedException, ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+existingActivity.getId()+"/like/destroy.json";
+    try {
+      HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+      } else {
+        String responseContent = SocialHttpClientSupport.getContent(response);
+        try{
+          JSONObject responeJson = (JSONObject)JSONValue.parse(responseContent);
+          if(!(Boolean) responeJson.get("like")){
+            return new LikeImpl(existingActivity.getId(), null);
+          } else {
+            throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+          }
+        } catch (Exception e) {
+          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        }
+      }
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+    }
   }
 
 }

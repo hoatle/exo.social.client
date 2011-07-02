@@ -37,12 +37,12 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
     ClientContext.setUsername("demo");
     ClientContext.setPassword("gtn");
 
-    Client client = new ClientImpl();
+    ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
 
     //it's all for Client to work, now just get the Service to use
-    ActivityService activityService = client.getActivityService();
+    ActivityService activityService = clientServiceFactory.createActivityService();;
 
-    IdentityService identityService = client.getIdentityService();
+    IdentityService identityService = clientServiceFactory.createIdentityService();
     //...
 
     ActivityService activityService = client.getActivityService();

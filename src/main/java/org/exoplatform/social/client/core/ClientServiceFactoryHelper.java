@@ -19,7 +19,8 @@ package org.exoplatform.social.client.core;
 import org.exoplatform.social.client.api.ClientServiceFactory;
 
 /**
- * The clientServiceFactory helper to get {@link org.exoplatform.social.client.api.ClientServiceFactory} to work with services.
+ * The clientServiceFactory helper to get {@link org.exoplatform.social.client.api.ClientServiceFactory} to work
+ * with services.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
