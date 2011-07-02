@@ -52,7 +52,7 @@ public class IdentityServiceImplTest extends AbstractClientTest {
 
 
   @Test
-  public void testGetIdentityById() {
+  public void testGetIdentityId() {
     String identityId = identityService.getIdentityId("organization", "demo");
     assertThat("identityId must not be null", identityId, notNullValue());
   }

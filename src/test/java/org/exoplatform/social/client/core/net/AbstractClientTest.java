@@ -30,20 +30,42 @@ public abstract class AbstractClientTest {
 
   @Before
   public void setUp() throws Exception {
+    SocialClientContext.setProtocol("http");
     SocialClientContext.setHost("127.0.0.1");
     SocialClientContext.setPort(8080);
-    SocialClientContext.setUsername("demo");
-    SocialClientContext.setPassword("gtn");
-    SocialClientContext.setProtocol("http");
+    SocialClientContext.setPortalContainerName("socialdemo");
+    SocialClientContext.setRestContextName("rest-socialdemo");
+    SocialClientContext.setRestVersion("v1-alpha1");
   }
   
   @After
   public void tearDown() throws Exception {
-
+    SocialClientContext.setProtocol(null);
     SocialClientContext.setHost(null);
     SocialClientContext.setPort(0);
+    SocialClientContext.setPortalContainerName(null);
+    SocialClientContext.setRestContextName(null);
+    SocialClientContext.setRestVersion(null);
+    startSessionAsAnonymous();
+  }
+
+  /**
+   * Starts new session to make any request as anonymous user.
+   */
+  public void startSessionAsAnonymous() {
     SocialClientContext.setUsername(null);
     SocialClientContext.setPassword(null);
-    SocialClientContext.setProtocol(null);
   }
+
+  /**
+   * Starts new session as a authenticated user (with username and password) to make any request.
+   *
+   * @param username  the username
+   * @param password  the password
+   */
+  public void startSessionAs(String username, String password) {
+    SocialClientContext.setUsername(username);
+    SocialClientContext.setPassword(password);
+  }
+
 }

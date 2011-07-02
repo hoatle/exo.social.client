@@ -192,11 +192,11 @@ public class SocialClientContext {
     this.currentContext = currentContext;
   }
 
-  private static String host = "127.0.0.1";
-  private static int port = 8080;
+  private static String host;
+  private static int port;
   private static String protocol = "http";
   private static String portalContainerName;
-  private static String restContextName = "rest-socialdemo";
+  private static String restContextName;
   private static String restVersion = "v1-alpha1";
   private static String username;
   private static String password;
