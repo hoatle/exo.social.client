@@ -31,9 +31,7 @@ import org.exoplatform.social.client.api.model.Like;
 public interface ActivityService<Activity> extends Service<Activity> {
 
   /**
-   * Gets activity stream which is associated with an identity: that user, his connections and his spaces' activities.
-   * These activities are filtered by specifying the list of app ids and the period of time that created these
-   * activities.
+   * Gets activity stream from an owner stream identity.
    *
    * For example:
    * <pre>
@@ -41,14 +39,54 @@ public interface ActivityService<Activity> extends Service<Activity> {
    *    RealtimeListAccess<Activity> activityListAccess = activityService.getActivityStream(demoIdentity);
    * </pre>
    *
-   * @param identity the identity
+   * or:
+   * <pre>
+   *   Identity spaceIdentity = new IdentityImpl();
+   *   spaceIdentity.setProviderId("space");
+   *   spaceIdentity.setRemoteId("hello_world");
+   *   RealtimeListAccess<Activity> activityListAccess = activityService.getActivitySream(spaceIdentity);
+   * </pre>
+   *
+   * @param  ownerStreamIdentity the owner stream identity, could be a user or space identity.
    * @return the real time list access
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException, ServiceException;
+  RealtimeListAccess<Activity> getActivityStream(Identity ownerStreamIdentity) throws AccessDeniedException,
+                                                                                      ServiceException;
 
+  /**
+   * Gets all activities from spaces which a user is a member of that space aggregated into one stream.
+   *
+   * @param userIdentity the associated user identity
+   * @return the real time list access
+   * @throws AccessDeniedException
+   * @throws ServiceException
+   */
+  RealtimeListAccess<Activity> getSpacesActivityStream(Identity userIdentity) throws AccessDeniedException,
+                                                                                     ServiceException;
 
+  /**
+   * Gets all connections' activities aggregated into one stream.
+   *
+   * @param userIdentity the associated user identity
+   * @return the real time list access
+   * @throws AccessDeniedException
+   * @throws ServiceException
+   */
+  RealtimeListAccess<Activity> getConnectionsActivityStream(Identity userIdentity) throws AccessDeniedException,
+                                                                                          ServiceException;
+
+  /**
+   * Gets all activities from a stream owner, his connections and spaces aggregated into one stream.
+   *
+   * @param userIdentity the associated user identity
+   * @return the realtime list access
+   * @throws AccessDeniedException
+   * @throws ServiceException
+   */
+  RealtimeListAccess<Activity> getFeedActivityStream(Identity userIdentity) throws AccessDeniedException,
+                                                                                   ServiceException;
   /**
    * Creates a new comment to this activity.
    *

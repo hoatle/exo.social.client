@@ -137,6 +137,23 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
     return null;
   }
 
+  @Override
+  public RealtimeListAccess<Activity> getSpacesActivityStream(Identity userIdentity) throws AccessDeniedException, ServiceException {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  @Override
+  public RealtimeListAccess<Activity> getConnectionsActivityStream(Identity userIdentity) throws AccessDeniedException,
+                                                                                                 ServiceException {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
+  @Override
+  public RealtimeListAccess<Activity> getFeedActivityStream(Identity userIdentity) throws AccessDeniedException,
+                                                                                          ServiceException {
+    return null;  //To change body of implemented methods use File | Settings | File Templates.
+  }
+
 
   /**
    * {@inheritDoc}
