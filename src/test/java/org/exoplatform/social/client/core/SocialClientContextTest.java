@@ -13,8 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exoplatform.social.client.api;
+package org.exoplatform.social.client.core;
 
+import org.exoplatform.social.client.api.SocialClientContext;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -22,24 +23,26 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit Test for {@link SocialClientContext}.
+ * Unit Test for {@link org.exoplatform.social.client.api.SocialClientContext}'s implementation.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 28, 2011
  */
-public class ClientContextTest {
+public class SocialClientContextTest {
 
   @Test
   public void shouldGetDefaultValues() {
-    assertThat("ClientContext.getHost() must be null", SocialClientContext.getHost(), equalTo("127.0.0.1"));
-    assertThat("ClientContext.getPort() must return 0", SocialClientContext.getPort(), equalTo(8080));
-    assertThat("ClientContext.getPortalContainerName() must be null", SocialClientContext.getPortalContainerName(),
+    assertThat(SocialClientContext.getProtocol(), equalTo("http"));
+    assertThat("SocialClientContext.getHost() must be null", SocialClientContext.getHost(), nullValue());
+    assertThat("SocialClientContext.getPort() must return 0", SocialClientContext.getPort(), equalTo(0));
+    assertThat("SocialClientContext.getPortalContainerName() must be null", SocialClientContext.getPortalContainerName(),
                nullValue());
 
-    assertThat("ClientContext.getRestContextName() must be null", SocialClientContext.getRestContextName(), nullValue());
-    assertThat("ClientContext.getRestVersion() must be null", SocialClientContext.getRestVersion(), nullValue());
-    assertThat("ClientContext.getUsername() must be null", SocialClientContext.getUsername(), nullValue());
-    assertThat("ClientContext.getPassword() must be null", SocialClientContext.getPassword(), nullValue());
+    assertThat("SocialClientContext.getRestContextName() must be null", SocialClientContext.getRestContextName(), nullValue());
+    assertThat("SocialClientContext.getRestVersion() must return: v1-alpha1", SocialClientContext.getRestVersion(),
+            equalTo("v1-alpha1"));
+    assertThat("SocialClientContext.getUsername() must be null", SocialClientContext.getUsername(), nullValue());
+    assertThat("SocialClientContext.getPassword() must be null", SocialClientContext.getPassword(), nullValue());
   }
 
   @Test

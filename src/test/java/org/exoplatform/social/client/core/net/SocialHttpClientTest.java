@@ -16,17 +16,7 @@
  */
 package org.exoplatform.social.client.core.net;
 
-import junit.framework.Assert;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.util.EntityUtils;
-import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
-import org.exoplatform.social.client.core.model.ActivityImpl;
-import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
-import org.junit.After;
-import org.junit.Before;
+import org.exoplatform.social.client.api.net.SocialHttpClient;
 import org.junit.Test;
 
 /**
@@ -36,54 +26,111 @@ import org.junit.Test;
  * Jun 29, 2011  
  */
 public class SocialHttpClientTest extends AbstractClientTest {
-  @Before
-  public void setUp() throws Exception {
+
+  private SocialHttpClient socialHttpClient;
+
+  public void setUp() {
     super.setUp();
-   
+    socialHttpClient = SocialHttpClientImpl.newInstance();
   }
-  
-  @After
-  public void tearDown() throws Exception {
+
+  public void tearDown() {
     super.tearDown();
-    
+    socialHttpClient = null;
   }
-   
+
+  /**
+   * Tests {@link org.exoplatform.social.client.api.net.SocialHttpClient#setBasicAuthenticateToRequest()}.
+   */
   @Test
-  public void testExecuteGetActivityWithHttpClient() throws Exception {
-    final String targetURL = "/rest-socialdemo/private/api/social/v1-alpha1/socialdemo/activity/d51715397f0001010077b5d08ddf12fc.json?poster_identity=1&number_of_comments=10&activity_stream=t";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
-    Assert.assertNotNull("HttpResponse must not be NULL.", response);
-    DumpHttpResponse.dumpHeader(response);
-    HttpEntity entity = SocialHttpClientSupport.processContent(response);
-    Assert.assertNotNull("HttpEntity must not be NULL.", entity);
-    DumpHttpResponse.dumpContent(entity);
-    
-    if (entity.getContentLength() != -1) {
-      String body = EntityUtils.toString(entity);
-      ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, body);
-      Assert.assertTrue(model.getId().length() > 0);
-    }
-    SocialHttpClientSupport.consume(entity);
+  public void testSetBasicAuthenticateToRequest() {
+
   }
-  
-  
+
+  /**
+   * Tests {@link org.exoplatform.social.client.api.net.SocialHttpClient#getParams()}.
+   */
   @Test
-  public void testExecuteGetActivityWithNotDump() throws Exception {
-    final String targetURL = "/rest-socialdemo/private/api/social/v1-alpha1/socialdemo/activity/d51715397f0001010077b5d08ddf12fc.json?poster_identity=1&number_of_comments=10&activity_stream=t";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
-    Assert.assertNotNull("HttpResponse must not be NULL.", response);
-    ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, response);
-    Assert.assertTrue(model.getId().length() > 0);
+  public void testGetParams() {
+
   }
-  
+
+  /**
+   * Tests {@link org.exoplatform.social.client.api.net.SocialHttpClient#getConnectionManager()}.
+   */
   @Test
-  public void testGetByteArrayForPostActivity() throws Exception {
-    String jsonActivity = "{\"title\":\"title from SocialHttlClientTest\",\"identityId\":\"d5039b437f0001010011fd153a4fcbd8\",\"liked\":true}";
-    ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, jsonActivity);
-    System.out.println(model.toJSONString());
-    Assert.assertNotNull(model);
-    byte[] data = SocialHttpClientSupport.convertModelToByteArray(model);
-    Assert.assertNotNull(data);
-    Assert.assertTrue(data.length > 0);
+  public void testGetConnectionManager() {
+
   }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.client.methods.HttpUriRequest)}.
+   */
+  @Test
+  public void testExecuteARequest() {
+
+  }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.client.methods.HttpUriRequest,
+   * org.apache.http.protocol.HttpContext)}.
+   */
+  @Test
+  public void testExecuteARequestWithContext() {
+
+  }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.HttpHost, org.apache.http.HttpRequest)}.
+   */
+  @Test
+  public void testExecuteARequestToATarget() {
+
+  }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.HttpHost, org.apache.http.HttpRequest,
+   * org.apache.http.protocol.HttpContext)}.
+   */
+  @Test
+  public void testExecuteARequestToATargetWithContext() {
+
+  }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.client.methods.HttpUriRequest,
+   * org.apache.http.client.ResponseHandler)}.
+   */
+  @Test
+  public void testExecuteARequestWithResponseHandler() {
+
+  }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.client.methods.HttpUriRequest,
+   * org.apache.http.client.ResponseHandler, org.apache.http.protocol.HttpContext)}.
+   */
+  @Test
+  public void testExecuteARequestWithResponseHandlerAndContext() {
+
+  }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.HttpHost, org.apache.http.HttpRequest,
+   * org.apache.http.client.ResponseHandler, org.apache.http.protocol.HttpContext)}.
+   */
+  @Test
+  public void testExcecuteARequestToATargetWithResponseHandler() {
+
+  }
+
+  /**
+   * Tests {@link SocialHttpClient#execute(org.apache.http.HttpHost, org.apache.http.HttpRequest,
+   * org.apache.http.client.ResponseHandler, org.apache.http.protocol.HttpContext)}.
+   */
+  @Test
+  public void testExecuteARequestToATargetWithResponseHandlerAndContext() {
+
+  }
+
 }

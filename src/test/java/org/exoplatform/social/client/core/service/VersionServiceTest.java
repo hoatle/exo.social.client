@@ -16,14 +16,12 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import junit.framework.Assert;
-
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.service.VersionService;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 /**
  * Created by The eXo Platform SAS
@@ -31,17 +29,17 @@ import org.junit.Test;
  *          exo@exoplatform.com
  * Jun 30, 2011  
  */
-public class VersionServiceImplTest extends AbstractClientTest {
+public class VersionServiceTest extends AbstractClientTest {
 
   private VersionService service = null;
-  @Before
-  public void setUp() throws Exception {
+
+  public void setUp() {
     super.setUp();
     service = new VersionServiceImpl();
   }
   
-  @After
-  public void tearDown() throws Exception {
+
+  public void tearDown() {
     super.tearDown();
     service = null;
   }

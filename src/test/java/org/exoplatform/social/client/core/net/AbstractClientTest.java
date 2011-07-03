@@ -29,7 +29,7 @@ import org.junit.Before;
 public abstract class AbstractClientTest {
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     SocialClientContext.setProtocol("http");
     SocialClientContext.setHost("127.0.0.1");
     SocialClientContext.setPort(8080);
@@ -39,13 +39,13 @@ public abstract class AbstractClientTest {
   }
   
   @After
-  public void tearDown() throws Exception {
-    SocialClientContext.setProtocol(null);
+  public void tearDown() {
+    SocialClientContext.setProtocol("http");
     SocialClientContext.setHost(null);
     SocialClientContext.setPort(0);
     SocialClientContext.setPortalContainerName(null);
     SocialClientContext.setRestContextName(null);
-    SocialClientContext.setRestVersion(null);
+    SocialClientContext.setRestVersion("v1-alpha1");
     startSessionAsAnonymous();
   }
 

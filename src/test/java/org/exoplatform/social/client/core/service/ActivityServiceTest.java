@@ -16,46 +16,27 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.service.IdentityService;
+import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.junit.Test;
-
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
 
 /**
- * Unit Test for {@link IdentityServiceImpl}.
+ * Unit Test for {@link org.exoplatform.social.client.api.service.ActivityService}'s implementation.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since Jul 1, 2011
+ * @since Jul 3, 2011
  */
-public class IdentityServiceImplTest extends AbstractClientTest {
+public class ActivityServiceTest extends AbstractClientTest {
 
-  private IdentityService identityService;
+  private ActivityService activityService;
 
-  @Override
-  public void setUp() throws Exception {
+  public void setUp() {
     super.setUp();
-    identityService = new IdentityServiceImpl();
+    activityService = new ActivityServiceImpl();
   }
 
-  @Override
-  public void tearDown() throws Exception {
-    identityService = null;
+  public void tearDown() {
+    activityService = null;
     super.tearDown();
   }
-
-  @Test
-  public void testGet() {
-    //TODO gets an identity by its id
-  }
-
-
-  @Test
-  public void testGetIdentityId() {
-    String identityId = identityService.getIdentityId("organization", "demo");
-    assertThat("identityId must not be null", identityId, notNullValue());
-  }
-
 
 }
