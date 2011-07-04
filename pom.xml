@@ -33,7 +33,8 @@
     <org.apache.httpclient.version>4.0</org.apache.httpclient.version>
 
     <!-- Maven plugins versions to use -->
-    <maven-surefire-plugin.version>2.7.2</maven-surefire-plugin.version>
+    <maven-failsafe-plugin.version>2.9</maven-failsafe-plugin.version>
+    <maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
     <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 
     <!-- ***************** -->
@@ -97,6 +98,11 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -116,5 +122,35 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>run-its</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <version>2.9</version>
+            <executions>
+              <execution>
+                <id>integration-test</id>
+                <goals>
+                  <goal>integration-test</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>verify</id>
+                <goals>
+                  <goal>verify</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+</profiles>
 
 </project>
