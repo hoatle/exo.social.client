@@ -29,7 +29,7 @@ import junit.framework.Assert;
  *          exo@exoplatform.com
  * Jun 30, 2011  
  */
-public class VersionServiceTest extends AbstractClientTest {
+public class VersionServiceIT extends AbstractClientTest {
 
   private VersionService service = null;
 

@@ -29,7 +29,7 @@ import static org.junit.Assert.assertThat;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
  */
-public class IdentityServiceTest extends AbstractClientTest {
+public class IdentityServiceIT extends AbstractClientTest {
 
   private IdentityService identityService;
 
