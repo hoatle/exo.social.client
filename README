@@ -16,9 +16,20 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
   + cd to lib, run this maven command:
   mvn install:install-file -Dfile=json_simple-1.1.jar -DgroupId=com.googlecode -DartifactId=json_simple -Dversion=1.1 -Dpackaging=jar
-* Download eXo Social 1.2.0-GA tomcat bundle or above and run: "gatein.sh run" on bin directory.
-* Use this command to build project: mvn clean install
-                                                       "
+* Use this command to build project: mvn clean install (by default, run unit tests).
+* To run integration tests:
+  + Default with cargo:
+   mvn clean install -Prun-its
+   With default parameters:
+   social.server.version=1.2.0-GA (latest release with Rest APIs)
+   social.server.host = 127.0.0.1,
+   social.server.port=8080
+   it.cargo.skip=false.
+
+  + With an actual running server: mvn clean install -Prun-its -Dit.cargo.skip=true
+    We can define social.server.host and social.server.port other than defaults, for example:
+    mvn clean install -Prun-its -Dit.cargo.skip=true -Dsocial.server.host=platform35.demo.exoplatform.org -Dsocial.server.port=80
+
 * Jenkins build: https://ci.exoplatform.org/job/social-client-master-ci/
 * Sonar report: https://sonar.exoplatform.org/dashboard/index/81870
 * Ohloh report: https://www.ohloh.net/p/exo-social-client/
