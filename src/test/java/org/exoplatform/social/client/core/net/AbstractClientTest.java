@@ -31,8 +31,9 @@ public abstract class AbstractClientTest {
   @Before
   public void setUp() {
     SocialClientContext.setProtocol("http");
-    SocialClientContext.setHost("127.0.0.1");
-    SocialClientContext.setPort(8080);
+    // Load host and port from System properties if available
+    SocialClientContext.setHost(System.getProperty("social.server.host","127.0.0.1"));
+    SocialClientContext.setPort(Integer.getInteger("social.server.port",8080));
     SocialClientContext.setPortalContainerName("socialdemo");
     SocialClientContext.setRestContextName("rest-socialdemo");
     SocialClientContext.setRestVersion("v1-alpha1");
