@@ -18,7 +18,9 @@
 
 
   <properties>
-    <!-- build properties -->
+    <!-- ################ -->
+    <!-- Project settings -->
+    <!-- ################ -->
 
     <!-- java version -->
     <maven.compiler.source>1.5</maven.compiler.source>
@@ -27,19 +29,31 @@
     <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <!-- integration tests options -->
-    <social.server.host>127.0.0.1</social.server.host>
-    <social.server.port>8080</social.server.port>
-
     <!-- project dependencies versions -->
     <json_simple.version>1.1</json_simple.version>
     <junit.version>4.8.2</junit.version>
     <org.apache.httpclient.version>4.0</org.apache.httpclient.version>
 
+    <!-- ########################## -->
+    <!-- Integration tests settings -->
+    <!-- ########################## -->
+    <!-- social server version -->
+    <social.server.version>1.2.0-GA</social.server.version>
+    <!-- integration tests options -->
+    <social.server.host>127.0.0.1</social.server.host>
+    <social.server.port>8080</social.server.port>
+    <!-- skip cargo execution to use your own server ?? -->
+    <it.skip.cargo>false</it.skip.cargo>
+
+    <!-- ################ -->
+    <!-- Build properties -->
+    <!-- ################ -->
+
     <!-- Maven plugins versions to use -->
+    <cargo-maven2-plugin.version>1.1.1</cargo-maven2-plugin.version>
     <maven-failsafe-plugin.version>2.9</maven-failsafe-plugin.version>
-    <maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
     <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
+    <maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
 
     <!-- ***************** -->
     <!-- webdav required to safely deploy large artifacts -->
@@ -98,19 +112,24 @@
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.codehaus.cargo</groupId>
+          <artifactId>cargo-maven2-plugin</artifactId>
+          <version>${cargo-maven2-plugin.version}</version>
+        </plugin>
+        <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-failsafe-plugin</artifactId>
           <version>${maven-failsafe-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-surefire-plugin</artifactId>
-          <version>${maven-surefire-plugin.version}</version>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-source-plugin</artifactId>
-          <version>${maven-source-plugin.version}</version>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>${maven-surefire-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -136,6 +155,77 @@
       <id>run-its</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.2</version>
+            <executions>
+              <execution>
+                <id>unpack</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>unpack</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>org.exoplatform.social</groupId>
+                      <artifactId>exo.social.packaging.pkg</artifactId>
+                      <version>${social.server.version}</version>
+                      <classifier>tomcat</classifier>
+                      <type>zip</type>
+                      <overWrite>false</overWrite>
+                      <outputDirectory>${project.build.directory}/social-server/</outputDirectory>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Start/Stop the social server used for tests -->
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>start-container</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>stop-container</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <skip>${it.skip.cargo}</skip>
+              <!-- Container configuration -->
+              <container>
+                <containerId>tomcat6x</containerId>
+                <home>${project.build.directory}/social-server/eXoSocial-${social.server.version}/</home>
+                <type>installed</type>
+                <timeout>240000</timeout>
+                <systemProperties>
+                  <org.apache.commons.logging.Log>org.apache.commons.logging.impl.SimpleLog</org.apache.commons.logging.Log>
+                  <java.security.auth.login.config>../conf/jaas.conf</java.security.auth.login.config>
+                  <gatein.data.dir>${project.build.directory}/tomcat-trial/gatein/data</gatein.data.dir>
+                  <exo.product.developing>false</exo.product.developing>
+                  <exo.conf.dir.name>gatein/conf</exo.conf.dir.name>
+                </systemProperties>
+              </container>
+              <!-- Configuration to use with the container -->
+              <configuration>
+                <type>existing</type>
+                <home>${project.build.directory}/social-server/eXoSocial-${social.server.version}/</home>
+              </configuration>
+            </configuration>
+          </plugin>
+          <!-- Execute integration tests -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
