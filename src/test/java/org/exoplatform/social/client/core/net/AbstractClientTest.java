@@ -39,7 +39,7 @@ public abstract class AbstractClientTest {
   @Before
   public void setUp() throws Exception {
     SocialClientContext.setPort(8080);
-    SocialClientContext.setUsername("demo");
+    SocialClientContext.setUsername("root");
     SocialClientContext.setPassword("gtn");
     SocialClientContext.setProtocol("http");
   }

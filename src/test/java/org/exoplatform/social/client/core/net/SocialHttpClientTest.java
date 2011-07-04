@@ -105,9 +105,11 @@ public class SocialHttpClientTest extends AbstractClientTest {
   @Test
   public void testGetDemoIdentityFromAbstract() throws Exception {
     String uid = getDemoIdentityId();
+    System.out.println("DEMOIdentityId = " + uid);
     Assert.assertNotNull("Idenity DEMO id must not be null.", uid);
     Assert.assertTrue("Idenity DEMO id must be greater than zero..", uid.length() > 0);
-    final String targetURL = "/" + SocialClientContext.getRestContextName() + "/api/social/v1-alpha1/portal/identity/" + uid + ".json";
+    //private/api/social/v1-alpha1/socialdemo/identity/e40cbe7a7f00010101fd277fb276f3cd.json
+    final String targetURL = "/" + SocialClientContext.getRestContextName() + "/private/api/social/v1-alpha1/socialdemo/identity/" + uid + ".json";
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
     SocialHttpClientSupport.handleError(response);
     DumpHttpResponse.dumpHeader(response);

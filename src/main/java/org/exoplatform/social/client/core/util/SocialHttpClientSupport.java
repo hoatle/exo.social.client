@@ -25,6 +25,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
@@ -318,11 +319,15 @@ public class SocialHttpClientSupport {
    * @throws SocialHttpClientException
    */
   public static void handleError(HttpResponse response) throws SocialHttpClientException {
-    if (response.getStatusLine().getStatusCode() != 200) {
+    if (response.getStatusLine().getStatusCode() != HttpStatus.SC_OK) {
       throw new SocialHttpClientException(response.getStatusLine().toString());
     }
   }
   
+  /**
+   * Dump the HttpRequestHeader for debugging.
+   * @param request
+   */
   public static void dumpHttpRequestHeader(HttpRequest request) {
     Header[] headers = request.getAllHeaders();
     System.out.println("\n\n++++++++++HEADER OF RESPONSE+++++++++++++++++++++++\n\n");
