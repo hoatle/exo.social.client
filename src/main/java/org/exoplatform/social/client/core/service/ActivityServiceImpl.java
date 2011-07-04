@@ -29,6 +29,7 @@ import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.core.model.ActivityRealTimeListAccess;
 import org.exoplatform.social.client.core.model.LikeImpl;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -133,8 +134,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
   @Override
   public RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException,
                                                                           ServiceException {
-    // TODO Auto-generated method stub
-    return null;
+    return new ActivityRealTimeListAccess(identity);
   }
 
   @Override
