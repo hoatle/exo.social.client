@@ -27,6 +27,10 @@
     <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
+    <!-- integration tests options -->
+    <social.server.host>127.0.0.1</social.server.host>
+    <social.server.port>8080</social.server.port>
+
     <!-- project dependencies versions -->
     <json_simple.version>1.1</json_simple.version>
     <junit.version>4.8.2</junit.version>
@@ -95,13 +99,18 @@
       <plugins>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>${maven-failsafe-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>${maven-failsafe-plugin.version}</version>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${maven-source-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -109,7 +118,6 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>${maven-source-plugin.version}</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -131,7 +139,12 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-failsafe-plugin</artifactId>
-            <version>2.9</version>
+            <configuration>
+              <systemPropertyVariables>
+                <social.server.host>${social.server.host}</social.server.host>
+                <social.server.port>${social.server.port}</social.server.port>
+              </systemPropertyVariables>
+            </configuration>
             <executions>
               <execution>
                 <id>integration-test</id>
@@ -150,7 +163,6 @@
         </plugins>
       </build>
     </profile>
-
-</profiles>
+  </profiles>
 
 </project>
