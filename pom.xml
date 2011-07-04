@@ -19,15 +19,20 @@
 
   <properties>
     <!-- build properties -->
+
+    <!-- java version -->
     <maven.compiler.source>1.5</maven.compiler.source>
     <maven.compiler.target>1.5</maven.compiler.target>
 
+    <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <json_simple.version>1.1</json_simple.version>
 
+    <!-- project dependencies versions -->
+    <json_simple.version>1.1</json_simple.version>
     <junit.version>4.8.2</junit.version>
     <org.apache.httpclient.version>4.0</org.apache.httpclient.version>
 
+    <!-- Maven plugins versions to use -->
     <maven-surefire-plugin.version>2.7.2</maven-surefire-plugin.version>
     <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
 
