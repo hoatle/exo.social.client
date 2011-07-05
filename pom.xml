@@ -211,9 +211,10 @@
                 <type>installed</type>
                 <timeout>240000</timeout>
                 <systemProperties>
+                  <java.util.logging.manager>org.apache.juli.ClassLoaderLogManager</java.util.logging.manager>
+                  <java.util.logging.config.file>${project.build.directory}/social-server/eXoSocial-${social.server.version}/conf/logging.properties</java.util.logging.config.file>
                   <org.apache.commons.logging.Log>org.apache.commons.logging.impl.SimpleLog</org.apache.commons.logging.Log>
-                  <java.security.auth.login.config>../conf/jaas.conf</java.security.auth.login.config>
-                  <gatein.data.dir>${project.build.directory}/tomcat-trial/gatein/data</gatein.data.dir>
+                  <java.security.auth.login.config>${project.build.directory}/social-server/eXoSocial-${social.server.version}/conf/jaas.conf</java.security.auth.login.config>
                   <exo.product.developing>false</exo.product.developing>
                   <exo.conf.dir.name>gatein/conf</exo.conf.dir.name>
                 </systemProperties>
@@ -222,6 +223,9 @@
               <configuration>
                 <type>existing</type>
                 <home>${project.build.directory}/social-server/eXoSocial-${social.server.version}/</home>
+                <properties>
+                  <cargo.jvm.args>-Xms128m -Xmx512m -XX:MaxPermSize=256m</cargo.jvm.args>
+                </properties>
               </configuration>
             </configuration>
           </plugin>
