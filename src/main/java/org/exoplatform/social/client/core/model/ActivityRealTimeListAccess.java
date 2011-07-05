@@ -12,6 +12,9 @@ import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.service.ActivityServiceImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 public class ActivityRealTimeListAccess implements RealtimeListAccess<Activity> {
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
@@ -31,10 +34,11 @@ public class ActivityRealTimeListAccess implements RealtimeListAccess<Activity> 
       if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
           throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status "+statusCode,null);
       } else {
-        String responseContent = SocialHttpClientSupport.getContent(response);
         try{
-          Activity[] activities = null;
-          return activities;
+          JSONObject jsonObject = (JSONObject) JSONValue.parse(SocialHttpClientSupport.getContent(response));
+          JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
+          List<ActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonArray.toJSONString());
+          return (ActivityImpl[]) activities.toArray();
         } catch (Exception e) {
           throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
         }

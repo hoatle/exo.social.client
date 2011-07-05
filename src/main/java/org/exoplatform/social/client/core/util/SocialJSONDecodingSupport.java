@@ -115,7 +115,7 @@ public class SocialJSONDecodingSupport {
     };
     return (Map) parser.parse(jsonContent, containerFactory);
   }
-  
+
   /**
    * HttpResponse text into java Map object from the input source.
    *  
@@ -157,13 +157,13 @@ public class SocialJSONDecodingSupport {
    * @author Ly Minh Phuong - http://phuonglm.net
    * @param <T>
    * @param clazz
-   * @param jsonContent
+   * @param jsonArrayContent
    * @return
    * @throws IOException
    * @throws ParseException
    */
-  public static <T extends Model > List<T> JSONArrayObjectParser(final Class<T> clazz, String jsonContent) throws IOException, ParseException{
-    JSONArray jsonResultArray = (JSONArray)JSONValue.parse(jsonContent);
+  public static <T extends Model > List<T> JSONArrayObjectParser(final Class<T> clazz, String jsonArrayContent) throws IOException, ParseException{
+    JSONArray jsonResultArray = (JSONArray)JSONValue.parse(jsonArrayContent);
     List<T> result = new ArrayList<T>();
     for (Object jsonObject : jsonResultArray) {
       String jsonString = jsonObject.toString();
