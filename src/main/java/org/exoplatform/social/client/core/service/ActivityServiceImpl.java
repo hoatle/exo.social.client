@@ -16,6 +16,8 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import java.io.IOException;
+
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;

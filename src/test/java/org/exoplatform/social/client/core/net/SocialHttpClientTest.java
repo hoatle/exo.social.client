@@ -85,7 +85,7 @@ public class SocialHttpClientTest extends AbstractClientTest {
    */
   @Test
   public void testExecuteARequestToATarget() {
-
+    
   }
 
   /**
