@@ -116,30 +116,6 @@ public class SocialJSONDecodingSupport {
     return (Map) parser.parse(jsonContent, containerFactory);
   }
   
-  /**
-   *  
-   * @author Ly Minh Phuong - http://phuonglm.net
-   * @param <T>
-   * @param clazz
-   * @param response
-   * @return
-   * @throws IOException
-   * @throws ParseException
-   */
-  public static <T extends Model > List<T> JSONArrayObjectParser(final Class<T> clazz, HttpResponse response) throws IOException, ParseException{
-    //Read InputStream from HttpResponse to Buffered
-    HttpEntity entity = SocialHttpClientSupport.processContent(response);
-    //Check the content length
-    if (entity.getContentLength() != -1) {
-      //getting the HttpResponse content
-      String jsonContent = EntityUtils.toString(entity);
-      //close stream
-      SocialHttpClientSupport.consume(entity);
-      return JSONArrayObjectParser(clazz, jsonContent);
-    } else {
-      return null;
-    }
-  }
   
   /**
    * 
@@ -151,8 +127,8 @@ public class SocialJSONDecodingSupport {
    * @throws IOException
    * @throws ParseException
    */
-  public static <T extends Model > List<T> JSONArrayObjectParser(final Class<T> clazz, String jsonContent) throws IOException, ParseException{
-    JSONArray jsonResultArray = (JSONArray)JSONValue.parse(jsonContent);
+  public static <T extends Model > List<T> JSONArrayObjectParser(final Class<T> clazz, String jsonArrayContent) throws IOException, ParseException{
+    JSONArray jsonResultArray = (JSONArray)JSONValue.parse(jsonArrayContent);
     List<T> result = new ArrayList<T>();
     for (Object jsonObject : jsonResultArray) {
       String jsonString = jsonObject.toString();
