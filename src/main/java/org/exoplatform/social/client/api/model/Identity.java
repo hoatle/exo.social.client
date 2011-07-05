@@ -38,7 +38,9 @@ public interface Identity extends Model {
     /** the json field for userId. */
     PROVIDER_ID("providerId"),
     /** the json field for activityId. */
-    REMOTE_ID("remoteId");
+    REMOTE_ID("remoteId"),
+    /**the json profile object*/
+    PROFILE("profile");
 
     /**
      * The json field that the instance represents.

@@ -16,17 +16,12 @@
  */
 package org.exoplatform.social.client.core.net;
 
-import java.util.Map;
-
 import junit.framework.TestCase;
-
-import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.model.Identity;
-import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
-import org.exoplatform.social.client.core.model.IdentityImpl;
-import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.api.service.IdentityService;
+import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.service.IdentityServiceImpl;
 import org.junit.After;
 import org.junit.Before;
 
@@ -38,6 +33,8 @@ import org.junit.Before;
  */
 public abstract class AbstractClientTest extends TestCase {
 
+  protected IdentityService<Identity> identityService;
+  
   @Before
   public void setUp() {
     SocialClientContext.setProtocol("http");
@@ -47,6 +44,8 @@ public abstract class AbstractClientTest extends TestCase {
     SocialClientContext.setPortalContainerName("socialdemo");
     SocialClientContext.setRestContextName("rest-socialdemo");
     SocialClientContext.setRestVersion("v1-alpha1");
+    SocialClientContext.setIsDeveloping(true);
+    identityService = new IdentityServiceImpl();
   }
   
   @After
@@ -57,7 +56,9 @@ public abstract class AbstractClientTest extends TestCase {
     SocialClientContext.setPortalContainerName(null);
     SocialClientContext.setRestContextName(null);
     SocialClientContext.setRestVersion("v1-alpha1");
+    SocialClientContext.setIsDeveloping(false);
     startSessionAsAnonymous();
+    identityService = null;
   }
 
   /**
@@ -77,6 +78,13 @@ public abstract class AbstractClientTest extends TestCase {
   public void startSessionAs(String username, String password) {
     SocialClientContext.setUsername(username);
     SocialClientContext.setPassword(password);
+  }
+  /**
+   * Support to get the IdentityId value.
+   * @return
+   */
+  protected String getDemoIdentityId() throws ServiceException {
+    return identityService.getIdentityId("organization", "demo");
   }
   
 }

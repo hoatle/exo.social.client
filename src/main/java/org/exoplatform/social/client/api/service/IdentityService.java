@@ -30,6 +30,6 @@ public interface IdentityService<Identity> extends Service<Identity> {
    * @param remoteId the remote id
    * @return the uuid
    */
-  String getIdentityId(String provider, String remoteId);
+  String getIdentityId(String provider, String remoteId) throws ServiceException;
 
 }

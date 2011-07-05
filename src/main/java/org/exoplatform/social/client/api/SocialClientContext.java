@@ -185,11 +185,21 @@ public class SocialClientContext {
   
 
   /**
-   * Getting Development mode.
-   * @return
+   * Checks to know if this lib is running on development mode to log more info.
+   *
+   * @return a boolean value
    */
   public static boolean isDeveloping() {
     return isDeveloping;
+  }
+
+  /**
+   * Sets this lib to run on developing mode or not.
+   *
+   * @param isDevelopingMode a boolean value
+   */
+  public static void setIsDeveloping(boolean isDevelopingMode) {
+    isDeveloping = isDevelopingMode;
   }
 
   /**
@@ -207,9 +217,9 @@ public class SocialClientContext {
   private static String portalContainerName;
   private static String restContextName;
   private static String restVersion = "v1-alpha1";
-  private static String username = "demo";
-  private static String password = "gtn";
-  private static boolean isDeveloping = true;
+  private static String username;
+  private static String password;
+  private static boolean isDeveloping = false;
   
   private Context currentContext;
 
