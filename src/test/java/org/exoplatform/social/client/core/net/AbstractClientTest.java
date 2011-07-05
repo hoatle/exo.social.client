@@ -18,6 +18,8 @@ package org.exoplatform.social.client.core.net;
 
 import java.util.Map;
 
+import junit.framework.TestCase;
+
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.model.Identity;
@@ -34,7 +36,7 @@ import org.junit.Before;
  *          exo@exoplatform.com
  * Jun 29, 2011  
  */
-public abstract class AbstractClientTest {
+public abstract class AbstractClientTest extends TestCase {
 
   @Before
   public void setUp() {
