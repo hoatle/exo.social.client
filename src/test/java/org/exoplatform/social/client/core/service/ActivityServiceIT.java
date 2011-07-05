@@ -80,4 +80,14 @@ public class ActivityServiceIT extends AbstractClientTest {
       //expected
     }
   }
+  @Test
+  public void testGetActivitySteam() {
+    startSessionAs("demo", "gtn");
+    String demoIdentityId = identityService.getIdentityId("organization", "demo");
+//    String time = new Date().toString();
+//    
+//    activityToCreate.setTitle("Hello PhuongLM!!!");
+//    Activity activityResult = activityService.create(activityToCreate);
+//    activityService.create(newInstance)
+  }
 }
