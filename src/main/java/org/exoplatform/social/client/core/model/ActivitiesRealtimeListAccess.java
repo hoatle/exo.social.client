@@ -109,18 +109,22 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     switch (activityType) {
       case ACTIVITY_STREAM: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
       
       case ACTIVITY_FEED: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
       
       case CONNECTIONS_ACTIVITIES: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
       
       case USER_SPACE_ACTIVITIES: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
     }
     response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
@@ -140,18 +144,22 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     switch (activityType) {
       case ACTIVITY_STREAM: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/older/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
       
       case ACTIVITY_FEED: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/older/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
       
       case CONNECTIONS_ACTIVITIES: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/older/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
       
       case USER_SPACE_ACTIVITIES: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/older/" + baseElement.getId() + ".json?limit=" + limit;
+        break;
       }
     }
     response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
@@ -166,7 +174,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
 
   @Override
   public Activity[] load(int index, int limit) {
-    return (Activity[]) this.loadAsList(index, limit).toArray();
+    return this.convertListToArray(this.loadAsList(index, limit), Activity.class);
   }
 
   @Override
@@ -176,18 +184,22 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     switch (activityType) {
       case ACTIVITY_STREAM: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/default.json?limit=" + limit;
+        break;
       }
       
       case ACTIVITY_FEED: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/default.json?limit=" + limit;
+        break;
       }
       
       case CONNECTIONS_ACTIVITIES: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/default.json?limit=" + limit;
+        break;
       }
       
       case USER_SPACE_ACTIVITIES: {
         requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/default.json?limit=" + limit;
+        break;
       }
     }
     response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
@@ -247,5 +259,16 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     } catch (Exception e) {
       throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
     }
+  }
+  
+  /**
+   * Converts a list to an array.
+   * 
+   * @param list List to be converted to array.
+   * @param type Type of list's and array's element.
+   * @return An array with the same type of element in list.
+   */
+  private <T> T[] convertListToArray(List<T> list, Class<T> type) {
+    return list.toArray((T[])java.lang.reflect.Array.newInstance(type, list.size()));
   }
 }

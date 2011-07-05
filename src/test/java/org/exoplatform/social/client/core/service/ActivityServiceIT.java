@@ -16,6 +16,12 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
+
+import java.sql.Date;
+
+import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.service.ActivityService;
@@ -63,8 +69,7 @@ public class ActivityServiceIT extends AbstractClientTest {
     
     assertThat(activityResult.getId(), notNullValue());
     assertThat(activityResult.getTitle(), equalTo("Hello PhuongLM!!!"));
-    assertThat(activityResult.getIdentityId(), equalTo(demoIdentityId));
-    
+
     String createdActivityId = activityResult.getId();
     activityResult = activityService.get(createdActivityId);
     
@@ -83,11 +88,30 @@ public class ActivityServiceIT extends AbstractClientTest {
   @Test
   public void testGetActivitySteam() {
     startSessionAs("demo", "gtn");
+
     String demoIdentityId = identityService.getIdentityId("organization", "demo");
-//    String time = new Date().toString();
-//    
-//    activityToCreate.setTitle("Hello PhuongLM!!!");
-//    Activity activityResult = activityService.create(activityToCreate);
-//    activityService.create(newInstance)
+    Identity demoIdentity = identityService.get(demoIdentityId);
+    
+    int i = 10;
+    createActivities(i);
+    RealtimeListAccess<Activity> result = activityService.getActivityStream(demoIdentity);
+    for(int j = 0; i < j; i++){
+      assertThat(result.load(j, j+1)[0].getTitle(), equalTo(new Integer(j).toString()));
+    }
+    Activity[] resultArray = result.load(0, i);
+    for (Activity activity : resultArray) {
+      activityService.delete(activity);
+    }
+    // TODO: Cause the Rest API don't provide relationship and space interface so 
+    // we cannot create data for test conntectionActivityStream and spaceActivitySteam.
+    // Improve in next verison
+  }
+  
+  public void createActivities(int numberOfActivity){
+    for (int i = 0 ; i < numberOfActivity ; i++){
+      Activity activityToCreate = new ActivityImpl();
+      activityToCreate.setTitle(""+i);
+      Activity activityResult = activityService.create(activityToCreate);
+    }
   }
 }
