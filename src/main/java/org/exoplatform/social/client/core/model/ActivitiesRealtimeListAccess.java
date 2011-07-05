@@ -98,27 +98,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
 
   @Override
   public Activity[] loadNewer(Activity baseElement, int limit) {
-    String requestURL = null;
-    HttpResponse response = null;
-    switch (activityType) {
-      case ACTIVITY_STREAM: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/newer/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-      
-      case ACTIVITY_FEED: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/newer/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-      
-      case CONNECTIONS_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/newer/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-      
-      case USER_SPACE_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/newer/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-    }
-    response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
-    return this.getArrayActivitiesFromResponse(response);
+    return (Activity[]) this.loadNewerAsList(baseElement, limit).toArray();
   }
 
   @Override
@@ -149,28 +129,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
 
   @Override
   public Activity[] loadOlder(Activity baseElement, int limit) {
-    String requestURL = null;
-    HttpResponse response = null;
-    
-    switch (activityType) {
-      case ACTIVITY_STREAM: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/older/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-      
-      case ACTIVITY_FEED: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/older/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-      
-      case CONNECTIONS_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/older/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-      
-      case USER_SPACE_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/older/" + baseElement.getId() + ".json?limit=" + limit;
-      }
-    }
-    response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
-    return this.getArrayActivitiesFromResponse(response);
+    return (Activity[]) this.loadOlderAsList(baseElement, limit).toArray();
   }
 
   @Override
@@ -207,27 +166,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
 
   @Override
   public Activity[] load(int index, int limit) {
-    String requestURL = null;
-    HttpResponse response = null;
-    switch (activityType) {
-      case ACTIVITY_STREAM: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/default.json?limit=" + limit;
-      }
-      
-      case ACTIVITY_FEED: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/default.json?limit=" + limit;
-      }
-      
-      case CONNECTIONS_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/default.json?limit=" + limit;
-      }
-      
-      case USER_SPACE_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/default.json?limit=" + limit;
-      }
-    }
-    response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
-    return this.getArrayActivitiesFromResponse(response);
+    return (Activity[]) this.loadAsList(index, limit).toArray();
   }
 
   @Override
@@ -289,23 +228,6 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    */
   public void setOwnerIdentity(Identity ownerIdentity) {
     this.ownerIdentity = ownerIdentity;
-  }
-  
-  /**
-   * Gets the array activities from response.
-   * 
-   * @param response
-   * @return
-   */
-  private Activity[] getArrayActivitiesFromResponse(HttpResponse response) {
-    try {
-      JSONObject jsonObject = (JSONObject) JSONValue.parse(SocialHttpClientSupport.getContent(response));
-      JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-      List<ActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonArray.toJSONString());
-      return (ActivityImpl[]) activities.toArray();
-    } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
-    }
   }
   
   /**
