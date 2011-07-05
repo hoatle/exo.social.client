@@ -19,6 +19,8 @@ package org.exoplatform.social.client.core.service;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import java.sql.Date;
+
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.service.ActivityService;
@@ -77,5 +79,15 @@ public class ActivityServiceIT extends AbstractClientTest {
     } catch (ServiceException e) {
       //expected
     }
+  }
+  @Test
+  public void testGetActivitySteam() {
+    startSessionAs("demo", "gtn");
+    String DemoIdentityId = identityService.getIdentityId("organization", "demo");
+//    String time = new Date().toString();
+//    
+//    activityToCreate.setTitle("Hello PhuongLM!!!");
+//    Activity activityResult = activityService.create(activityToCreate);
+//    activityService.create(newInstance)
   }
 }
