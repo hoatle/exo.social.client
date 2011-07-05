@@ -111,4 +111,18 @@ public class SocialJSONDecodingSupport {
     };
     return (Map) parser.parse(jsonContent, containerFactory);
   }
+  
+  
+  
+  /**
+   * HttpResponse text into java Map object from the input source.
+   *  
+   * @param HttpResponse HttpResponse to get the content.
+   * @throws ParseException Throw this exception if any
+   */
+  public static Map parser(HttpResponse response) throws ParseException {
+    String jsonContent = SocialHttpClientSupport.getContent(response);
+    return parser(jsonContent);
+  }
+  
 }

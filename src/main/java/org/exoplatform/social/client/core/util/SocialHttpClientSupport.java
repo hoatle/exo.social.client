@@ -76,7 +76,9 @@ public class SocialHttpClientSupport {
       dumpHttpRequestHeader(httpGet);
     }
     try {
-      return httpClient.execute(targetHost, httpGet);
+      HttpResponse response = httpClient.execute(targetHost, httpGet);
+      handleError(response);
+      return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
     } catch (IOException ioex) {
@@ -129,7 +131,9 @@ public class SocialHttpClientSupport {
       if (SocialClientContext.isDeveloping()) {
         dumpHttpRequestHeader(httpPost);
       }
-      return httpClient.execute(targetHost, httpPost);
+      HttpResponse response = httpClient.execute(targetHost, httpPost);
+      handleError(response);
+      return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
     } catch (IOException ioex) {
@@ -203,7 +207,10 @@ public class SocialHttpClientSupport {
       if (SocialClientContext.isDeveloping()) {
         dumpHttpRequestHeader(httpDelete);
       }
-      return httpClient.execute(targetHost, httpDelete);
+      
+      HttpResponse response = httpClient.execute(targetHost, httpDelete);
+      handleError(response);
+      return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
     } catch (IOException ioex) {

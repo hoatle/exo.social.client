@@ -56,4 +56,6 @@ public class SocialJSONDecodingSupportTest {
     Map modelMap = SocialJSONDecodingSupport.parser(jsonActivity);
     Assert.assertEquals("d5039b437f0001010011fd153a4fcbd8", modelMap.get("identityId"));
   }
+  
+ 
 }
