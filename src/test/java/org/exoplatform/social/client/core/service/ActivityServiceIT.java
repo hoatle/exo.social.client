@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThat;
 
 import java.sql.Date;
 
+import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.service.ActivityService;
@@ -84,10 +85,28 @@ public class ActivityServiceIT extends AbstractClientTest {
   public void testGetActivitySteam() {
     startSessionAs("demo", "gtn");
     String DemoIdentityId = identityService.getIdentityId("organization", "demo");
-//    String time = new Date().toString();
-//    
-//    activityToCreate.setTitle("Hello PhuongLM!!!");
-//    Activity activityResult = activityService.create(activityToCreate);
-//    activityService.create(newInstance)
+    Identity demoIdentity = identityService.get(DemoIdentityId);
+    
+    int i = 10;
+    createActivities(i);
+    RealtimeListAccess<Activity> result = activityService.getActivityStream(demoIdentity);
+    for(int j = 0; i < j; i++){
+      assertEquals(new Integer(j), result.load(j, j+1)[0].getTitle());
+    }
+    Activity[] resultArray = result.load(0, i);
+    for (Activity activity : resultArray) {
+      activityService.delete(activity);
+    }
+    // TODO: Cause the Rest API don't provide relationship and space interface so 
+    // we cannot create data for test conntectionActivityStream and spaceActivitySteam.
+    // Improve in next verison
+  }
+  
+  public void createActivities(int numberOfActivity){
+    for (int i = 0 ; i < numberOfActivity ; i++){
+      Activity activityToCreate = new ActivityImpl();
+      activityToCreate.setTitle(""+i);
+      Activity activityResult = activityService.create(activityToCreate);
+    }
   }
 }
