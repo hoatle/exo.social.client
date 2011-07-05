@@ -25,16 +25,16 @@ import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
-import org.exoplatform.social.client.api.net.SocialHttpClient;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.exoplatform.social.client.core.model.ActivityImpl;
-import org.exoplatform.social.client.core.model.ActivityRealTimeListAccess;
 import org.exoplatform.social.client.core.model.CommentImpl;
+import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess;
 import org.exoplatform.social.client.core.model.LikeImpl;
+import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess.ActivityType;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -110,24 +110,24 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
   @Override
   public RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException,
                                                                           ServiceException {
-    return new ActivityRealTimeListAccess(identity);
+    return new ActivitiesRealtimeListAccess(identity, ActivityType.ACTIVITY_STREAM);
   }
 
   @Override
   public RealtimeListAccess<Activity> getSpacesActivityStream(Identity userIdentity) throws AccessDeniedException, ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.USER_SPACE_ACTIVITIES);
   }
 
   @Override
   public RealtimeListAccess<Activity> getConnectionsActivityStream(Identity userIdentity) throws AccessDeniedException,
                                                                                                  ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.CONNECTIONS_ACTIVITIES);
   }
 
   @Override
   public RealtimeListAccess<Activity> getFeedActivityStream(Identity userIdentity) throws AccessDeniedException,
                                                                                           ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.ACTIVITY_FEED);
   }
 
 
