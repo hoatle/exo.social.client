@@ -19,14 +19,16 @@ package org.exoplatform.social.client.core.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringWriter;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -71,13 +73,14 @@ public class SocialHttpClientSupport {
       httpGet.setParams(params);
     }
     
-    //Debugging in the development mode
-    if (SocialClientContext.isDeveloping()) {
-      dumpHttpRequestHeader(httpGet);
-    }
     try {
       HttpResponse response = httpClient.execute(targetHost, httpGet);
       handleError(response);
+      //Debugging in the devlopment mode
+      if (SocialClientContext.isDeveloping()) {
+        dumpHttpResponsetHeader(response);
+        dumpContent(response);
+      }
       return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -109,8 +112,11 @@ public class SocialHttpClientSupport {
    */
   public static HttpResponse executePost(String targetURL, POLICY authPolicy, HttpParams params, Model model) throws SocialHttpClientException {
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
-    HttpClient httpClient = SocialHttpClientImpl.newInstance();
+    SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
 
+    if (POLICY.BASIC_AUTH == authPolicy) {
+      httpClient.setBasicAuthenticateToRequest();
+    }
 
     HttpPost httpPost = new HttpPost(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
@@ -127,12 +133,14 @@ public class SocialHttpClientSupport {
         ByteArrayEntity entity = new ByteArrayEntity(convertModelToByteArray(model));
         httpPost.setEntity(entity);
       }
+      HttpResponse response = httpClient.execute(targetHost, httpPost);
+      
+      handleError(response);
       //Debugging in the devlopment mode
       if (SocialClientContext.isDeveloping()) {
-        dumpHttpRequestHeader(httpPost);
+        dumpHttpResponsetHeader(response);
+        dumpContent(response);
       }
-      HttpResponse response = httpClient.execute(targetHost, httpPost);
-      handleError(response);
       return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -192,8 +200,11 @@ public class SocialHttpClientSupport {
    */
   public static HttpResponse executeDelete(String targetURL, POLICY authPolicy, HttpParams params) throws SocialHttpClientException {
     HttpHost targetHost = new HttpHost(SocialClientContext.getHost(), SocialClientContext.getPort(), SocialClientContext.getProtocol()); 
-    HttpClient httpClient = SocialHttpClientImpl.newInstance();
+    SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
 
+    if (POLICY.BASIC_AUTH == authPolicy) {
+      httpClient.setBasicAuthenticateToRequest();
+    }
     
     HttpDelete httpDelete = new HttpDelete(targetURL);
     Header header = new BasicHeader("Content-Type", "application/json");
@@ -203,13 +214,13 @@ public class SocialHttpClientSupport {
       httpDelete.setParams(params);
     }
     try {
-      //Debugging in the devlopment mode
-      if (SocialClientContext.isDeveloping()) {
-        dumpHttpRequestHeader(httpDelete);
-      }
-      
       HttpResponse response = httpClient.execute(targetHost, httpDelete);
       handleError(response);
+      //Debugging in the devlopment mode
+      if (SocialClientContext.isDeveloping()) {
+        dumpHttpResponsetHeader(response);
+        dumpContent(response);
+      }
       return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -349,11 +360,39 @@ public class SocialHttpClientSupport {
     }
   }
   
-  public static void dumpHttpRequestHeader(HttpRequest request) {
-    Header[] headers = request.getAllHeaders();
+  /**
+   * Dump the HttpResponse's header which Rest Service to return.
+   * @param request
+   */
+  public static void dumpHttpResponsetHeader(HttpResponse response) {
+    Header[] headers = response.getAllHeaders();
     System.out.println("\n\n++++++++++HEADER OF RESPONSE+++++++++++++++++++++++\n\n");
     for (int i = 0; i < headers.length; i++) {
       System.out.println(headers[i].getName() + " : " + headers[i].getValue());
+    }
+  }
+  
+  /**
+   * Dump the HttpResponse content which Rest Service to return.
+   * @param entity Entity to dump
+   * @throws ParseException
+   * @throws IOException
+   */
+  public static void dumpContent(HttpResponse response) throws SocialHttpClientException {
+    String responseContent = SocialHttpClientSupport.getContent(response);
+    if (responseContent.length() > 0) {
+      System.out.println("\n\n++++++++++CONTENT OF RESPONSE+++++++++++++++++++++++\n\n");
+      System.out.println("RESPONSE CONTENT::" + responseContent);
+      try {
+          Map contentMap = SocialJSONDecodingSupport.parser(responseContent);
+          Set<Entry> list = contentMap.entrySet();
+          for(Entry e : list) {
+            System.out.println(e.getKey() +  "::" + e.getValue());
+          }
+      } catch (org.json.simple.parser.ParseException pex) {
+        throw new SocialHttpClientException("dumpContent() is parsing error.", pex);
+      }
+      
     }
   }
 }
