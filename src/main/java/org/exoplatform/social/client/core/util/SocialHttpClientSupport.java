@@ -71,6 +71,10 @@ public class SocialHttpClientSupport {
       httpGet.setParams(params);
     }
     
+    //Debugging in the development mode
+    if (SocialClientContext.isDeveloping()) {
+      dumpHttpRequestHeader(httpGet);
+    }
     try {
       return httpClient.execute(targetHost, httpGet);
     } catch (ClientProtocolException cpex) {
@@ -120,6 +124,10 @@ public class SocialHttpClientSupport {
       if (postData != null) {
         ByteArrayEntity entity = new ByteArrayEntity(convertModelToByteArray(model));
         httpPost.setEntity(entity);
+      }
+      //Debugging in the devlopment mode
+      if (SocialClientContext.isDeveloping()) {
+        dumpHttpRequestHeader(httpPost);
       }
       return httpClient.execute(targetHost, httpPost);
     } catch (ClientProtocolException cpex) {
@@ -191,6 +199,10 @@ public class SocialHttpClientSupport {
       httpDelete.setParams(params);
     }
     try {
+      //Debugging in the devlopment mode
+      if (SocialClientContext.isDeveloping()) {
+        dumpHttpRequestHeader(httpDelete);
+      }
       return httpClient.execute(targetHost, httpDelete);
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
