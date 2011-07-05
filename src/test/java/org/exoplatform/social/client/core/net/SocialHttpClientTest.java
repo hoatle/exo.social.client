@@ -132,5 +132,4 @@ public class SocialHttpClientTest extends AbstractClientTest {
   public void testExecuteARequestToATargetWithResponseHandlerAndContext() {
 
   }
-
 }
