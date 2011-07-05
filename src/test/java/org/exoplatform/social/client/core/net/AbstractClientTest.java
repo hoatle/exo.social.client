@@ -16,8 +16,8 @@
  */
 package org.exoplatform.social.client.core.net;
 
+import junit.framework.TestCase;
 import org.exoplatform.social.client.api.SocialClientContext;
-
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -31,7 +31,7 @@ import org.junit.Before;
  *          exo@exoplatform.com
  * Jun 29, 2011  
  */
-public abstract class AbstractClientTest {
+public abstract class AbstractClientTest extends TestCase {
 
   protected IdentityService<Identity> identityService;
   

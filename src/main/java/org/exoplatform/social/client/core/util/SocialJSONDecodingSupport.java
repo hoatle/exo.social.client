@@ -17,15 +17,17 @@
 package org.exoplatform.social.client.core.util;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.model.Model;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONValue;
 import org.json.simple.parser.ContainerFactory;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -113,6 +115,25 @@ public class SocialJSONDecodingSupport {
   }
   
   
+  /**
+   * 
+   * @author Ly Minh Phuong - http://phuonglm.net
+   * @param <T>
+   * @param clazz
+   * @param jsonContent
+   * @return
+   * @throws IOException
+   * @throws ParseException
+   */
+  public static <T extends Model > List<T> JSONArrayObjectParser(final Class<T> clazz, String jsonArrayContent) throws IOException, ParseException{
+    JSONArray jsonResultArray = (JSONArray)JSONValue.parse(jsonArrayContent);
+    List<T> result = new ArrayList<T>();
+    for (Object jsonObject : jsonResultArray) {
+      String jsonString = jsonObject.toString();
+      result.add(parser(clazz,jsonString));
+    }
+    return result;
+  }
   
   /**
    * HttpResponse text into java Map object from the input source.
@@ -124,5 +145,4 @@ public class SocialJSONDecodingSupport {
     String jsonContent = SocialHttpClientSupport.getContent(response);
     return parser(jsonContent);
   }
-  
 }

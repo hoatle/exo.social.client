@@ -16,8 +16,11 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.service.ActivityService;
+import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
+import org.junit.Test;
 
 /**
  * Unit Test for {@link org.exoplatform.social.client.api.service.ActivityService}'s implementation.
@@ -25,8 +28,9 @@ import org.exoplatform.social.client.core.net.AbstractClientTest;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 3, 2011
  */
-public class ActivityServiceTest extends AbstractClientTest {
 
+public class ActivityServiceTest extends AbstractClientTest {
+  private IdentityService<Identity> identityService;
   private ActivityService activityService;
 
   public void setUp() {
@@ -38,5 +42,8 @@ public class ActivityServiceTest extends AbstractClientTest {
     activityService = null;
     super.tearDown();
   }
-
+  @Test
+  public void testDump() {
+  
+  }
 }
