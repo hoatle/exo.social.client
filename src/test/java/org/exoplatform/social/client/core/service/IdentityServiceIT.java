@@ -16,12 +16,14 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.service.IdentityService;
-import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.junit.Test;
-
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
+import junit.framework.Assert;
+
+import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.core.net.AbstractClientTest;
+import org.junit.Test;
 
 /**
  * Unit Test for {@link IdentityServiceImpl}.
@@ -31,17 +33,14 @@ import static org.junit.Assert.assertThat;
  */
 public class IdentityServiceIT extends AbstractClientTest {
 
-  private IdentityService identityService;
-
   @Override
   public void setUp() {
     super.setUp();
-    identityService = new IdentityServiceImpl();
+    startSessionAs("demo", "gtn");
   }
 
   @Override
   public void tearDown() {
-    identityService = null;
     super.tearDown();
   }
 
@@ -55,6 +54,21 @@ public class IdentityServiceIT extends AbstractClientTest {
   public void testGetIdentityId() {
     String identityId = identityService.getIdentityId("organization", "demo");
     assertThat("identityId must not be null", identityId, notNullValue());
+  }
+  
+  @Test
+  public void testGetIdentityById() throws Exception {
+    
+    String demoIdentityId = getDemoIdentityId();
+    Identity identity = identityService.get(demoIdentityId);
+    Assert.assertNotNull("Identity must not null.", identity);
+    Assert.assertEquals("IdentityID must be equal " + demoIdentityId, demoIdentityId, identity.getId());
+    Assert.assertEquals("RemoteID must be equal demo", "demo", identity.getRemoteId());
+    Assert.assertEquals("ProviderID must be equal organization", "organization", identity.getProviderId());
+    Profile profile = identity.getProfile();
+    Assert.assertNull("AvatarURL is null", profile.getAvatarUrl());
+    Assert.assertEquals("Profile's fullname must be equals Demo gtn", "Demo gtn", profile.getFullName());
+    
   }
 
 

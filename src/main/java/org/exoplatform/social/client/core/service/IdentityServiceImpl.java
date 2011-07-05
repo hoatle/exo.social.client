@@ -38,8 +38,7 @@ import org.json.simple.parser.ParseException;
  * Jun 30, 2011  
  */
 public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<Identity>> implements IdentityService<Identity> {
-
-  private static final String ID = "id";
+  private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
   
   @Override
   public Identity create(Identity newInstance) throws AccessDeniedException, ServiceException {
@@ -48,7 +47,7 @@ public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<I
 
   @Override
   public Identity get(String uuid) throws AccessDeniedException, ServiceException {
-    final String targetURL = "" + uuid;
+    final String targetURL = BASE_URL + "identity/" + uuid + ".json";
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
     try {
       return SocialJSONDecodingSupport.parser(IdentityImpl.class, response);
@@ -74,27 +73,17 @@ public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<I
    * {@inheritDoc}
    */
   @Override
-  public String getIdentityId(String provider, String remoteId) {
-    String targetURL = this.getTargetURLIdentityId(remoteId);
+  public String getIdentityId(String provider, String remoteId) throws ServiceException {
+    final String targetURL =  "/" + SocialClientContext.getRestContextName() + "/" + SocialClientContext.getPortalContainerName() + "/social/identity/" + remoteId + "/id/show.json";
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     try {
       String content = SocialHttpClientSupport.getContent(response);
       Map map = SocialJSONDecodingSupport.parser(content);
-      return (String) map.get(ID);
+      return (String) map.get("id");
     } catch (Exception ex) {
       throw new ServiceException(ActivityServiceImpl.class, "Exception when reads Json Content.", ex);
     }
   }
   
-  /**
-   * Gets the target url of get identity id.
-   * 
-   * @param remoteId
-   * @return
-   */
-  private String getTargetURLIdentityId(String remoteId) {
-    return "/" + SocialClientContext.getRestContextName() + "/"
-            + SocialClientContext.getPortalContainerName() + "/"
-            + "social/identity/" + remoteId + "/id/show.json";
-  }
+  
 }

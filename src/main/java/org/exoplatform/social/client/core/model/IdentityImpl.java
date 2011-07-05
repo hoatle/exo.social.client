@@ -18,6 +18,8 @@ package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.json.simple.parser.ParseException;
 
 /**
  * Implementation of {@link Identity}.
@@ -106,7 +108,12 @@ public class IdentityImpl extends ModelImpl implements Identity {
    */
   @Override
   public Profile getProfile() {
-    return profile;
+    String jsonProfile = getFieldAsString(Field.PROFILE.toString());
+    try {
+      return jsonProfile == null ? new ProfileImpl() : SocialJSONDecodingSupport.parser(ProfileImpl.class, jsonProfile);
+    } catch (ParseException pex) {
+      return new ProfileImpl();
+    }
   }
 
   /**
