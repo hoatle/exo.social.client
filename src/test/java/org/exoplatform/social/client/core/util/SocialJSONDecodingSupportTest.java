@@ -85,9 +85,8 @@ public class SocialJSONDecodingSupportTest {
     		                              "\"createdAt\":\"Tue Jul 5 11:18:31 +0700 2011\"," +
     		                              "\"likedByIdentities\":null,\"titleId\":null,\"comments\":null}" +
     		                   "]}";
-    JSONObject jsonObject = (JSONObject) JSONValue.parse(jsonActivity1);
-    JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-    ActivityImpl model3 = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonArray.toJSONString()).get(0);
+    Map jsonMap = SocialJSONDecodingSupport.parser(jsonActivity1);
+    ActivityImpl model3 = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class,(String)jsonMap.get("activities")).get(0);
     Assert.assertEquals("f845f6ed7f000101003ed4d98a09beb3", model3.getIdentityId());
   }
 }

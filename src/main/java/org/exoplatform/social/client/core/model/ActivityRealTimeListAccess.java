@@ -27,24 +27,14 @@ public class ActivityRealTimeListAccess implements RealtimeListAccess<Activity> 
   @Override
   public Activity[] load(int index, int limit) {
     String GET_FEED_URL =  BASE_URL+identity.getId()+"/user/default.json";
-    this.identity = identity;
     try {
       HttpResponse response = SocialHttpClientSupport.executeGet(GET_FEED_URL,POLICY.BASIC_AUTH);
-      int statusCode = response.getStatusLine().getStatusCode();
-      if(statusCode != SocialHttpClient.STATUS.OK.getCode()){
-          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status "+statusCode,null);
-      } else {
-        try{
-          JSONObject jsonObject = (JSONObject) JSONValue.parse(SocialHttpClientSupport.getContent(response));
-          JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-          List<ActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonArray.toJSONString());
-          return (ActivityImpl[]) activities.toArray();
-        } catch (Exception e) {
-          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
-        }
-      }
+      JSONObject jsonObject = (JSONObject) JSONValue.parse(SocialHttpClientSupport.getContent(response));
+      JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
+      List<ActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonArray.toJSONString());
+      return (ActivityImpl[]) activities.toArray();
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+      throw new ServiceException(ActivityServiceImpl.class, e.getMessage(),null);
     }
   }
 

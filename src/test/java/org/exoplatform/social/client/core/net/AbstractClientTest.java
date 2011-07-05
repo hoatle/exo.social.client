@@ -16,6 +16,10 @@
  */
 package org.exoplatform.social.client.core.net;
 
+
+import java.util.Map;
+
+import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
 
 import org.exoplatform.social.client.api.model.Identity;
