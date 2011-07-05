@@ -63,9 +63,7 @@ public class CRUDLifecycleSupport<M> {
     
     synchronized(listenersLock) {
       CRUDLifecycleListener<M> results[] = new CRUDLifecycleListener[listeners.length + 1];
-      for (int i = 0; i < listeners.length; i++) {
-        results[i] = listeners[i];
-      }
+      System.arraycopy(listeners, 0, results, 0, listeners.length);
       //Add the LifecycleListener to the new position.    
       results[listeners.length] = listener;
       listeners = results;

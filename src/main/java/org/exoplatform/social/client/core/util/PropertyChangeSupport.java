@@ -65,9 +65,7 @@ public final class PropertyChangeSupport {
     
     synchronized(listenersLock) {
       PropertyChangeListener results[] = new PropertyChangeListener[listeners.length + 1];
-      for (int i = 0; i < listeners.length; i++) {
-        results[i] = listeners[i];
-      }
+      System.arraycopy(listeners, 0, results, 0, listeners.length);
       //Add the PropertyChangeListener to the new position.    
       results[listeners.length] = listener;
       listeners = results;
