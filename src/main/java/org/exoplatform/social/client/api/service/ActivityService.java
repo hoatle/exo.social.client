@@ -18,7 +18,7 @@ package org.exoplatform.social.client.api.service;
 
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
-import org.exoplatform.social.client.api.model.Comment;
+import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 
@@ -91,12 +91,13 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * Creates a new comment to this activity.
    *
    * @param existingActivity the existing activity
-   * @param newComment       the new created comment
+   * @param newRestComment       the new created comment
    * @return the created comment
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  Comment createComment(Activity existingActivity, Comment newComment) throws AccessDeniedException, ServiceException;
+  RestComment createComment(Activity existingActivity, RestComment newRestComment) throws AccessDeniedException,
+                                                                                              ServiceException;
 
   /**
    * Gets an existing comment by its id.
@@ -106,17 +107,17 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  Comment getComment(String commentId) throws AccessDeniedException, ServiceException;
+  RestComment getComment(String commentId) throws AccessDeniedException, ServiceException;
 
   /**
    * Deletes an existing comment.
    *
-   * @param existingComment the existing comment
+   * @param existingRestComment the existing comment
    * @return the deleted comment
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  Comment deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException;
+  RestComment deleteComment(RestComment existingRestComment) throws AccessDeniedException, ServiceException;
 
 
   /**

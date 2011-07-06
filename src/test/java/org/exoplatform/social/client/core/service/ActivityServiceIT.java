@@ -24,7 +24,7 @@ import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
-import org.exoplatform.social.client.core.model.CommentImpl;
+import org.exoplatform.social.client.core.model.RestCommentImpl;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.junit.Test;
 
@@ -81,7 +81,7 @@ public class ActivityServiceIT extends AbstractClientTest {
     Like like = restActivityResult.getLikes().get(0);
     assertThat(like.getIdentityId() , equalTo(demoIdentityId));
 
-    CommentImpl comment = new CommentImpl();
+    RestCommentImpl comment = new RestCommentImpl();
     comment.setText("hello");
 
     activityService.createComment(restActivityResult, comment);

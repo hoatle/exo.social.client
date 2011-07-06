@@ -270,15 +270,15 @@ public interface RestActivity extends Model {
    * @return maximum 5 latest comments
    * @see #getTotalComments()
    */
-  List<Comment> getAvailableComments();
+  List<RestComment> getAvailableComments();
 
 
   /**
    * Sets the available list of comments for this activity.
    *
-   * @param commentList available comment list
+   * @param restCommentList available comment list
    */
-  void setAvailableComments(List<Comment> commentList);
+  void setAvailableComments(List<RestComment> restCommentList);
 
 
   /**
@@ -293,7 +293,7 @@ public interface RestActivity extends Model {
    *
    * @return the total comment list
    */
-  List<Comment> getTotalComments();
+  List<RestComment> getTotalComments();
 
   /**
    * Gets activity stream.

@@ -24,7 +24,7 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestActivityStream;
-import org.exoplatform.social.client.api.model.Comment;
+import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
@@ -227,7 +227,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    * {@inheritDoc}
    */
   @Override
-  public List<Comment> getAvailableComments() {
+  public List<RestComment> getAvailableComments() {
     final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)+"activity/"+this.getId()+".json?number_of_comments=5";
     try{
       HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
@@ -236,8 +236,8 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       JSONObject jsonObject = (JSONObject) JSONValue.parse(responseContent);
       JSONArray commentsJsonarray = (JSONArray) jsonObject.get("comments");
       
-      List<CommentImpl> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(CommentImpl.class, commentsJsonarray.toJSONString());
-      List<Comment> result = new ArrayList<Comment>();
+      List<RestCommentImpl> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(RestCommentImpl.class, commentsJsonarray.toJSONString());
+      List<RestComment> result = new ArrayList<RestComment>();
       result.addAll(comments);
       return result;
     } catch (Exception e) {
@@ -248,10 +248,10 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
 
   /**
    * {@inheritDoc}
-   * @param commentList available comment list
+   * @param restCommentList available comment list
    */
   @Override
-  public void setAvailableComments(List<Comment> commentList) {
+  public void setAvailableComments(List<RestComment> restCommentList) {
     //TODO implements this
   }
 
@@ -268,13 +268,13 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    * {@inheritDoc}
    */
   @Override
-  public List<Comment> getTotalComments() {
+  public List<RestComment> getTotalComments() {
     final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)+"activity/"+this.getId()+"/comments.json";
     try{
       HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
       String responseContent = SocialHttpClientSupport.getContent(response);
-      List<CommentImpl> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(CommentImpl.class, responseContent);
-      List<Comment> result = new ArrayList<Comment>();
+      List<RestCommentImpl> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(RestCommentImpl.class, responseContent);
+      List<RestComment> result = new ArrayList<RestComment>();
       result.addAll(comments);
       return result;
     } catch (Exception e) {
@@ -304,6 +304,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getTemplateParameter(String name) {
     Map<String, String> templateParams = getTemplateParams();
     if (templateParams != null) {
@@ -315,6 +316,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void addTemplateParameter(String name, String value) {
     Map<String, String> templateParams = getTemplateParams();
     if (templateParams == null) {

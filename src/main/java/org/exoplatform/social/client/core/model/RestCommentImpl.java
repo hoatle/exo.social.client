@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.RestActivity;
-import org.exoplatform.social.client.api.model.Comment;
+import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -30,17 +30,17 @@ import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
 
 /**
- * Implementation of {@link Comment}.
+ * Implementation of {@link org.exoplatform.social.client.api.model.RestComment}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 26, 2011
  */
-public class CommentImpl extends ModelImpl implements Comment {
+public class RestCommentImpl extends ModelImpl implements RestComment {
 
   /**
    * Constructor without any params.
    */
-  public CommentImpl() {
+  public RestCommentImpl() {
 
   }
 
@@ -52,7 +52,7 @@ public class CommentImpl extends ModelImpl implements Comment {
    * @param activityId the activity id
    * @param postedTime the posted time
    */
-  public CommentImpl(String id, String identityId, String activityId, Long postedTime, String createdAt) {
+  public RestCommentImpl(String id, String identityId, String activityId, Long postedTime, String createdAt) {
     setId(id);
     setIdentityId(identityId);
     setActivityId(activityId);
@@ -168,9 +168,9 @@ public class CommentImpl extends ModelImpl implements Comment {
       HttpResponse response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
       restActivity = SocialJSONDecodingSupport.parser(RestActivity.class, response);
     } catch (IOException e) {
-      throw new ServiceException(CommentImpl.class, "IOException when reads Json Content.", e);
+      throw new ServiceException(RestCommentImpl.class, "IOException when reads Json Content.", e);
     } catch (ParseException e) {
-      throw new ServiceException(CommentImpl.class, "ParseException when reads Json Content.", e);
+      throw new ServiceException(RestCommentImpl.class, "ParseException when reads Json Content.", e);
     }
     return restActivity;
   }
@@ -187,9 +187,9 @@ public class CommentImpl extends ModelImpl implements Comment {
       HttpResponse response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
       identity = SocialJSONDecodingSupport.parser(Identity.class, response);
     } catch (IOException e) {
-      throw new ServiceException(CommentImpl.class, "IOException when reads Json Content.", e);
+      throw new ServiceException(RestCommentImpl.class, "IOException when reads Json Content.", e);
     } catch (ParseException e) {
-      throw new ServiceException(CommentImpl.class, "ParseException when reads Json Content.", e);
+      throw new ServiceException(RestCommentImpl.class, "ParseException when reads Json Content.", e);
     }
     return identity;
   }

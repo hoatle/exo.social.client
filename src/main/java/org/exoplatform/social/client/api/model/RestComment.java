@@ -17,15 +17,15 @@
 package org.exoplatform.social.client.api.model;
 
 /**
- * The Comment model.
+ * The RestComment model.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Comment extends Model {
+public interface RestComment extends Model {
 
   /**
-   * The fields that represent the Comment object in json form.
+   * The fields that represent the RestComment object in json form.
    *
    * <p>
    * All of the fields that comments can have.

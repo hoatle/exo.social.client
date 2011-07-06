@@ -20,16 +20,16 @@ import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
-import org.exoplatform.social.client.api.model.Comment;
+import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.model.RestCommentImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
-import org.exoplatform.social.client.core.model.CommentImpl;
 import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess;
 import org.exoplatform.social.client.core.model.LikeImpl;
 import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess.ActivityType;
@@ -133,14 +133,15 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    * {@inheritDoc}
    */
   @Override
-  public Comment createComment(RestActivity existingRestActivity, Comment newComment) throws AccessDeniedException,
+  public RestComment createComment(RestActivity existingRestActivity, RestComment newRestComment)
+                                                                             throws  AccessDeniedException,
                                                                                      ServiceException {
     final String CREATE_COMMENT_REQUEST_URL = BASE_URL+"activity/"+ existingRestActivity.getId()+"/comment.json";
       try{
-        HttpResponse response = SocialHttpClientSupport.executePost(CREATE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH,newComment);
+        HttpResponse response = SocialHttpClientSupport.executePost(CREATE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH, newRestComment);
         String responseContent = SocialHttpClientSupport.getContent(response);
-        Comment comment = SocialJSONDecodingSupport.parser(CommentImpl.class, responseContent);
-        return comment;
+        RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
+        return restComment;
       } catch (Exception e) {
         throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
       }
@@ -150,8 +151,8 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    * {@inheritDoc}
    */
   @Override
-  public Comment getComment(String commentId) throws AccessDeniedException, ServiceException {
-    throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+  public RestComment getComment(String commentId) throws AccessDeniedException, ServiceException {
+    throw new ServiceException(ActivityServiceImpl.class, "Not Supported",null);
 //    final String GET_ACTIVITY_REQUEST_URL = BASE_URL+commentId+".json";
 //    try {
 //      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
@@ -161,7 +162,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
 //      } else {
 //        String responseContent = SocialHttpClientSupport.getContent(response);
 //        try{
-//          Comment comment = SocialJSONDecodingSupport.parser(Comment.class, responseContent);
+//          RestComment comment = SocialJSONDecodingSupport.parser(RestComment.class, responseContent);
 //          return comment;
 //        } catch (Exception e) {
 //          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
@@ -176,14 +177,15 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    * {@inheritDoc}
    */
   @Override
-  public Comment deleteComment(Comment existingComment) throws AccessDeniedException, ServiceException {
-    final String DELETE_COMMENT_REQUEST_URL = BASE_URL+"activity/"+existingComment.getActivityId() + "/comment/destroy/" +
-                                            existingComment.getId() + ".json";
+  public RestComment deleteComment(RestComment existingRestComment) throws AccessDeniedException,
+          ServiceException {
+    final String DELETE_COMMENT_REQUEST_URL = BASE_URL+"activity/"+ existingRestComment.getActivityId() + "/comment/destroy/" +
+                                            existingRestComment.getId() + ".json";
     try{
       HttpResponse response = SocialHttpClientSupport.executePost(DELETE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH);
       String responseContent = SocialHttpClientSupport.getContent(response);
-      Comment comment = SocialJSONDecodingSupport.parser(CommentImpl.class, responseContent);
-      return comment;
+      RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
+      return restComment;
     } catch (Exception e) {
       throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
     }
@@ -210,6 +212,9 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
   }
 
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Like unlike(RestActivity existingRestActivity) throws AccessDeniedException, ServiceException {
     final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+ existingRestActivity.getId()+"/like/destroy.json";
