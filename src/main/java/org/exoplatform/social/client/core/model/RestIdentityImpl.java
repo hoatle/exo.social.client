@@ -17,7 +17,7 @@
 package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.api.model.RestProfile;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
 
@@ -30,9 +30,9 @@ import org.json.simple.parser.ParseException;
 public class RestIdentityImpl extends ModelImpl implements RestIdentity {
 
   /**
-   * The associated profile with this identity.
+   * The associated restProfile with this identity.
    */
-  private Profile profile;
+  private RestProfile restProfile;
 
   /**
    * Constructor without any param.
@@ -48,11 +48,11 @@ public class RestIdentityImpl extends ModelImpl implements RestIdentity {
    * @param providerId the identity provider id
    * @param remoteId   the remote id
    */
-  public RestIdentityImpl(String id, String providerId, String remoteId, Profile profile) {
+  public RestIdentityImpl(String id, String providerId, String remoteId, RestProfile restProfile) {
     setId(id);
     setProviderId(providerId);
     setRemoteId(remoteId);
-    setProfile(profile);
+    setProfile(restProfile);
   }
 
   /**
@@ -107,12 +107,12 @@ public class RestIdentityImpl extends ModelImpl implements RestIdentity {
    * {@inheritDoc}
    */
   @Override
-  public Profile getProfile() {
+  public RestProfile getProfile() {
     String jsonProfile = getFieldAsString(Field.PROFILE.toString());
     try {
-      return jsonProfile == null ? new ProfileImpl() : SocialJSONDecodingSupport.parser(ProfileImpl.class, jsonProfile);
+      return jsonProfile == null ? new RestProfileImpl() : SocialJSONDecodingSupport.parser(RestProfileImpl.class, jsonProfile);
     } catch (ParseException pex) {
-      return new ProfileImpl();
+      return new RestProfileImpl();
     }
   }
 
@@ -120,8 +120,8 @@ public class RestIdentityImpl extends ModelImpl implements RestIdentity {
    * {@inheritDoc}
    */
   @Override
-  public void setProfile(Profile newProfile) {
-    this.profile = newProfile;
+  public void setProfile(RestProfile newRestProfile) {
+    this.restProfile = newRestProfile;
   }
 
 }

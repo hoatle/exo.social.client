@@ -17,7 +17,7 @@
 package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.api.model.RestProfile;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -33,12 +33,14 @@ public class IdentityImplTest {
 
   @Test
   public void shouldCreteInstanceAndGetFields() {
-    Profile profile = new ProfileImpl();
-    RestIdentity restIdentity = new RestIdentityImpl("123", "organization", "demo", profile);
+    RestProfile restProfile = new RestProfileImpl();
+    RestIdentity restIdentity = new RestIdentityImpl("123", "organization", "demo", restProfile);
     assertThat("restIdentity.getId() must return 123", restIdentity.getId(), equalTo("123"));
-    assertThat("restIdentity.getProviderId() must return organization", restIdentity.getProviderId(), equalTo("organization"));
+    assertThat("restIdentity.getProviderId() must return organization",
+               restIdentity.getProviderId(), equalTo("organization"));
     assertThat("restIdentity.getRemoteId() must return demo", restIdentity.getRemoteId(), equalTo("demo"));
-    //gets dedault value
-    assertThat("restIdentity.getProfile() must be null", restIdentity.getProfile(), equalTo((Profile)new ProfileImpl()));
+    //gets default value
+    assertThat("restIdentity.getProfile() must be null",
+                restIdentity.getProfile(), equalTo((RestProfile)new RestProfileImpl()));
   }
 }

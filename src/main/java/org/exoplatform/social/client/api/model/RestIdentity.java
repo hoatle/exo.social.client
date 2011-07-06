@@ -113,12 +113,12 @@ public interface RestIdentity extends Model {
    *
    * @return the associated profile.
    */
-  Profile getProfile();
+  RestProfile getProfile();
 
   /**
    * Sets the profile associated with this identity.
    *
-   * @param profile the associated profile.
+   * @param restProfile the associated profile.
    */
-  void setProfile(Profile profile);
+  void setProfile(RestProfile restProfile);
 }

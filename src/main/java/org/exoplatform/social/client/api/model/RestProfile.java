@@ -22,7 +22,7 @@ package org.exoplatform.social.client.api.model;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Profile extends Model {
+public interface RestProfile extends Model {
   /**
    * The fields that represent the Profile object in json form. <p/> </p>
    */

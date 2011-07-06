@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.api.model.RestProfile;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.junit.Test;
@@ -66,9 +66,9 @@ public class IdentityServiceIT extends AbstractClientTest {
     Assert.assertEquals("IdentityID must be equal " + demoIdentityId, demoIdentityId, restIdentity.getId());
     Assert.assertEquals("RemoteID must be equal demo", "demo", restIdentity.getRemoteId());
     Assert.assertEquals("ProviderID must be equal organization", "organization", restIdentity.getProviderId());
-    Profile profile = restIdentity.getProfile();
+    RestProfile profile = restIdentity.getProfile();
     Assert.assertNull("AvatarURL is null", profile.getAvatarUrl());
-    Assert.assertEquals("Profile's fullname must be equals Demo gtn", "Demo gtn", profile.getFullName());
+    Assert.assertEquals("profile's fullname must be equals Demo gtn", "Demo gtn", profile.getFullName());
     
   }
 

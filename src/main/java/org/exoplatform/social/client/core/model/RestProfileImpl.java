@@ -16,20 +16,20 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.api.model.RestProfile;
 
 /**
- * Implementation of {@link org.exoplatform.social.client.api.model.Profile}.
+ * Implementation of {@link org.exoplatform.social.client.api.model.RestProfile}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
  */
-public class ProfileImpl extends ModelImpl implements Profile {
+public class RestProfileImpl extends ModelImpl implements RestProfile {
 
   /**
    * Default constructor.
    */
-  public ProfileImpl() {
+  public RestProfileImpl() {
 
   }
 
@@ -40,7 +40,7 @@ public class ProfileImpl extends ModelImpl implements Profile {
    * @param fullName   the full name
    * @param avatarUrl  the avatar url
    */
-  public ProfileImpl(String identityId, String fullName, String avatarUrl) {
+  public RestProfileImpl(String identityId, String fullName, String avatarUrl) {
     setIdentityId(identityId);
     setFullName(fullName);
     setAvatarUrl(avatarUrl);

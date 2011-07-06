@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.api.model.RestProfile;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit Test for {@link ProfileImpl}.
+ * Unit Test for {@link RestProfileImpl}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
@@ -33,21 +33,21 @@ public class ProfileImplTest {
 
   @Test
   public void shouldGetDefaultValues() {
-    Profile profile = new ProfileImpl();
-    assertThat("profile.getIdentityId() must be null", profile.getIdentityId(), nullValue());
-    assertThat("profile.getFullName() must be null", profile.getFullName(), nullValue());
-    assertThat("profile.getAvatarUrl() must be null", profile.getAvatarUrl(), nullValue());
+    RestProfile restProfile = new RestProfileImpl();
+    assertThat("restProfile.getIdentityId() must be null", restProfile.getIdentityId(), nullValue());
+    assertThat("restProfile.getFullName() must be null", restProfile.getFullName(), nullValue());
+    assertThat("restProfile.getAvatarUrl() must be null", restProfile.getAvatarUrl(), nullValue());
   }
 
   @Test
   public void shouldGetSettedValues() {
     final String identityId = "123456789";
     final String fullName = "Demo Gtn";
-    final String avatarUrl = "http://platform35.demo.exoplatform.org/profile/avatar/demo.jpg";
-    Profile profile = new ProfileImpl(identityId, fullName, avatarUrl);
+    final String avatarUrl = "http://platform35.demo.exoplatform.org/restProfile/avatar/demo.jpg";
+    RestProfile restProfile = new RestProfileImpl(identityId, fullName, avatarUrl);
 
-    assertThat("profile.getIdentityId() must return: " + identityId, profile.getIdentityId(), equalTo(identityId));
-    assertThat("profile.getFullName() must return: " + fullName, profile.getFullName(), equalTo(fullName));
-    assertThat("profile.getAvatarUrl() must return: " + avatarUrl, profile.getAvatarUrl(), equalTo(avatarUrl));
+    assertThat("restProfile.getIdentityId() must return: " + identityId, restProfile.getIdentityId(), equalTo(identityId));
+    assertThat("restProfile.getFullName() must return: " + fullName, restProfile.getFullName(), equalTo(fullName));
+    assertThat("restProfile.getAvatarUrl() must return: " + avatarUrl, restProfile.getAvatarUrl(), equalTo(avatarUrl));
   }
 }
