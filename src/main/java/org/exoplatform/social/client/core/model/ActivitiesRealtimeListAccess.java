@@ -35,8 +35,8 @@ import org.json.simple.JSONValue;
 
 /**
  * Created by The eXo Platform SAS
- * Author : vien_levan
- *          vien_levan@exoplatform.com
+ * Author : phuonglm
+ *          phuonglm@exoplatform.com
  * Jul 5, 2011  
  */
 public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity> {
@@ -49,7 +49,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     ACTIVITY_STREAM,
     /** Activities of connections of identity. */
     CONNECTIONS_ACTIVITIES,
-    /** Activities of spaces where identity is manager or manager. */
+    /** Activities of spaces where identity is member or manager. */
     USER_SPACE_ACTIVITIES
   }
   /** The activity type. */
@@ -72,35 +72,51 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     this.activityType = activityType;
   }
   
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getNumberOfNewer(Activity baseElement) {
     //TODO
     return 0;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getNumberOfOlder(Activity baseElement) {
     //TODO
     return 0;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean hasNewer(Activity baseElement) {
-    // TODO Auto-generated method stub
-    return false;
+    return this.loadNewerAsList(baseElement, 1).size() > 0;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public boolean hasOlder(Activity baseElement) {
-    // TODO Auto-generated method stub
-    return false;
+    return this.loadOlderAsList(baseElement, 1).size() > 0;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Activity[] loadNewer(Activity baseElement, int limit) {
-    return (Activity[]) this.loadNewerAsList(baseElement, limit).toArray();
+    return this.convertListToArray(this.loadNewerAsList(baseElement, limit), Activity.class);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<Activity> loadNewerAsList(Activity baseElement, int limit) {
     String requestURL = null;
@@ -131,11 +147,17 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     return this.getListActivitiesFromResponse(response);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Activity[] loadOlder(Activity baseElement, int limit) {
-    return (Activity[]) this.loadOlderAsList(baseElement, limit).toArray();
+    return this.convertListToArray(this.loadOlderAsList(baseElement, limit), Activity.class);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<Activity> loadOlderAsList(Activity baseElement, int limit) {
     String requestURL = null;
@@ -166,17 +188,26 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
     return this.getListActivitiesFromResponse(response);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public int getSize() {
     //TODO
     return 0;
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public Activity[] load(int index, int limit) {
     return this.convertListToArray(this.loadAsList(index, limit), Activity.class);
   }
 
+  /**
+   * {@inheritDoc}
+   */
   @Override
   public List<Activity> loadAsList(int index, int limit) {
     String requestURL = null;
@@ -212,7 +243,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * @return
    */
   public ActivityType getActivityType() {
-    return activityType;
+    return this.activityType;
   }
 
   /**
@@ -230,7 +261,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * @return
    */
   public Identity getOwnerIdentity() {
-    return ownerIdentity;
+    return this.ownerIdentity;
   }
   
   /**
