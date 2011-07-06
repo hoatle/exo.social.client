@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import org.exoplatform.social.client.api.model.ActivityStream;
+import org.exoplatform.social.client.api.model.RestActivityStream;
 import org.junit.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -24,21 +24,21 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit Test for {@link ActivityStreamImpl}.
+ * Unit Test for {@link RestActivityStreamImpl}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
  */
-public class ActivityStreamImplTest {
+public class RestActivityStreamImplTest {
 
   @Test
   public void shouldGetDefaultValues() {
-    ActivityStream activityStream = new ActivityStreamImpl();
-    assertThat("activityStream.getType() must be null", activityStream.getType(), nullValue());
-    assertThat("activityStream.getPrettyId() must be null", activityStream.getPrettyId(), nullValue());
-    assertThat("activityStream.getFaviconUrl() must be null", activityStream.getFaviconUrl(), nullValue());
-    assertThat("activityStream.getPermaLink() must be null", activityStream.getPermaLink(), nullValue());
-    assertThat("activityStream.getTitle() must be null", activityStream.getTitle(), nullValue());
+    RestActivityStream restActivityStream = new RestActivityStreamImpl();
+    assertThat("restActivityStream.getType() must be null", restActivityStream.getType(), nullValue());
+    assertThat("restActivityStream.getPrettyId() must be null", restActivityStream.getPrettyId(), nullValue());
+    assertThat("restActivityStream.getFaviconUrl() must be null", restActivityStream.getFaviconUrl(), nullValue());
+    assertThat("restActivityStream.getPermaLink() must be null", restActivityStream.getPermaLink(), nullValue());
+    assertThat("restActivityStream.getTitle() must be null", restActivityStream.getTitle(), nullValue());
   }
 
   @Test
@@ -48,15 +48,15 @@ public class ActivityStreamImplTest {
     final String faviconUrl = "";
     final String permaLink = "http://platform35.demo.exoplatform.org/portal/classic/profile/demo";
     final String title = "Activity Stream of Demo";
-    ActivityStream activityStream = new ActivityStreamImpl(type, prettyId, faviconUrl, title, permaLink);
+    RestActivityStream restActivityStream = new RestActivityStreamImpl(type, prettyId, faviconUrl, title, permaLink);
 
-    assertThat("activityStream.getType() must return: " + type, activityStream.getType(), equalTo(type));
-    assertThat("activityStream.getPrettyId() must return: " + prettyId, activityStream.getPrettyId(), equalTo(prettyId));
-    assertThat("activityStream.getFaviconUrl() must return: " + faviconUrl, activityStream.getFaviconUrl(),
+    assertThat("restActivityStream.getType() must return: " + type, restActivityStream.getType(), equalTo(type));
+    assertThat("restActivityStream.getPrettyId() must return: " + prettyId, restActivityStream.getPrettyId(), equalTo(prettyId));
+    assertThat("restActivityStream.getFaviconUrl() must return: " + faviconUrl, restActivityStream.getFaviconUrl(),
                 equalTo(faviconUrl));
-    assertThat("activityStream.getPermaLink() must return: " + permaLink, activityStream.getPermaLink(),
+    assertThat("restActivityStream.getPermaLink() must return: " + permaLink, restActivityStream.getPermaLink(),
                 equalTo(permaLink));
-    assertThat("activityStream.getTitle() must return: " + title, activityStream.getTitle(), equalTo(title));
+    assertThat("restActivityStream.getTitle() must return: " + title, restActivityStream.getTitle(), equalTo(title));
   }
 
 

@@ -302,7 +302,7 @@ public interface RestActivity extends Model {
    *
    * @return the associated activity stream.
    */
-  ActivityStream getActivityStream();
+  RestActivityStream getActivityStream();
 
 
   /**

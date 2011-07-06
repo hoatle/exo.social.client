@@ -16,20 +16,20 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import org.exoplatform.social.client.api.model.ActivityStream;
+import org.exoplatform.social.client.api.model.RestActivityStream;
 
 /**
- * Implementation of {@link ActivityStream}.
+ * Implementation of {@link org.exoplatform.social.client.api.model.RestActivityStream}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
  */
-public class ActivityStreamImpl extends ModelImpl implements ActivityStream {
+public class RestActivityStreamImpl extends ModelImpl implements RestActivityStream {
 
   /**
    * Default constructor
    */
-  public ActivityStreamImpl() {
+  public RestActivityStreamImpl() {
 
   }
 
@@ -42,7 +42,7 @@ public class ActivityStreamImpl extends ModelImpl implements ActivityStream {
    * @param title      the title
    * @param permaLink  the permalink
    */
-  public ActivityStreamImpl(String type, String prettyId, String faviconUrl, String title, String permaLink) {
+  public RestActivityStreamImpl(String type, String prettyId, String faviconUrl, String title, String permaLink) {
     setType(type);
     setPrettyId(prettyId);
     setFaviconUrl(faviconUrl);

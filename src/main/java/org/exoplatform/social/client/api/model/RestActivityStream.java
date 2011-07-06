@@ -22,9 +22,9 @@ package org.exoplatform.social.client.api.model;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
  */
-public interface ActivityStream {
+public interface RestActivityStream {
   /**
-   * The fields that represent the ActivityStream object in json form.
+   * The fields that represent the RestActivityStream object in json form.
    */
   public static enum Field {
     /**

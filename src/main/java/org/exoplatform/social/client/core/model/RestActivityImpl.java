@@ -23,7 +23,7 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.RestActivity;
-import org.exoplatform.social.client.api.model.ActivityStream;
+import org.exoplatform.social.client.api.model.RestActivityStream;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
@@ -286,7 +286,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    * {@inheritDoc}
    */
   @Override
-  public ActivityStream getActivityStream() {
+  public RestActivityStream getActivityStream() {
     final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)+"activity/"+this.getId()+"/comment.json?activity_stream=1";
     try{
       HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
@@ -294,7 +294,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       
       JSONObject jsonObject = (JSONObject) JSONValue.parse(responseContent);
       JSONObject activityStreamJson = (JSONObject) jsonObject.get("activityStream");
-      ActivityStreamImpl activityStream = SocialJSONDecodingSupport.parser(ActivityStreamImpl.class, activityStreamJson.toJSONString());
+      RestActivityStreamImpl activityStream = SocialJSONDecodingSupport.parser(RestActivityStreamImpl.class, activityStreamJson.toJSONString());
       return activityStream;
     } catch (Exception e) {
       throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
