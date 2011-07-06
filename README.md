@@ -90,13 +90,13 @@ You can redefine the host and port of the server to use by adding the following 
 Sample code:
 
     // Context information
-    ClientContext.setHost("http://platform35.demo.exoplatform.org");
-    ClientContext.setPort(80);
-    ClientContext.setPortalContainerName("portal");
-    ClientContext.setRestContextName("rest");
-    ClientContext.setRestVersion("v1-alpha1");
-    ClientContext.setUsername("demo");
-    ClientContext.setPassword("gtn");
+    SocialClientContext.setHost("http://platform35.demo.exoplatform.org");
+    SocialClientContext.setPort(80);
+    SocialClientContext.setPortalContainerName("portal");
+    SocialClientContext.setRestContextName("rest");
+    SocialClientContext.setRestVersion("v1-alpha1");
+    SocialClientContext.setUsername("demo");
+    SocialClientContext.setPassword("gtn");
 
     ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
 
