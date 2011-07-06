@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.model.RestLike;
 import org.junit.Test;
 
 import static org.hamcrest.core.IsEqual.equalTo;
@@ -24,21 +24,21 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.junit.Assert.assertThat;
 
 /**
- * Unit Test for {@link LikeImpl}
+ * Unit Test for {@link RestLikeImpl}
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since  May 24, 2011
  */
-public class LikeImplTest {
+public class RestLikeImplTest {
 
   @Test
   public void shouldCreateLikeInstance() {
     final String activityId = "1234";
     final String identityId = "abcdegheogi30";
-    Like like = new LikeImpl(activityId, identityId);
-    assertThat("like must not be null", like, notNullValue());
-    assertThat("like.getActivityId() must return: " + activityId , like.getActivityId(), equalTo(activityId));
-    assertThat("like.getIdentityId() must return: " + identityId, like.getIdentityId(), equalTo(identityId));
+    RestLike restLike = new RestLikeImpl(activityId, identityId);
+    assertThat("restLike must not be null", restLike, notNullValue());
+    assertThat("restLike.getActivityId() must return: " + activityId , restLike.getActivityId(), equalTo(activityId));
+    assertThat("restLike.getIdentityId() must return: " + identityId, restLike.getIdentityId(), equalTo(identityId));
   }
 
 

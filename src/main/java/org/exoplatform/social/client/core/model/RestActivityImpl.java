@@ -26,7 +26,7 @@ import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestActivityStream;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.model.RestLike;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.service.ActivityServiceImpl;
@@ -193,19 +193,19 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    * {@inheritDoc}
    */
   @Override
-  public List<Like> getLikes() {
+  public List<RestLike> getLikes() {
     try{
       String likedIdentityString = this.getFieldAsString(RestActivity.Field.LIKED_BY_IDENTITIES.toString());
-      List<Like> result = new ArrayList<Like>();
+      List<RestLike> result = new ArrayList<RestLike>();
       if(likedIdentityString !=null){
         JSONArray identitiesArray = (JSONArray) JSONValue.parse(likedIdentityString);
         for(Object identityJsonItem : identitiesArray){
           JSONObject jsonObject = (JSONObject) identityJsonItem;
           
-          Like likeItem = new LikeImpl();
-          likeItem.setIdentityId((String) jsonObject.get("id"));          
-          likeItem.setActivityId(this.getId());
-          result.add(likeItem);
+          RestLike restLikeItem = new RestLikeImpl();
+          restLikeItem.setIdentityId((String) jsonObject.get("id"));
+          restLikeItem.setActivityId(this.getId());
+          result.add(restLikeItem);
         }
       }
       return result;

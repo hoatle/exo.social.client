@@ -19,7 +19,7 @@ package org.exoplatform.social.client.core.service;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.model.RestLike;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -78,8 +78,8 @@ public class ActivityServiceIT extends AbstractClientTest {
     assertThat(restActivityResult.getId(), equalTo(createdActivityId));
     assertThat(restActivityResult.getIdentityId(), equalTo(demoIdentityId));
     assertThat(restActivityResult.getLikes().size(), equalTo(1));
-    Like like = restActivityResult.getLikes().get(0);
-    assertThat(like.getIdentityId() , equalTo(demoIdentityId));
+    RestLike restLike = restActivityResult.getLikes().get(0);
+    assertThat(restLike.getIdentityId() , equalTo(demoIdentityId));
 
     RestCommentImpl comment = new RestCommentImpl();
     comment.setText("hello");

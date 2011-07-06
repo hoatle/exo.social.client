@@ -22,16 +22,16 @@ import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.model.RestLike;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.model.RestCommentImpl;
+import org.exoplatform.social.client.core.model.RestLikeImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess;
-import org.exoplatform.social.client.core.model.LikeImpl;
 import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess.ActivityType;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -195,14 +195,14 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    * {@inheritDoc}
    */
   @Override
-  public Like like(RestActivity existingRestActivity) throws AccessDeniedException, ServiceException {
+  public RestLike like(RestActivity existingRestActivity) throws AccessDeniedException, ServiceException {
     final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+ existingRestActivity.getId()+"/like.json";
     HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
     String responseContent = SocialHttpClientSupport.getContent(response);
     try{
       JSONObject responeJson = (JSONObject)JSONValue.parse(responseContent);
       if((Boolean) responeJson.get("like")){
-        return new LikeImpl(existingRestActivity.getId(), null);
+        return new RestLikeImpl(existingRestActivity.getId(), null);
       } else {
         throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
       }
@@ -216,13 +216,13 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    * {@inheritDoc}
    */
   @Override
-  public Like unlike(RestActivity existingRestActivity) throws AccessDeniedException, ServiceException {
+  public RestLike unlike(RestActivity existingRestActivity) throws AccessDeniedException, ServiceException {
     final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+ existingRestActivity.getId()+"/like/destroy.json";
     HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
     String responseContent = SocialHttpClientSupport.getContent(response);
     JSONObject responeJson = (JSONObject)JSONValue.parse(responseContent);
     if(!(Boolean) responeJson.get("like")){
-      return new LikeImpl(existingRestActivity.getId(), null);
+      return new RestLikeImpl(existingRestActivity.getId(), null);
     } else {
       throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
     }

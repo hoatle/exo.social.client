@@ -18,20 +18,20 @@ package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.model.RestLike;
 
 /**
- * Implementation of {@link Like}.
+ * Implementation of {@link org.exoplatform.social.client.api.model.RestLike}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 20, 2011
  */
-public class LikeImpl extends ModelImpl implements Like {
+public class RestLikeImpl extends ModelImpl implements RestLike {
 
   /**
    * Constructor without param.
    */
-  public LikeImpl() {
+  public RestLikeImpl() {
 
   }
 
@@ -41,7 +41,7 @@ public class LikeImpl extends ModelImpl implements Like {
    * @param activityId the activity id
    * @param identityId the identity id
    */
-  public LikeImpl(String activityId, String identityId) {
+  public RestLikeImpl(String activityId, String identityId) {
     setActivityId(activityId);
     setIdentityId(identityId);
   }

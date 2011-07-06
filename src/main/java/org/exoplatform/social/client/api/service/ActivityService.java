@@ -20,7 +20,7 @@ import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.model.RestLike;
 
 /**
  * Activity Service.
@@ -124,20 +124,20 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * The authenticate identity likes an existing activity.
    *
    * @param existingActivity the existing activity
-   * @return the created {@link Like} instance
+   * @return the created {@link org.exoplatform.social.client.api.model.RestLike} instance
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  Like like(Activity existingActivity) throws AccessDeniedException, ServiceException;
+  RestLike like(Activity existingActivity) throws AccessDeniedException, ServiceException;
 
   /**
    * The authenticated identity unlikes an existing activity.
    *
    * @param existingActivity the existing activity
-   * @return the deleted {@link Like} instance.
+   * @return the deleted {@link org.exoplatform.social.client.api.model.RestLike} instance.
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  Like unlike(Activity existingActivity) throws AccessDeniedException, ServiceException;
+  RestLike unlike(Activity existingActivity) throws AccessDeniedException, ServiceException;
 
 }

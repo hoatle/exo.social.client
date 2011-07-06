@@ -22,11 +22,11 @@ package org.exoplatform.social.client.api.model;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Like extends Model {
+public interface RestLike extends Model {
 
   /**
-   * The fields that represent the Like object in json form. <p/>
-   * <p> All of the fields that Like can have.
+   * The fields that represent the RestLike object in json form. <p/>
+   * <p> All of the fields that RestLike can have.
    * </p>
    */
   public static enum Field {

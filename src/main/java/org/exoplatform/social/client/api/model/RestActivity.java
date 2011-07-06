@@ -254,7 +254,7 @@ public interface RestActivity extends Model {
   /**
    * Gets the list of likes.
    */
-  List<Like> getLikes();
+  List<RestLike> getLikes();
 
   /**
    * Gets the poster identity who created this activity.
