@@ -43,7 +43,7 @@
     <social.server.host>127.0.0.1</social.server.host>
     <social.server.port>8080</social.server.port>
     <!-- skip cargo execution to use your own server ?? -->
-    <it.skip.cargo>false</it.skip.cargo>
+    <it.cargo.skip>false</it.cargo.skip>
 
     <!-- ################ -->
     <!-- Build properties -->
@@ -203,7 +203,7 @@
               </execution>
             </executions>
             <configuration>
-              <skip>${it.skip.cargo}</skip>
+              <skip>${it.cargo.skip}</skip>
               <!-- Container configuration -->
               <container>
                 <containerId>tomcat6x</containerId>
