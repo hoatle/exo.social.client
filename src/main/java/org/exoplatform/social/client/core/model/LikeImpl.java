@@ -39,16 +39,17 @@ public class LikeImpl extends ModelImpl implements Like {
    * Constructor.
    *
    * @param activityId the activity id
-   * @param userId the user id
+   * @param identityId the identity id
    */
-  public LikeImpl(String activityId, String userId) {
+  public LikeImpl(String activityId, String identityId) {
     setActivityId(activityId);
-    setUserId(userId);
+    setIdentityId(identityId);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public String getActivityId() {
     return getFieldAsString(Field.ACTIVITY_ID.toString());
   }
@@ -56,6 +57,7 @@ public class LikeImpl extends ModelImpl implements Like {
   /**
    * {@inheritDoc}
    */
+  @Override
   public void setActivityId(String activityId) {
     setField(Field.ACTIVITY_ID.toString(), activityId);
   }
@@ -63,20 +65,23 @@ public class LikeImpl extends ModelImpl implements Like {
   /**
    * {@inheritDoc}
    */
-  public String getUserId() {
-    return getFieldAsString(Field.USER_ID.toString());
+  @Override
+  public String getIdentityId() {
+    return getFieldAsString(Field.IDENTITY_ID.toString());
   }
 
   /**
    * {@inheritDoc}
    */
-  public void setUserId(String userId) {
-    setField(Field.USER_ID.toString(), userId);
+  @Override
+  public void setIdentityId(String identityId) {
+    setField(Field.IDENTITY_ID.toString(), identityId);
   }
 
   /**
    * {@inheritDoc}
    */
+  @Override
   public Activity getActivity() {
     //TODO implement this
     return null;
@@ -85,6 +90,7 @@ public class LikeImpl extends ModelImpl implements Like {
   /**
    * {@inheritDoc}
    */
+  @Override
   public Identity getIdentity() {
     //TODO implement this
     return null;

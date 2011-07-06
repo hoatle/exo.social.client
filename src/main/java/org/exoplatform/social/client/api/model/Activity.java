@@ -272,10 +272,21 @@ public interface Activity extends Model {
 
   /**
    * Gets the available list of comments for this activity.
+   * Return maximum 5 latest comments of this activity.
    *
-   * @return list of comments.
+   * @return maximum 5 latest comments
+   * @see #getTotalComments()
    */
   List<Comment> getAvailableComments();
+
+
+  /**
+   * Sets the available list of comments for this activity.
+   *
+   * @param commentList available comment list
+   */
+  void setAvailableComments(List<Comment> commentList);
+
 
   /**
    * Gets the number of total comments.

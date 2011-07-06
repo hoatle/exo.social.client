@@ -34,11 +34,11 @@ public class LikeImplTest {
   @Test
   public void shouldCreateLikeInstance() {
     final String activityId = "1234";
-    final String userId = "demo";
-    Like like = new LikeImpl(activityId, userId);
+    final String identityId = "abcdegheogi30";
+    Like like = new LikeImpl(activityId, identityId);
     assertThat("like must not be null", like, notNullValue());
     assertThat("like.getActivityId() must return: " + activityId , like.getActivityId(), equalTo(activityId));
-    assertThat("like.getIdentityId() must return: " + userId, like.getUserId(), equalTo(userId));
+    assertThat("like.getIdentityId() must return: " + identityId, like.getIdentityId(), equalTo(identityId));
   }
 
 

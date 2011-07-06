@@ -215,6 +215,15 @@ public class ActivityImpl extends ModelImpl implements Activity {
 
   /**
    * {@inheritDoc}
+   * @param commentList available comment list
+   */
+  @Override
+  public void setAvailableComments(List<Comment> commentList) {
+    //TODO implements this
+  }
+
+  /**
+   * {@inheritDoc}
    */
   @Override
   public int getTotalNumberOfComments() {
