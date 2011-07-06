@@ -17,9 +17,19 @@
 package org.exoplatform.social.client.core.model;
 
 
+import java.io.IOException;
+
+import javax.sql.rowset.serial.SerialException;
+
+import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.json.simple.parser.ParseException;
 
 /**
  * Implementation of {@link Comment}.
@@ -153,7 +163,18 @@ public class CommentImpl extends ModelImpl implements Comment {
    */
   @Override
   public Activity getActivity() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    Activity activity = null;
+    try {
+      String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
+      String requestURL = BASE_URL + "activity/" + this.getActivityId() + ".json";
+      HttpResponse response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
+      activity = SocialJSONDecodingSupport.parser(Activity.class, response);
+    } catch (IOException e) {
+      throw new ServiceException(CommentImpl.class, "IOException when reads Json Content.", e);
+    } catch (ParseException e) {
+      throw new ServiceException(CommentImpl.class, "ParseException when reads Json Content.", e);
+    }
+    return activity;
   }
 
   /**
@@ -161,6 +182,17 @@ public class CommentImpl extends ModelImpl implements Comment {
    */
   @Override
   public Identity getIdentity() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    Identity identity = null;
+    try {
+      String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
+      String requestURL = BASE_URL + "identity/" + this.getIdentityId() + ".json";
+      HttpResponse response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
+      identity = SocialJSONDecodingSupport.parser(Identity.class, response);
+    } catch (IOException e) {
+      throw new ServiceException(CommentImpl.class, "IOException when reads Json Content.", e);
+    } catch (ParseException e) {
+      throw new ServiceException(CommentImpl.class, "ParseException when reads Json Content.", e);
+    }
+    return identity;
   }
 }

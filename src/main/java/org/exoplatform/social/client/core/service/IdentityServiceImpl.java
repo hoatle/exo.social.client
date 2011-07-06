@@ -52,10 +52,10 @@ public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<I
     try {
       return SocialJSONDecodingSupport.parser(IdentityImpl.class, response);
     } catch (IOException ioex) {
-      throw new ServiceException(ActivityServiceImpl.class, "IOException when reads Json Content.", ioex);
+      throw new ServiceException(IdentityServiceImpl.class, "IOException when reads Json Content.", ioex);
       
     } catch (ParseException pex) {
-      throw new ServiceException(ActivityServiceImpl.class, "ParseException when reads Json Content.", pex);
+      throw new ServiceException(IdentityServiceImpl.class, "ParseException when reads Json Content.", pex);
     }
   }
 
