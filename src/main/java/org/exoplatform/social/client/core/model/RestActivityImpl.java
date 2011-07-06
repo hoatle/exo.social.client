@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
-import org.exoplatform.social.client.api.model.Activity;
+import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.ActivityStream;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
@@ -38,17 +38,17 @@ import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 /**
- * Implementation of {@link Activity}.
+ * Implementation of {@link org.exoplatform.social.client.api.model.RestActivity}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 26, 2011
  */
-public class ActivityImpl extends ModelImpl implements Activity {
+public class RestActivityImpl extends ModelImpl implements RestActivity {
 
   /**
    * Constructor without any params.
    */
-  public ActivityImpl() {
+  public RestActivityImpl() {
 
   }
 
@@ -195,7 +195,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   @Override
   public List<Like> getLikes() {
     try{
-      String likedIdentityString = this.getFieldAsString(Activity.Field.LIKED_BY_IDENTITIES.toString());
+      String likedIdentityString = this.getFieldAsString(RestActivity.Field.LIKED_BY_IDENTITIES.toString());
       List<Like> result = new ArrayList<Like>();
       if(likedIdentityString !=null){
         JSONArray identitiesArray = (JSONArray) JSONValue.parse(likedIdentityString);
@@ -261,7 +261,7 @@ public class ActivityImpl extends ModelImpl implements Activity {
   @Override
   public int getTotalNumberOfComments() {
 
-    return Integer.parseInt(this.getFieldAsString(Activity.Field.TOTAL_NUMBER_OF_COMMENTS.toString()));
+    return Integer.parseInt(this.getFieldAsString(RestActivity.Field.TOTAL_NUMBER_OF_COMMENTS.toString()));
   }
 
   /**

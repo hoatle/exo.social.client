@@ -20,7 +20,7 @@ package org.exoplatform.social.client.core.model;
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
-import org.exoplatform.social.client.api.model.Activity;
+import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
@@ -160,19 +160,19 @@ public class CommentImpl extends ModelImpl implements Comment {
    * {@inheritDoc}
    */
   @Override
-  public Activity getActivity() {
-    Activity activity = null;
+  public RestActivity getActivity() {
+    RestActivity restActivity = null;
     try {
       String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
-      String requestURL = BASE_URL + "activity/" + this.getActivityId() + ".json";
+      String requestURL = BASE_URL + "restActivity/" + this.getActivityId() + ".json";
       HttpResponse response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
-      activity = SocialJSONDecodingSupport.parser(Activity.class, response);
+      restActivity = SocialJSONDecodingSupport.parser(RestActivity.class, response);
     } catch (IOException e) {
       throw new ServiceException(CommentImpl.class, "IOException when reads Json Content.", e);
     } catch (ParseException e) {
       throw new ServiceException(CommentImpl.class, "ParseException when reads Json Content.", e);
     }
-    return activity;
+    return restActivity;
   }
 
   /**

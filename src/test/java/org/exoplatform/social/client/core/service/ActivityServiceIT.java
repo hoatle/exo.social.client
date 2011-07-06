@@ -17,13 +17,13 @@
 package org.exoplatform.social.client.core.service;
 
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
-import org.exoplatform.social.client.api.model.Activity;
+import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.model.ActivityImpl;
+import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.model.CommentImpl;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.junit.Test;
@@ -41,7 +41,7 @@ import static org.junit.Assert.fail;
  */
 public class ActivityServiceIT extends AbstractClientTest {
 
-  private ActivityService<Activity> activityService;
+  private ActivityService<RestActivity> activityService;
   private IdentityService<Identity> identityService;
 
   public void setUp() {
@@ -60,42 +60,42 @@ public class ActivityServiceIT extends AbstractClientTest {
     startSessionAs("demo", "gtn");
     String demoIdentityId = identityService.getIdentityId("organization", "demo");
 
-    Activity activityToCreate = new ActivityImpl();
-    activityToCreate.setTitle("Hello PhuongLM!!!");
-    Activity activityResult = activityService.create(activityToCreate);
+    RestActivity restActivityToCreate = new RestActivityImpl();
+    restActivityToCreate.setTitle("Hello PhuongLM!!!");
+    RestActivity restActivityResult = activityService.create(restActivityToCreate);
 
-    assertThat(activityResult.getId(), notNullValue());
+    assertThat(restActivityResult.getId(), notNullValue());
 
-    assertThat(activityResult.getTitle(), equalTo("Hello PhuongLM!!!"));
-    assertThat(activityResult.getIdentityId(), equalTo(demoIdentityId));
-    assertThat(activityResult.getLikes().size(), equalTo(0));
+    assertThat(restActivityResult.getTitle(), equalTo("Hello PhuongLM!!!"));
+    assertThat(restActivityResult.getIdentityId(), equalTo(demoIdentityId));
+    assertThat(restActivityResult.getLikes().size(), equalTo(0));
 
-    activityService.like(activityResult);
+    activityService.like(restActivityResult);
 
-    String createdActivityId = activityResult.getId();
-    activityResult = activityService.get(createdActivityId);
+    String createdActivityId = restActivityResult.getId();
+    restActivityResult = activityService.get(createdActivityId);
 
-    assertThat(activityResult.getId(), equalTo(createdActivityId));
-    assertThat(activityResult.getIdentityId(), equalTo(demoIdentityId));
-    assertThat(activityResult.getLikes().size(), equalTo(1));
-    Like like = activityResult.getLikes().get(0);
+    assertThat(restActivityResult.getId(), equalTo(createdActivityId));
+    assertThat(restActivityResult.getIdentityId(), equalTo(demoIdentityId));
+    assertThat(restActivityResult.getLikes().size(), equalTo(1));
+    Like like = restActivityResult.getLikes().get(0);
     assertThat(like.getIdentityId() , equalTo(demoIdentityId));
 
     CommentImpl comment = new CommentImpl();
     comment.setText("hello");
 
-    activityService.createComment(activityResult, comment);
+    activityService.createComment(restActivityResult, comment);
 
-    activityResult = activityService.get(createdActivityId);
-    assertThat(activityResult.getTotalNumberOfComments(), equalTo(1));
-    assertThat(activityResult.getAvailableComments().get(0).getText(), equalTo("hello"));
+    restActivityResult = activityService.get(createdActivityId);
+    assertThat(restActivityResult.getTotalNumberOfComments(), equalTo(1));
+    assertThat(restActivityResult.getAvailableComments().get(0).getText(), equalTo("hello"));
 
 
-    activityService.delete(activityResult);
+    activityService.delete(restActivityResult);
 
     try {
-      activityResult = activityService.get(createdActivityId);
-      fail("failed to check if Activity deleted.");
+      restActivityResult = activityService.get(createdActivityId);
+      fail("failed to check if RestActivity deleted.");
     } catch (ServiceException e) {
       //expected
     }
@@ -109,13 +109,13 @@ public class ActivityServiceIT extends AbstractClientTest {
 
     int i = 10;
     createActivities(i);
-    RealtimeListAccess<Activity> result = activityService.getActivityStream(demoIdentity);
+    RealtimeListAccess<RestActivity> result = activityService.getActivityStream(demoIdentity);
     for(int j = 0; i < j; i++){
       assertThat(result.load(j, j+1)[0].getTitle(), equalTo(new Integer(j).toString()));
     }
-    Activity[] resultArray = result.load(0, i);
-    for (Activity activity : resultArray) {
-      activityService.delete(activity);
+    RestActivity[] resultArray = result.load(0, i);
+    for (RestActivity restActivity : resultArray) {
+      activityService.delete(restActivity);
     }
     // TODO: Cause the Rest API don't provide relationship and space interface so
     // we cannot create data for test conntectionActivityStream and spaceActivitySteam.
@@ -124,9 +124,9 @@ public class ActivityServiceIT extends AbstractClientTest {
 
   public void createActivities(int numberOfActivity){
     for (int i = 0 ; i < numberOfActivity ; i++){
-      Activity activityToCreate = new ActivityImpl();
-      activityToCreate.setTitle(""+i);
-      activityService.create(activityToCreate);
+      RestActivity restActivityToCreate = new RestActivityImpl();
+      restActivityToCreate.setTitle(""+i);
+      activityService.create(restActivityToCreate);
     }
   }
 }

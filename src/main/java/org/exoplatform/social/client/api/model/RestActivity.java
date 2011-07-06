@@ -27,7 +27,7 @@ import java.util.Map;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Activity extends Model {
+public interface RestActivity extends Model {
 
   /**
    * The fields that represent the activity object in json form.

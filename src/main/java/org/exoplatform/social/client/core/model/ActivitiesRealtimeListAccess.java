@@ -22,7 +22,7 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
-import org.exoplatform.social.client.api.model.Activity;
+import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -39,7 +39,7 @@ import org.json.simple.JSONValue;
  *          phuonglm@exoplatform.com
  * Jul 5, 2011  
  */
-public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity> {
+public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActivity> {
 
   /** The activity type.*/
   public static enum ActivityType {
@@ -76,7 +76,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * {@inheritDoc}
    */
   @Override
-  public int getNumberOfNewer(Activity baseElement) {
+  public int getNumberOfNewer(RestActivity baseElement) {
     //TODO
     return 0;
   }
@@ -85,7 +85,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * {@inheritDoc}
    */
   @Override
-  public int getNumberOfOlder(Activity baseElement) {
+  public int getNumberOfOlder(RestActivity baseElement) {
     //TODO
     return 0;
   }
@@ -94,7 +94,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * {@inheritDoc}
    */
   @Override
-  public boolean hasNewer(Activity baseElement) {
+  public boolean hasNewer(RestActivity baseElement) {
     return this.loadNewerAsList(baseElement, 1).size() > 0;
   }
 
@@ -102,7 +102,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * {@inheritDoc}
    */
   @Override
-  public boolean hasOlder(Activity baseElement) {
+  public boolean hasOlder(RestActivity baseElement) {
     return this.loadOlderAsList(baseElement, 1).size() > 0;
   }
 
@@ -110,15 +110,15 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * {@inheritDoc}
    */
   @Override
-  public Activity[] loadNewer(Activity baseElement, int limit) {
-    return this.convertListToArray(this.loadNewerAsList(baseElement, limit), Activity.class);
+  public RestActivity[] loadNewer(RestActivity baseElement, int limit) {
+    return this.convertListToArray(this.loadNewerAsList(baseElement, limit), RestActivity.class);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public List<Activity> loadNewerAsList(Activity baseElement, int limit) {
+  public List<RestActivity> loadNewerAsList(RestActivity baseElement, int limit) {
     String requestURL = null;
     HttpResponse response = null;
     
@@ -151,15 +151,15 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * {@inheritDoc}
    */
   @Override
-  public Activity[] loadOlder(Activity baseElement, int limit) {
-    return this.convertListToArray(this.loadOlderAsList(baseElement, limit), Activity.class);
+  public RestActivity[] loadOlder(RestActivity baseElement, int limit) {
+    return this.convertListToArray(this.loadOlderAsList(baseElement, limit), RestActivity.class);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public List<Activity> loadOlderAsList(Activity baseElement, int limit) {
+  public List<RestActivity> loadOlderAsList(RestActivity baseElement, int limit) {
     String requestURL = null;
     HttpResponse response = null;
     
@@ -201,15 +201,15 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * {@inheritDoc}
    */
   @Override
-  public Activity[] load(int index, int limit) {
-    return this.convertListToArray(this.loadAsList(index, limit), Activity.class);
+  public RestActivity[] load(int index, int limit) {
+    return this.convertListToArray(this.loadAsList(index, limit), RestActivity.class);
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public List<Activity> loadAsList(int index, int limit) {
+  public List<RestActivity> loadAsList(int index, int limit) {
     String requestURL = null;
     HttpResponse response = null;
     switch (activityType) {
@@ -279,14 +279,14 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<Activity
    * @param response
    * @return
    */
-  private List<Activity> getListActivitiesFromResponse(HttpResponse response) {
+  private List<RestActivity> getListActivitiesFromResponse(HttpResponse response) {
     try {
       JSONObject jsonObject = (JSONObject) JSONValue.parse(SocialHttpClientSupport.getContent(response));
       JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-      List<ActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonArray.toJSONString());
-      List<Activity> copyActivities = new ArrayList(activities);
-      Collections.copy(copyActivities, activities);
-      return copyActivities;
+      List<RestActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString());
+      List<RestActivity> copyRestActivities = new ArrayList(activities);
+      Collections.copy(copyRestActivities, activities);
+      return copyRestActivities;
     } catch (Exception e) {
       throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
     }

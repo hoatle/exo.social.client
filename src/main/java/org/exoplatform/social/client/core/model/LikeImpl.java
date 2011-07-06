@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import org.exoplatform.social.client.api.model.Activity;
+import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
 
@@ -82,7 +82,7 @@ public class LikeImpl extends ModelImpl implements Like {
    * {@inheritDoc}
    */
   @Override
-  public Activity getActivity() {
+  public RestActivity getActivity() {
     //TODO implement this
     return null;
   }

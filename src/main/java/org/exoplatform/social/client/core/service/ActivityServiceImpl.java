@@ -19,7 +19,7 @@ package org.exoplatform.social.client.core.service;
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
-import org.exoplatform.social.client.api.model.Activity;
+import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
@@ -28,7 +28,7 @@ import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
-import org.exoplatform.social.client.core.model.ActivityImpl;
+import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.model.CommentImpl;
 import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess;
 import org.exoplatform.social.client.core.model.LikeImpl;
@@ -42,20 +42,20 @@ import org.json.simple.JSONValue;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 28, 2011
  */
-public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<Activity>> implements ActivityService<Activity> {
+public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityService<RestActivity>> implements ActivityService<RestActivity> {
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public Activity create(Activity newInstance) throws AccessDeniedException, ServiceException {
+  public RestActivity create(RestActivity newInstance) throws AccessDeniedException, ServiceException {
     final String POST_ACTIVITY_REQUEST_URL = BASE_URL+"activity.json";
       try{
         HttpResponse response = SocialHttpClientSupport.executePost(POST_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH,newInstance);
         String responseContent = SocialHttpClientSupport.getContent(response);
-        Activity activity = SocialJSONDecodingSupport.parser(ActivityImpl.class, responseContent);
-        return activity;
+        RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
+        return restActivity;
       } catch (Exception e) {
         throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
       }
@@ -65,13 +65,13 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public Activity get(String uuid) throws AccessDeniedException, ServiceException {
+  public RestActivity get(String uuid) throws AccessDeniedException, ServiceException {
     final String GET_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+uuid+".json";
       try{
         HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
         String responseContent = SocialHttpClientSupport.getContent(response);
-        Activity activity = SocialJSONDecodingSupport.parser(ActivityImpl.class, responseContent);
-        return activity;
+        RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
+        return restActivity;
       } catch (Exception e) {
         throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
       }
@@ -81,7 +81,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public Activity update(Activity existingInstance) throws AccessDeniedException, ServiceException {
+  public RestActivity update(RestActivity existingInstance) throws AccessDeniedException, ServiceException {
     throw new ServiceException(ActivityServiceImpl.class,"Do Not Support",null);
   }
 
@@ -89,13 +89,13 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public Activity delete(Activity existingInstance) throws AccessDeniedException, ServiceException {
+  public RestActivity delete(RestActivity existingInstance) throws AccessDeniedException, ServiceException {
     final String DELETE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/destroy/"+existingInstance.getId()+".json";
     try{
       HttpResponse response = SocialHttpClientSupport.executePost(DELETE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
       String responseContent = SocialHttpClientSupport.getContent(response);
-      Activity activity = SocialJSONDecodingSupport.parser(ActivityImpl.class, responseContent);
-      return activity;
+      RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
+      return restActivity;
     } catch (Exception e) {
       throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
     }
@@ -106,24 +106,24 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public RealtimeListAccess<Activity> getActivityStream(Identity identity) throws AccessDeniedException,
+  public RealtimeListAccess<RestActivity> getActivityStream(Identity identity) throws AccessDeniedException,
                                                                           ServiceException {
     return new ActivitiesRealtimeListAccess(identity, ActivityType.ACTIVITY_STREAM);
   }
 
   @Override
-  public RealtimeListAccess<Activity> getSpacesActivityStream(Identity userIdentity) throws AccessDeniedException, ServiceException {
+  public RealtimeListAccess<RestActivity> getSpacesActivityStream(Identity userIdentity) throws AccessDeniedException, ServiceException {
     return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.USER_SPACE_ACTIVITIES);
   }
 
   @Override
-  public RealtimeListAccess<Activity> getConnectionsActivityStream(Identity userIdentity) throws AccessDeniedException,
+  public RealtimeListAccess<RestActivity> getConnectionsActivityStream(Identity userIdentity) throws AccessDeniedException,
                                                                                                  ServiceException {
     return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.CONNECTIONS_ACTIVITIES);
   }
 
   @Override
-  public RealtimeListAccess<Activity> getFeedActivityStream(Identity userIdentity) throws AccessDeniedException,
+  public RealtimeListAccess<RestActivity> getFeedActivityStream(Identity userIdentity) throws AccessDeniedException,
                                                                                           ServiceException {
     return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.ACTIVITY_FEED);
   }
@@ -133,9 +133,9 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public Comment createComment(Activity existingActivity, Comment newComment) throws AccessDeniedException,
+  public Comment createComment(RestActivity existingRestActivity, Comment newComment) throws AccessDeniedException,
                                                                                      ServiceException {
-    final String CREATE_COMMENT_REQUEST_URL = BASE_URL+"activity/"+existingActivity.getId()+"/comment.json";
+    final String CREATE_COMMENT_REQUEST_URL = BASE_URL+"activity/"+ existingRestActivity.getId()+"/comment.json";
       try{
         HttpResponse response = SocialHttpClientSupport.executePost(CREATE_COMMENT_REQUEST_URL,POLICY.BASIC_AUTH,newComment);
         String responseContent = SocialHttpClientSupport.getContent(response);
@@ -193,14 +193,14 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
    * {@inheritDoc}
    */
   @Override
-  public Like like(Activity existingActivity) throws AccessDeniedException, ServiceException {
-    final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+existingActivity.getId()+"/like.json";
+  public Like like(RestActivity existingRestActivity) throws AccessDeniedException, ServiceException {
+    final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+ existingRestActivity.getId()+"/like.json";
     HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
     String responseContent = SocialHttpClientSupport.getContent(response);
     try{
       JSONObject responeJson = (JSONObject)JSONValue.parse(responseContent);
       if((Boolean) responeJson.get("like")){
-        return new LikeImpl(existingActivity.getId(), null);
+        return new LikeImpl(existingRestActivity.getId(), null);
       } else {
         throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
       }
@@ -211,13 +211,13 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
 
 
   @Override
-  public Like unlike(Activity existingActivity) throws AccessDeniedException, ServiceException {
-    final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+existingActivity.getId()+"/like/destroy.json";
+  public Like unlike(RestActivity existingRestActivity) throws AccessDeniedException, ServiceException {
+    final String LIKE_ACTIVITY_REQUEST_URL = BASE_URL+"activity/"+ existingRestActivity.getId()+"/like/destroy.json";
     HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
     String responseContent = SocialHttpClientSupport.getContent(response);
     JSONObject responeJson = (JSONObject)JSONValue.parse(responseContent);
     if(!(Boolean) responeJson.get("like")){
-      return new LikeImpl(existingActivity.getId(), null);
+      return new LikeImpl(existingRestActivity.getId(), null);
     } else {
       throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
     }

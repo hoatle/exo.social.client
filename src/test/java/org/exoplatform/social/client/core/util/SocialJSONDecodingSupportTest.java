@@ -16,19 +16,17 @@
  */
 package org.exoplatform.social.client.core.util;
 
-import java.util.LinkedList;
 import java.util.Map;
 
-import junit.framework.Assert;
-
-import org.exoplatform.social.client.api.model.Activity;
-import org.exoplatform.social.client.core.model.ActivityImpl;
+import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import junit.framework.Assert;
 
 /**
  * Created by The eXo Platform SAS
@@ -51,7 +49,7 @@ public class SocialJSONDecodingSupportTest {
   @Test
   public void testJSONParserWithClassType() throws Exception {
     String jsonActivity = "{\"numberOfComments\":1,\"identityId\":\"d5039b437f0001010011fd153a4fcbd8\",\"liked\":true,}";
-    ActivityImpl model = SocialJSONDecodingSupport.parser(ActivityImpl.class, jsonActivity);
+    RestActivityImpl model = SocialJSONDecodingSupport.parser(RestActivityImpl.class, jsonActivity);
     Assert.assertEquals("d5039b437f0001010011fd153a4fcbd8", model.getIdentityId());
   }
   
@@ -69,8 +67,8 @@ public class SocialJSONDecodingSupportTest {
     		                      "{\"numberOfComments\":1,\"identityId\":\"d5039b437f0001010011fd153a4fcbd8\",\"liked\":true,}," +
     		                      "{\"numberOfComments\":2,\"identityId\":\"d5039b437f0001010011fd153a4fcba8\",\"liked\":false,}" +
     		                   "]";
-    ActivityImpl model1 = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonActivity).get(0);
-    ActivityImpl model2 = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonActivity).get(1);
+    RestActivityImpl model1 = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonActivity).get(0);
+    RestActivityImpl model2 = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonActivity).get(1);
     Assert.assertEquals("d5039b437f0001010011fd153a4fcbd8", model1.getIdentityId());
     Assert.assertEquals("d5039b437f0001010011fd153a4fcba8", model2.getIdentityId());
     
@@ -89,7 +87,7 @@ public class SocialJSONDecodingSupportTest {
 
     JSONObject jsonObject = (JSONObject) JSONValue.parse(jsonActivity1);
     JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-    ActivityImpl model3 = SocialJSONDecodingSupport.JSONArrayObjectParser(ActivityImpl.class, jsonArray.toJSONString()).get(0);
+    RestActivityImpl model3 = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString()).get(0);
     Assert.assertEquals("f845f6ed7f000101003ed4d98a09beb3", model3.getIdentityId());
   }
 }

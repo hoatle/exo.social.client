@@ -107,4 +107,4 @@ Sample code:
     //...
 
     ActivityService activityService = client.getActivityService();
-    Activity activity = (Activity) activityService.get("123456789");
+    RestActivity restActivity = (RestActivity) activityService.get("123456789");

@@ -36,7 +36,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * For example:
    * <pre>
    *    Identity demoIdentity = identityService.get("123456789abcdef");
-   *    RealtimeListAccess<Activity> activityListAccess = activityService.getActivityStream(demoIdentity);
+   *    RealtimeListAccess<RestActivity> activityListAccess = activityService.getActivityStream(demoIdentity);
    * </pre>
    *
    * or:
@@ -44,7 +44,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    *   Identity spaceIdentity = new IdentityImpl();
    *   spaceIdentity.setProviderId("space");
    *   spaceIdentity.setRemoteId("hello_world");
-   *   RealtimeListAccess<Activity> activityListAccess = activityService.getActivitySream(spaceIdentity);
+   *   RealtimeListAccess<RestActivity> activityListAccess = activityService.getActivitySream(spaceIdentity);
    * </pre>
    *
    * @param  ownerStreamIdentity the owner stream identity, could be a user or space identity.

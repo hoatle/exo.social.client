@@ -161,7 +161,7 @@ public interface Comment extends Model {
    *
    * @return the activity
    */
-  Activity getActivity();
+  RestActivity getActivity();
 
   /**
    * Gets the identity who commented.

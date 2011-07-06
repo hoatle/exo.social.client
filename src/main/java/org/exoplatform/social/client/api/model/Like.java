@@ -98,7 +98,7 @@ public interface Like extends Model {
    *
    * @return the activity
    */
-  Activity getActivity();
+  RestActivity getActivity();
 
   /**
    * Gets the identity associated with this like.
