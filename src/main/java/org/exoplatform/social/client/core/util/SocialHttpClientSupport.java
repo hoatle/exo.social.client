@@ -141,7 +141,7 @@ public class SocialHttpClientSupport {
         dumpHttpResponsetHeader(response);
         dumpContent(response);
       }
-      return response;
+      return response;  
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
     } catch (IOException ioex) {

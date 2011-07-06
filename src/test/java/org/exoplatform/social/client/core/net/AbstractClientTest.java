@@ -17,11 +17,7 @@
 package org.exoplatform.social.client.core.net;
 
 
-import java.util.Map;
-
-import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
-
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -48,7 +44,6 @@ public abstract class AbstractClientTest {
     SocialClientContext.setPortalContainerName("socialdemo");
     SocialClientContext.setRestContextName("rest-socialdemo");
     SocialClientContext.setRestVersion("v1-alpha1");
-    SocialClientContext.setIsDeveloping(true);
     identityService = new IdentityServiceImpl();
   }
   
@@ -60,7 +55,6 @@ public abstract class AbstractClientTest {
     SocialClientContext.setPortalContainerName(null);
     SocialClientContext.setRestContextName(null);
     SocialClientContext.setRestVersion("v1-alpha1");
-    SocialClientContext.setIsDeveloping(false);
     startSessionAsAnonymous();
     identityService = null;
   }

@@ -142,7 +142,7 @@ public class ActivityServiceImpl extends ServiceBase<Activity, ActivityService<A
         Comment comment = SocialJSONDecodingSupport.parser(CommentImpl.class, responseContent);
         return comment;
       } catch (Exception e) {
-        throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
       }
   }
 

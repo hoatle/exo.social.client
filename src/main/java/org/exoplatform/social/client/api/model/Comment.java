@@ -39,7 +39,7 @@ public interface Comment extends Model {
     /** the json field for activityId. */
     ACTIVITY_ID("activityId"),
      /** the json field for streamTitle. */
-    CONTENT("content"),
+    TEXT("text"),
     /** the json field for postedTime. */
     POSTED_TIME("postedTime"),
     /** the json field for createdAt. */
@@ -117,14 +117,14 @@ public interface Comment extends Model {
    *
    * @return the comment content.
    */
-  String getContent();
+  String getText();
 
   /**
    * Sets the comment content.
    *
    * @param content the comment content
    */
-  void setContent(String content);
+  void setText(String content);
 
   /**
    * Gets the posted time of this comment as timestamp value.

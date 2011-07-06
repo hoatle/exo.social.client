@@ -16,15 +16,26 @@
  */
 package org.exoplatform.social.client.core.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.ActivityStream;
 import org.exoplatform.social.client.api.model.Comment;
 import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Like;
+import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.service.ActivityServiceImpl;
+import org.exoplatform.social.client.core.service.IdentityServiceImpl;
+import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 /**
  * Implementation of {@link Activity}.
@@ -183,8 +194,24 @@ public class ActivityImpl extends ModelImpl implements Activity {
    */
   @Override
   public List<Like> getLikes() {
-    //TODO implement this
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    try{
+      String likedIdentityString = this.getFieldAsString(Activity.Field.LIKED_BY_IDENTITIES.toString());
+      List<Like> result = new ArrayList<Like>();
+      if(likedIdentityString !=null){
+        JSONArray identitiesArray = (JSONArray) JSONValue.parse(likedIdentityString);
+        for(Object identityJsonItem : identitiesArray){
+          JSONObject jsonObject = (JSONObject) identityJsonItem;
+          
+          Like likeItem = new LikeImpl();
+          likeItem.setIdentityId((String) jsonObject.get("id"));          
+          likeItem.setActivityId(this.getId());
+          result.add(likeItem);
+        }
+      }
+      return result;
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+    }
   }
 
   /**
@@ -192,25 +219,31 @@ public class ActivityImpl extends ModelImpl implements Activity {
    */
   @Override
   public Identity getPosterIdentity() {
-    //TODO implement this
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return new IdentityServiceImpl().get(this.getIdentityId());
   }
 
-  /**
-   * {@inheritDoc}
-   */
-  @Override
-  public void setPosterIdentity(Identity posterIdentity) {
-    //TODO implement this
-    //To change body of implemented methods use File | Settings | File Templates.
-  }
 
   /**
    * {@inheritDoc}
    */
   @Override
   public List<Comment> getAvailableComments() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)+"activity/"+this.getId()+".json?number_of_comments=5";
+    try{
+      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
+      String responseContent = SocialHttpClientSupport.getContent(response);
+      
+      JSONObject jsonObject = (JSONObject) JSONValue.parse(responseContent);
+      JSONArray commentsJsonarray = (JSONArray) jsonObject.get("comments");
+      
+      List<CommentImpl> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(CommentImpl.class, commentsJsonarray.toJSONString());
+      List<Comment> result = new ArrayList<Comment>();
+      result.addAll(comments);
+      return result;
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+    }
+    
   }
 
   /**
@@ -227,8 +260,8 @@ public class ActivityImpl extends ModelImpl implements Activity {
    */
   @Override
   public int getTotalNumberOfComments() {
-    //TODO implement this
-    return 0;  //To change body of implemented methods use File | Settings | File Templates.
+
+    return Integer.parseInt(this.getFieldAsString(Activity.Field.TOTAL_NUMBER_OF_COMMENTS.toString()));
   }
 
   /**
@@ -236,8 +269,17 @@ public class ActivityImpl extends ModelImpl implements Activity {
    */
   @Override
   public List<Comment> getTotalComments() {
-    //TODO implement this
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)+"activity/"+this.getId()+"/comments.json";
+    try{
+      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
+      String responseContent = SocialHttpClientSupport.getContent(response);
+      List<CommentImpl> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(CommentImpl.class, responseContent);
+      List<Comment> result = new ArrayList<Comment>();
+      result.addAll(comments);
+      return result;
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+    }
   }
 
   /**
@@ -245,8 +287,18 @@ public class ActivityImpl extends ModelImpl implements Activity {
    */
   @Override
   public ActivityStream getActivityStream() {
-    //TODO implement this
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)+"activity/"+this.getId()+"/comment.json?activity_stream=1";
+    try{
+      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
+      String responseContent = SocialHttpClientSupport.getContent(response);
+      
+      JSONObject jsonObject = (JSONObject) JSONValue.parse(responseContent);
+      JSONObject activityStreamJson = (JSONObject) jsonObject.get("activityStream");
+      ActivityStreamImpl activityStream = SocialJSONDecodingSupport.parser(ActivityStreamImpl.class, activityStreamJson.toJSONString());
+      return activityStream;
+    } catch (Exception e) {
+      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+    }
   }
 
   /**

@@ -56,7 +56,7 @@ public interface Activity extends Model {
     /** the json field for liked. */
     LIKED("liked"),
     /** the json field for likedByIdentities */
-    LIKED_BY_IDENTITIES("likedByIdentitites"),
+    LIKED_BY_IDENTITIES("likedByIdentities"),
     /** the json field for numberOfCommens */
     TOTAL_NUMBER_OF_COMMENTS("totalNumberOfComments");
 
@@ -262,13 +262,6 @@ public interface Activity extends Model {
    * @return the poster identity
    */
   Identity getPosterIdentity();
-
-  /**
-   * Sets the poster identity who created this activity.
-   *
-   * @param posterIdentity the poster identity
-   */
-  void setPosterIdentity(Identity posterIdentity);
 
   /**
    * Gets the available list of comments for this activity.

@@ -19,8 +19,6 @@ package org.exoplatform.social.client.core.model;
 
 import java.io.IOException;
 
-import javax.sql.rowset.serial.SerialException;
-
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.Activity;
 import org.exoplatform.social.client.api.model.Comment;
@@ -114,18 +112,18 @@ public class CommentImpl extends ModelImpl implements Comment {
    * {@inheritDoc}
    */
   @Override
-  public String getContent() {
-    return getFieldAsString(Field.CONTENT.toString());
+  public String getText() {
+    return getFieldAsString(Field.TEXT.toString());
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public void setContent(String content) {
-    setField(Field.CONTENT.toString(), content);
+  public void setText(String content) {
+    setField(Field.TEXT.toString(), content);
   }
-
+  
   /**
    * {@inheritDoc}
    */
