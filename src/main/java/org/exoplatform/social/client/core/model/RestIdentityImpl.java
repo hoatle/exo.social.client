@@ -16,18 +16,18 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.Profile;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
 
 /**
- * Implementation of {@link Identity}.
+ * Implementation of {@link org.exoplatform.social.client.api.model.RestIdentity}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 25, 2011
  */
-public class IdentityImpl extends ModelImpl implements Identity {
+public class RestIdentityImpl extends ModelImpl implements RestIdentity {
 
   /**
    * The associated profile with this identity.
@@ -37,7 +37,7 @@ public class IdentityImpl extends ModelImpl implements Identity {
   /**
    * Constructor without any param.
    */
-  public IdentityImpl() {
+  public RestIdentityImpl() {
 
   }
 
@@ -48,7 +48,7 @@ public class IdentityImpl extends ModelImpl implements Identity {
    * @param providerId the identity provider id
    * @param remoteId   the remote id
    */
-  public IdentityImpl(String id, String providerId, String remoteId, Profile profile) {
+  public RestIdentityImpl(String id, String providerId, String remoteId, Profile profile) {
     setId(id);
     setProviderId(providerId);
     setRemoteId(remoteId);

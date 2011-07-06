@@ -25,7 +25,8 @@ package org.exoplatform.social.client.api.model;
 public interface Like extends Model {
 
   /**
-   * The fields that represent the Identity object in json form. <p/> <p> All of the fields that comments can have.
+   * The fields that represent the Like object in json form. <p/>
+   * <p> All of the fields that Like can have.
    * </p>
    */
   public static enum Field {
@@ -107,5 +108,5 @@ public interface Like extends Model {
    *
    * @return the identity
    */
-  Identity getIdentity();
+  RestIdentity getIdentity();
 }

@@ -25,7 +25,7 @@ import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestActivityStream;
 import org.exoplatform.social.client.api.model.RestComment;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.Like;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -218,7 +218,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    * {@inheritDoc}
    */
   @Override
-  public Identity getPosterIdentity() {
+  public RestIdentity getPosterIdentity() {
     return new IdentityServiceImpl().get(this.getIdentityId());
   }
 

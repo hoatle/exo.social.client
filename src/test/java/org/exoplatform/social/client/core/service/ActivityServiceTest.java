@@ -16,7 +16,7 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 
 public class ActivityServiceTest extends AbstractClientTest {
-  private IdentityService<Identity> identityService;
+  private IdentityService<RestIdentity> identityService;
   private ActivityService activityService;
 
   public void setUp() {

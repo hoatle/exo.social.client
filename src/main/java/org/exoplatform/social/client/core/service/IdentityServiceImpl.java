@@ -22,11 +22,11 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.model.IdentityImpl;
+import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
@@ -37,20 +37,20 @@ import org.json.simple.parser.ParseException;
  *          exo@exoplatform.com
  * Jun 30, 2011  
  */
-public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<Identity>> implements IdentityService<Identity> {
+public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityService<RestIdentity>> implements IdentityService<RestIdentity> {
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
   
   @Override
-  public Identity create(Identity newInstance) throws AccessDeniedException, ServiceException {
+  public RestIdentity create(RestIdentity newInstance) throws AccessDeniedException, ServiceException {
     return null;
   }
 
   @Override
-  public Identity get(String uuid) throws AccessDeniedException, ServiceException {
+  public RestIdentity get(String uuid) throws AccessDeniedException, ServiceException {
     final String targetURL = BASE_URL + "identity/" + uuid + ".json";
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
     try {
-      return SocialJSONDecodingSupport.parser(IdentityImpl.class, response);
+      return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
     } catch (IOException ioex) {
       throw new ServiceException(IdentityServiceImpl.class, "IOException when reads Json Content.", ioex);
       
@@ -60,12 +60,12 @@ public class IdentityServiceImpl extends ServiceBase<Identity, IdentityService<I
   }
 
   @Override
-  public Identity update(Identity existingInstance) throws AccessDeniedException, ServiceException {
+  public RestIdentity update(RestIdentity existingInstance) throws AccessDeniedException, ServiceException {
     return null;
   }
 
   @Override
-  public Identity delete(Identity existingInstance) throws AccessDeniedException, ServiceException {
+  public RestIdentity delete(RestIdentity existingInstance) throws AccessDeniedException, ServiceException {
     return null;
   }
 

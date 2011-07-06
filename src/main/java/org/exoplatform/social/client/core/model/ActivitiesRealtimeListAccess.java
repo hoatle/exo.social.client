@@ -23,7 +23,7 @@ import java.util.List;
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.service.ActivityServiceImpl;
@@ -56,7 +56,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActi
   private ActivityType activityType;
   
   /** The identity. */
-  private Identity ownerIdentity;
+  private RestIdentity ownerIdentity;
   
   /** The base url. */
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
@@ -67,7 +67,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActi
    * @param ownerIdentity
    * @param activityType
    */
-  public ActivitiesRealtimeListAccess(Identity ownerIdentity, ActivityType activityType) {
+  public ActivitiesRealtimeListAccess(RestIdentity ownerIdentity, ActivityType activityType) {
     this.ownerIdentity = ownerIdentity;
     this.activityType = activityType;
   }
@@ -260,7 +260,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActi
    * 
    * @return
    */
-  public Identity getOwnerIdentity() {
+  public RestIdentity getOwnerIdentity() {
     return this.ownerIdentity;
   }
   
@@ -269,7 +269,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActi
    * 
    * @param ownerIdentity
    */
-  public void setOwnerIdentity(Identity ownerIdentity) {
+  public void setOwnerIdentity(RestIdentity ownerIdentity) {
     this.ownerIdentity = ownerIdentity;
   }
   

@@ -22,7 +22,7 @@ package org.exoplatform.social.client.api.model;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Identity extends Model {
+public interface RestIdentity extends Model {
 
   /**
    * The fields that represent the Identity object in json form.

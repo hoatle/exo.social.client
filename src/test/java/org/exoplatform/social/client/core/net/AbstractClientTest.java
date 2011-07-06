@@ -18,7 +18,7 @@ package org.exoplatform.social.client.core.net;
 
 
 import org.exoplatform.social.client.api.SocialClientContext;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.service.IdentityServiceImpl;
@@ -33,14 +33,14 @@ import org.junit.Before;
  */
 public abstract class AbstractClientTest {
 
-  protected IdentityService<Identity> identityService;
+  protected IdentityService<RestIdentity> identityService;
   
   @Before
   public void setUp() {
     SocialClientContext.setProtocol("http");
     // Load host and port from System properties if available
-    SocialClientContext.setHost(System.getProperty("social.server.host","127.0.0.1"));
-    SocialClientContext.setPort(Integer.getInteger("social.server.port",8080));
+    SocialClientContext.setHost(System.getProperty("social.server.host", "127.0.0.1"));
+    SocialClientContext.setPort(Integer.getInteger("social.server.port", 8080));
     SocialClientContext.setPortalContainerName("socialdemo");
     SocialClientContext.setRestContextName("rest-socialdemo");
     SocialClientContext.setRestVersion("v1-alpha1");

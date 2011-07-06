@@ -17,7 +17,7 @@
 package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.RestActivity;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.Like;
 
 /**
@@ -91,7 +91,7 @@ public class LikeImpl extends ModelImpl implements Like {
    * {@inheritDoc}
    */
   @Override
-  public Identity getIdentity() {
+  public RestIdentity getIdentity() {
     //TODO implement this
     return null;
   }

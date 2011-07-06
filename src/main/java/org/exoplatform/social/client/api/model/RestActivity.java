@@ -261,7 +261,7 @@ public interface RestActivity extends Model {
    *
    * @return the poster identity
    */
-  Identity getPosterIdentity();
+  RestIdentity getPosterIdentity();
 
   /**
    * Gets the available list of comments for this activity.

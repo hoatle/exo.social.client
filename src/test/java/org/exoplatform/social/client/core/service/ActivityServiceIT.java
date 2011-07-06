@@ -18,7 +18,7 @@ package org.exoplatform.social.client.core.service;
 
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.Like;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
@@ -42,7 +42,7 @@ import static org.junit.Assert.fail;
 public class ActivityServiceIT extends AbstractClientTest {
 
   private ActivityService<RestActivity> activityService;
-  private IdentityService<Identity> identityService;
+  private IdentityService<RestIdentity> identityService;
 
   public void setUp() {
     super.setUp();
@@ -105,7 +105,7 @@ public class ActivityServiceIT extends AbstractClientTest {
     startSessionAs("demo", "gtn");
 
     String demoIdentityId = identityService.getIdentityId("organization", "demo");
-    Identity demoIdentity = identityService.get(demoIdentityId);
+    RestIdentity demoIdentity = identityService.get(demoIdentityId);
 
     int i = 10;
     createActivities(i);
@@ -119,10 +119,10 @@ public class ActivityServiceIT extends AbstractClientTest {
     }
     // TODO: Cause the Rest API don't provide relationship and space interface so
     // we cannot create data for test conntectionActivityStream and spaceActivitySteam.
-    // Improve in next verison
+    // Improve in next version
   }
 
-  public void createActivities(int numberOfActivity){
+  private void createActivities(int numberOfActivity){
     for (int i = 0 ; i < numberOfActivity ; i++){
       RestActivity restActivityToCreate = new RestActivityImpl();
       restActivityToCreate.setTitle(""+i);

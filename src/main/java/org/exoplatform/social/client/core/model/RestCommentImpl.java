@@ -22,7 +22,7 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
@@ -179,18 +179,18 @@ public class RestCommentImpl extends ModelImpl implements RestComment {
    * {@inheritDoc}
    */
   @Override
-  public Identity getIdentity() {
-    Identity identity = null;
+  public RestIdentity getIdentity() {
+    RestIdentity restIdentity = null;
     try {
       String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
-      String requestURL = BASE_URL + "identity/" + this.getIdentityId() + ".json";
+      String requestURL = BASE_URL + "restIdentity/" + this.getIdentityId() + ".json";
       HttpResponse response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
-      identity = SocialJSONDecodingSupport.parser(Identity.class, response);
+      restIdentity = SocialJSONDecodingSupport.parser(RestIdentity.class, response);
     } catch (IOException e) {
       throw new ServiceException(RestCommentImpl.class, "IOException when reads Json Content.", e);
     } catch (ParseException e) {
       throw new ServiceException(RestCommentImpl.class, "ParseException when reads Json Content.", e);
     }
-    return identity;
+    return restIdentity;
   }
 }

@@ -170,5 +170,5 @@ public interface RestComment extends Model {
    *
    * @return the identity
    */
-  Identity getIdentity();
+  RestIdentity getIdentity();
 }

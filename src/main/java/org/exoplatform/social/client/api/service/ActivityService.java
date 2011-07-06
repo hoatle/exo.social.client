@@ -19,7 +19,7 @@ package org.exoplatform.social.client.api.service;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestComment;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.Like;
 
 /**
@@ -35,57 +35,57 @@ public interface ActivityService<Activity> extends Service<Activity> {
    *
    * For example:
    * <pre>
-   *    Identity demoIdentity = identityService.get("123456789abcdef");
+   *    RestIdentity demoIdentity = identityService.get("123456789abcdef");
    *    RealtimeListAccess<RestActivity> activityListAccess = activityService.getActivityStream(demoIdentity);
    * </pre>
    *
    * or:
    * <pre>
-   *   Identity spaceIdentity = new IdentityImpl();
+   *   RestIdentity spaceIdentity = new RestIdentityImpl();
    *   spaceIdentity.setProviderId("space");
    *   spaceIdentity.setRemoteId("hello_world");
    *   RealtimeListAccess<RestActivity> activityListAccess = activityService.getActivitySream(spaceIdentity);
    * </pre>
    *
-   * @param  ownerStreamIdentity the owner stream identity, could be a user or space identity.
+   * @param  ownerStreamRestIdentity the owner stream identity, could be a user or space identity.
    * @return the real time list access
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getActivityStream(Identity ownerStreamIdentity) throws AccessDeniedException,
+  RealtimeListAccess<Activity> getActivityStream(RestIdentity ownerStreamRestIdentity) throws AccessDeniedException,
                                                                                       ServiceException;
 
   /**
    * Gets all activities from spaces which a user is a member of that space aggregated into one stream.
    *
-   * @param userIdentity the associated user identity
+   * @param userRestIdentity the associated user identity
    * @return the real time list access
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getSpacesActivityStream(Identity userIdentity) throws AccessDeniedException,
+  RealtimeListAccess<Activity> getSpacesActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
                                                                                      ServiceException;
 
   /**
    * Gets all connections' activities aggregated into one stream.
    *
-   * @param userIdentity the associated user identity
+   * @param userRestIdentity the associated user identity
    * @return the real time list access
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getConnectionsActivityStream(Identity userIdentity) throws AccessDeniedException,
+  RealtimeListAccess<Activity> getConnectionsActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
                                                                                           ServiceException;
 
   /**
    * Gets all activities from a stream owner, his connections and spaces aggregated into one stream.
    *
-   * @param userIdentity the associated user identity
+   * @param userRestIdentity the associated user identity
    * @return the realtime list access
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getFeedActivityStream(Identity userIdentity) throws AccessDeniedException,
+  RealtimeListAccess<Activity> getFeedActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
                                                                                    ServiceException;
   /**
    * Creates a new comment to this activity.

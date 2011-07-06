@@ -21,7 +21,7 @@ import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
-import org.exoplatform.social.client.api.model.Identity;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.Like;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
@@ -106,26 +106,26 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    * {@inheritDoc}
    */
   @Override
-  public RealtimeListAccess<RestActivity> getActivityStream(Identity identity) throws AccessDeniedException,
+  public RealtimeListAccess<RestActivity> getActivityStream(RestIdentity restIdentity) throws AccessDeniedException,
                                                                           ServiceException {
-    return new ActivitiesRealtimeListAccess(identity, ActivityType.ACTIVITY_STREAM);
+    return new ActivitiesRealtimeListAccess(restIdentity, ActivityType.ACTIVITY_STREAM);
   }
 
   @Override
-  public RealtimeListAccess<RestActivity> getSpacesActivityStream(Identity userIdentity) throws AccessDeniedException, ServiceException {
-    return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.USER_SPACE_ACTIVITIES);
+  public RealtimeListAccess<RestActivity> getSpacesActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException, ServiceException {
+    return new ActivitiesRealtimeListAccess(userRestIdentity, ActivityType.USER_SPACE_ACTIVITIES);
   }
 
   @Override
-  public RealtimeListAccess<RestActivity> getConnectionsActivityStream(Identity userIdentity) throws AccessDeniedException,
+  public RealtimeListAccess<RestActivity> getConnectionsActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
                                                                                                  ServiceException {
-    return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.CONNECTIONS_ACTIVITIES);
+    return new ActivitiesRealtimeListAccess(userRestIdentity, ActivityType.CONNECTIONS_ACTIVITIES);
   }
 
   @Override
-  public RealtimeListAccess<RestActivity> getFeedActivityStream(Identity userIdentity) throws AccessDeniedException,
+  public RealtimeListAccess<RestActivity> getFeedActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
                                                                                           ServiceException {
-    return new ActivitiesRealtimeListAccess(userIdentity, ActivityType.ACTIVITY_FEED);
+    return new ActivitiesRealtimeListAccess(userRestIdentity, ActivityType.ACTIVITY_FEED);
   }
 
 

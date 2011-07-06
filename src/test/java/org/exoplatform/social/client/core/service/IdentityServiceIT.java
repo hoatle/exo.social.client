@@ -16,14 +16,15 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
-import junit.framework.Assert;
-
-import org.exoplatform.social.client.api.model.Identity;
 import org.exoplatform.social.client.api.model.Profile;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.junit.Test;
+
+import junit.framework.Assert;
+
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.junit.Assert.assertThat;
 
 /**
  * Unit Test for {@link IdentityServiceImpl}.
@@ -60,12 +61,12 @@ public class IdentityServiceIT extends AbstractClientTest {
   public void testGetIdentityById() throws Exception {
     
     String demoIdentityId = getDemoIdentityId();
-    Identity identity = identityService.get(demoIdentityId);
-    Assert.assertNotNull("Identity must not null.", identity);
-    Assert.assertEquals("IdentityID must be equal " + demoIdentityId, demoIdentityId, identity.getId());
-    Assert.assertEquals("RemoteID must be equal demo", "demo", identity.getRemoteId());
-    Assert.assertEquals("ProviderID must be equal organization", "organization", identity.getProviderId());
-    Profile profile = identity.getProfile();
+    RestIdentity restIdentity = identityService.get(demoIdentityId);
+    Assert.assertNotNull("RestIdentity must not null.", restIdentity);
+    Assert.assertEquals("IdentityID must be equal " + demoIdentityId, demoIdentityId, restIdentity.getId());
+    Assert.assertEquals("RemoteID must be equal demo", "demo", restIdentity.getRemoteId());
+    Assert.assertEquals("ProviderID must be equal organization", "organization", restIdentity.getProviderId());
+    Profile profile = restIdentity.getProfile();
     Assert.assertNull("AvatarURL is null", profile.getAvatarUrl());
     Assert.assertEquals("Profile's fullname must be equals Demo gtn", "Demo gtn", profile.getFullName());
     
