@@ -54,6 +54,9 @@
     <maven-failsafe-plugin.version>2.9</maven-failsafe-plugin.version>
     <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
     <maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
+    <maven-deploy-plugin.version>2.6</maven-deploy-plugin.version>
+    <maven-dependency-plugin.version>2.2</maven-dependency-plugin.version>
+    <wagon-webdav-jackrabbit.version>1.0-beta-7</wagon-webdav-jackrabbit.version>
 
     <!-- ***************** -->
     <!-- webdav required to safely deploy large artifacts -->
@@ -131,6 +134,11 @@
           <artifactId>maven-surefire-plugin</artifactId>
           <version>${maven-surefire-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -147,6 +155,18 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <!-- Required by Maven 3+ to deploy artifacts in webdav -->
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-webdav-jackrabbit</artifactId>
+            <version>${wagon-webdav-jackrabbit.version}</version>
+          </dependency>
+        </dependencies>
+      </plugin>
     </plugins>
   </build>
 
@@ -158,7 +178,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
-            <version>2.2</version>
+            <version>${maven-dependency-plugin.version}</version>
             <executions>
               <execution>
                 <id>unpack</id>
