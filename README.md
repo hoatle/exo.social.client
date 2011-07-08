@@ -7,7 +7,23 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
 * Project dependencies:
     + json_simple-1.1 (compiled): http://code.google.com/p/json-simple/
+    + httpclient-4.0 (compile):   http://hc.apache.org/httpcomponents-client-ga/
     + junit-4.8.2 (test)
+
+* mvn dependency:tree
+  <pre>
+
+    org.exoplatform.social:exo.social.client:jar:1.0.0-alpha2-SNAPSHOT
+    +- com.googlecode:json_simple:jar:1.1:compile
+    +- org.apache.httpcomponents:httpclient:jar:4.0:compile
+    |  +- org.apache.httpcomponents:httpcore:jar:4.0.1:compile
+    |  +- commons-logging:commons-logging:jar:1.1.1:compile
+    |  \- commons-codec:commons-codec:jar:1.3:compile
+    \- junit:junit:jar:4.8.2:test
+
+  </pre>
+
+This library must work with http client 4.0 and above (4.0.1, 4.0.2, 4.0.3, 4.1, 4.1.1).
 
 ### Prepare your environment
 
@@ -83,14 +99,15 @@ You can redefine the host and port of the server to use by adding the following 
 * Jenkins integration tests build: https://ci.exoplatform.org/job/social-client-master-it/
 * Sonar report: https://sonar.exoplatform.org/dashboard/index/81870
 * Ohloh report: https://www.ohloh.net/p/exo-social-client/
-* Artifact deployment: http://repository.exoplatform.org/public/org/exoplatform/social/exo.social.client/
+* Artifact deployment: http://repository.exoplatform.org/content/groups/public/org/exoplatform/social/exo.social.client/
 
 ## How to use this library
 
 Sample code:
 
     // Context information
-    SocialClientContext.setHost("http://platform35.demo.exoplatform.org");
+    SocialClientContext.setProtocol("http"); //by default it is set as "http"
+    SocialClientContext.setHost("platform35.demo.exoplatform.org");
     SocialClientContext.setPort(80);
     SocialClientContext.setPortalContainerName("portal");
     SocialClientContext.setRestContextName("rest");
