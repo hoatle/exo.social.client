@@ -16,21 +16,22 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.common.RealtimeListAccess;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.model.RestActivity;
+import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.model.RestLike;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.ClientServiceFactoryHelper;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.model.RestCommentImpl;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.junit.Test;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 /**
@@ -44,17 +45,108 @@ public class ActivityServiceIT extends AbstractClientTest {
   private ActivityService<RestActivity> activityService;
   private IdentityService<RestIdentity> identityService;
 
+  private List<RestActivity> tearDownActivityList;
+
   public void setUp() {
     super.setUp();
-    activityService = new ActivityServiceImpl();
-    identityService = new IdentityServiceImpl();
+    ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
+    activityService = clientServiceFactory.createActivityService();
+    identityService = clientServiceFactory.createIdentityService();
+    tearDownActivityList = new ArrayList<RestActivity>();
   }
 
   public void tearDown() {
+    startSessionAs("demo", "gtn");
+    for (RestActivity activity: tearDownActivityList) {
+      activityService.delete(activity);
+    }
+    startSessionAsAnonymous();
+    tearDownActivityList = null;
     activityService = null;
     identityService = null;
     super.tearDown();
   }
+
+  /**
+   * Tests the case when not authenticated
+   */
+  @Test
+  public void shouldBeForbidden() {
+    try {
+      activityService.get("notfound");
+      fail("Expecting ServiceException from ActivityService#get(String)");
+    } catch (ServiceException se) {
+
+    }
+    RestActivity activity = new RestActivityImpl();
+    activity.setTitle("Hello There");
+    try {
+      activityService.create(activity);
+      fail("Expecting ServiceException from ActivityService#create(RestActivity)");
+    } catch (ServiceException se) {
+
+    }
+    try {
+      activityService.update(activity);
+      fail("Expecting ServiceException from ActivityService#update(RestActivity)");
+    } catch (ServiceException se) {
+
+    }
+
+    //create a activity to demo's stream
+    startSessionAs("demo", "gtn");
+    RestActivity demoActivity = createActivities(1).get(0);
+    startSessionAsAnonymous();
+
+    RestComment comment = new RestCommentImpl();
+    comment.setText("comment");
+
+    try {
+      activityService.createComment(demoActivity, comment);
+      fail("Expecting ServiceException from ActivityService#createComment(RestActivity, RestComment)");
+    } catch (ServiceException se) {
+
+    }
+
+
+
+
+  }
+
+  @Test
+  public void shouldBeUnsupported() {
+
+  }
+
+  @Test
+  public void shouldNotFound() {
+
+  }
+
+
+  @Test
+  public void shouldCreate() {
+
+  }
+
+  @Test
+  public void shouldGet() {
+
+  }
+
+  @Test
+  public void shouldNotUpdate() {
+
+  }
+
+  @Test
+  public void shouldDelete() {
+
+  }
+
+
+
+  /*
   @Test
   public void testCreateGetDeleteActivity() {
     startSessionAs("demo", "gtn");
@@ -100,6 +192,9 @@ public class ActivityServiceIT extends AbstractClientTest {
       //expected
     }
   }
+  */
+
+  /*
   @Test
   public void testGetActivitySteam() {
     startSessionAs("demo", "gtn");
@@ -107,9 +202,11 @@ public class ActivityServiceIT extends AbstractClientTest {
     String demoIdentityId = identityService.getIdentityId("organization", "demo");
     RestIdentity demoIdentity = identityService.get(demoIdentityId);
 
-    int i = 10;
+    int i = 1;
     createActivities(i);
-    RealtimeListAccess<RestActivity> result = activityService.getActivityStream(demoIdentity);
+    RealtimeListAccess<RestActivity> activityListAccess = activityService.getActivityStream(demoIdentity);
+    assertEquals(activityListAccess.getSize(), equalTo(1));
+    /*
     for(int j = 0; i < j; i++){
       assertThat(result.load(j, j+1)[0].getTitle(), equalTo(new Integer(j).toString()));
     }
@@ -118,15 +215,20 @@ public class ActivityServiceIT extends AbstractClientTest {
       activityService.delete(restActivity);
     }
     // TODO: Cause the Rest API don't provide relationship and space interface so
-    // we cannot create data for test conntectionActivityStream and spaceActivitySteam.
+    // we cannot create data for test connectionActivityStream and spaceActivitySteam.
     // Improve in next version
   }
+  */
 
-  private void createActivities(int numberOfActivity){
-    for (int i = 0 ; i < numberOfActivity ; i++){
+  private List<RestActivity> createActivities(int numberOfActivity) {
+    List<RestActivity> createdActivityList = new ArrayList<RestActivity>();
+    for (int i = 0; i < numberOfActivity; i++) {
       RestActivity restActivityToCreate = new RestActivityImpl();
-      restActivityToCreate.setTitle(""+i);
-      activityService.create(restActivityToCreate);
+      restActivityToCreate.setTitle("test " + i);
+      RestActivity createdActivity = activityService.create(restActivityToCreate);
+      createdActivityList.add(createdActivity);
+      tearDownActivityList.add(createdActivity);
     }
+    return createdActivityList;
   }
 }
