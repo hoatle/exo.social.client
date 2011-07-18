@@ -95,9 +95,11 @@ You can redefine the host and port of the server to use by adding the following 
 
 ### Project resources
 
+* Issues management: https://jira.exoplatform.org/browse/SCL
 * Jenkins continuous integration build: https://ci.exoplatform.org/job/social-client-master-ci/
 * Jenkins integration tests build: https://ci.exoplatform.org/job/social-client-master-it/
 * Sonar report: https://sonar.exoplatform.org/dashboard/index/81870
+* Fisheye: https://fisheye.exoplatform.org/changelog/social-client
 * Ohloh report: https://www.ohloh.net/p/exo-social-client/
 * Artifact deployment: http://repository.exoplatform.org/content/groups/public/org/exoplatform/social/exo.social.client/
 

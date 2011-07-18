@@ -82,8 +82,8 @@
   </scm>
 
   <issueManagement>
-    <system>GitHub</system>
-    <url>https://github.com/exosocial/exo.social.client/issues/</url>
+    <system>Jira</system>
+    <url>https://jira.exoplatform.org/browse/SCL</url>
   </issueManagement>
 
   <dependencies>
