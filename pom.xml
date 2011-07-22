@@ -111,6 +111,17 @@
 
 
   <build>
+    <resources>
+      <resource>
+        <directory>${basedir}</directory>
+        <excludes>
+          <exclude>**/key.txt</exclude>
+        </excludes>
+        <includes>
+          <include>**/*.txt</include>
+        </includes>
+      </resource>
+    </resources>
     <pluginManagement>
       <plugins>
         <plugin>
