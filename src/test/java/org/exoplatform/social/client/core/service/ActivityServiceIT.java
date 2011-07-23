@@ -30,9 +30,12 @@ import org.exoplatform.social.client.core.ClientServiceFactoryHelper;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.model.RestCommentImpl;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import static org.junit.Assert.fail;
+import static org.testng.Assert.fail;
+
 
 /**
  * Unit Test for {@link org.exoplatform.social.client.api.service.ActivityService}'s implementation.
@@ -47,6 +50,8 @@ public class ActivityServiceIT extends AbstractClientTest {
 
   private List<RestActivity> tearDownActivityList;
 
+  @BeforeMethod
+  @Override
   public void setUp() {
     super.setUp();
     ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
@@ -55,6 +60,8 @@ public class ActivityServiceIT extends AbstractClientTest {
     tearDownActivityList = new ArrayList<RestActivity>();
   }
 
+  @AfterMethod
+  @Override
   public void tearDown() {
     startSessionAs("demo", "gtn");
     for (RestActivity activity: tearDownActivityList) {

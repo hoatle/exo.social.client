@@ -22,17 +22,15 @@ import java.util.List;
 import java.util.Map;
 
 import org.exoplatform.social.client.api.model.Model;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
+import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.testng.AssertJUnit.assertEquals;
+import static org.testng.AssertJUnit.assertNotNull;
 
 /**
  * Unit test for {@link ModelImpl}.
@@ -56,7 +54,8 @@ public class ModelImplTest {
     model.put("para2", "value2");
     String[] expected = {"para1", "para2"};
     String[] actual = model.getFieldNames();
-    assertArrayEquals("actual must return: " + actual, expected, actual);
+    //assertArrayEquals("actual must return: " + actual, expected, actual);
+    assertThat(actual, equalTo(expected));
   }
 
   @Test
@@ -65,10 +64,10 @@ public class ModelImplTest {
     model.put("para1", "value1");
     model.put("para2", "value2");
     model.put("para3", "value3");
-    assertTrue("model.hasField(\"para1\") must return true", model.hasField("para1"));
-    assertTrue("model.hasField(\"para2\") must return true", model.hasField("para2"));
-    assertTrue("model.hasField(\"para3\") must return true", model.hasField("para3"));
-    assertFalse("model.hasField(\"para4\") must return false", model.hasField("para4"));
+    assertThat("model.hasField(\"para1\") must return true", model.hasField("para1"), equalTo(true));
+    assertThat("model.hasField(\"para2\") must return true", model.hasField("para3"), equalTo(true));
+    assertThat("model.hasField(\"para3\") must return true", model.hasField("para3"), equalTo(true));
+    assertThat("model.hasField(\"para4\") must return false", model.hasField("para4"), equalTo(false));
   }
 
   @Test
@@ -79,23 +78,23 @@ public class ModelImplTest {
     model.put("para3", "value3");
     model.put("para4", new String[]{"hello", "world"});
 
-    Object value1 = model.getField("para1");
-    assertNotNull("value1 must not be null", value1);
+    String value1 = model.getFieldAsString("para1");
+    assertThat("value1 must not be null", value1, notNullValue());
     assertEquals("value1 must be \"value1\"", "value1", value1);
-
-    assertNull("model.getField(\"para5\") must return null", model.getField("para5"));
+    assertThat("value1 must be: value1", value1, equalTo("value1"));
+    assertThat("model.getField(\"para5\") must be null", model.getField("para5"), nullValue());
   }
 
   @Test
   public void shouldGetFieldAsMap() {
     Model model = new ModelImpl();
-    HashMap<String, String> hashMap = new HashMap<String, String>();
+    Map<String, String> hashMap = new HashMap<String, String>();
     hashMap.put("hashMapKey", "hashMapValue");
     model.put("para1", hashMap);
 
-    Map expected = model.getFieldAsMap("para1");
-    assertEquals("hashMap must be: " + expected, expected, hashMap);
-    assertNull("model.getFieldAsMap(\"para2\") must return null", model.getFieldAsMap("para2"));
+    Map<String, String> expected = model.getFieldAsMap("para1");
+    assertThat("expected must be: " + hashMap, expected, equalTo(hashMap));
+    assertThat("model.getFieldAsMap(\"para2\") must return null", model.getFieldAsMap("para2"), nullValue());
   }
 
 
@@ -109,8 +108,8 @@ public class ModelImplTest {
 
     model.put("para1", list);
     List<String> actualList = model.getFieldAsList("para1");
-    assertEquals("actualList must be: " + list, list, actualList);
-    assertNull("model.getFieldAsList(\"para2\") must return null", model.getFieldAsList("para2"));
+    assertThat("actualList must be: " + list, actualList, equalTo(list));
+    assertThat("model.getFieldAsList(\"para2\") must return null", model.getFieldAsList("para2"), nullValue());
   }
 
   @Test

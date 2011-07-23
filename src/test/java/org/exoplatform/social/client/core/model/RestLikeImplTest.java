@@ -17,11 +17,11 @@
 package org.exoplatform.social.client.core.model;
 
 import org.exoplatform.social.client.api.model.RestLike;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  * Unit Test for {@link RestLikeImpl}

@@ -19,9 +19,13 @@ package org.exoplatform.social.client.core.service;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.service.VersionService;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import junit.framework.Assert;
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertTrue;
+
 
 /**
  * Created by The eXo Platform SAS
@@ -33,12 +37,14 @@ public class VersionServiceIT extends AbstractClientTest {
 
   private VersionService service = null;
 
+  @BeforeMethod
   public void setUp() {
     super.setUp();
     service = new VersionServiceImpl();
   }
   
 
+  @AfterMethod
   public void tearDown() {
     super.tearDown();
     service = null;
@@ -47,14 +53,14 @@ public class VersionServiceIT extends AbstractClientTest {
   @Test
   public void testGetLatestVersion() throws Exception {
     String version = service.getLatest();
-    Assert.assertEquals("Verifying rest service version.", SocialClientContext.getRestVersion(), version);
+    assertEquals(version, SocialClientContext.getRestVersion(), "Verifying rest service version.");
   }
   
   @Test
   public void testGetSupportedVersion() throws Exception {
     String[] versions = service.getSupported();
-    Assert.assertTrue("Rest Service version support greater than zero.", versions.length > 0);
-    Assert.assertEquals("Verifying rest service version.", SocialClientContext.getRestVersion(), versions[0]);
+    assertTrue(versions.length > 0, "Rest Service version support greater than zero.");
+    assertEquals(versions[0], SocialClientContext.getRestVersion(), "Verifying rest service version.");
   }
   
 }

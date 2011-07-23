@@ -17,10 +17,10 @@
 package org.exoplatform.social.client.core;
 
 import org.exoplatform.social.client.api.ClientServiceFactory;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  * Uni test for {@link ClientServiceFactoryHelper}.

@@ -17,11 +17,11 @@
 package org.exoplatform.social.client.core;
 
 import org.exoplatform.social.client.api.SocialClientContext;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
  * Unit Test for {@link org.exoplatform.social.client.api.SocialClientContext}'s implementation.

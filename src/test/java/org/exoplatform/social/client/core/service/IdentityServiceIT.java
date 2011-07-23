@@ -16,15 +16,17 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.model.RestProfile;
 import org.exoplatform.social.client.api.model.RestIdentity;
+import org.exoplatform.social.client.api.model.RestProfile;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
-import junit.framework.Assert;
-
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  * Unit Test for {@link IdentityServiceImpl}.
@@ -34,12 +36,14 @@ import static org.junit.Assert.assertThat;
  */
 public class IdentityServiceIT extends AbstractClientTest {
 
+  @BeforeMethod
   @Override
   public void setUp() {
     super.setUp();
     startSessionAs("demo", "gtn");
   }
 
+  @AfterMethod
   @Override
   public void tearDown() {
     super.tearDown();
@@ -62,14 +66,15 @@ public class IdentityServiceIT extends AbstractClientTest {
     
     String demoIdentityId = getDemoIdentityId();
     RestIdentity restIdentity = identityService.get(demoIdentityId);
-    Assert.assertNotNull("RestIdentity must not null.", restIdentity);
-    Assert.assertEquals("IdentityID must be equal " + demoIdentityId, demoIdentityId, restIdentity.getId());
-    Assert.assertEquals("RemoteID must be equal demo", "demo", restIdentity.getRemoteId());
-    Assert.assertEquals("ProviderID must be equal organization", "organization", restIdentity.getProviderId());
+    assertThat("RestIdentity must not not be null.", restIdentity, notNullValue());
+    assertThat("restIdentity.getId() must return: " + demoIdentityId, restIdentity.getId(), equalTo(demoIdentityId));
+    assertThat("restIdentity.getRemoteId() must return: demo", restIdentity.getRemoteId(), equalTo("demo"));
+    assertThat("restIdentity.getProviderId() must return: organization",
+               restIdentity.getProviderId(), equalTo("organization"));
     RestProfile profile = restIdentity.getProfile();
-    Assert.assertNull("AvatarURL is null", profile.getAvatarUrl());
-    Assert.assertEquals("profile's fullname must be equals Demo gtn", "Demo gtn", profile.getFullName());
-    
+    assertThat("profile must not be null", profile, notNullValue());
+    assertThat("profile.getAvatarUrl() must be null", profile.getAvatarUrl(), nullValue());
+    assertThat("profile.getFullName() must return: Demo gtn", profile.getFullName(), equalTo("Demo gtn"));
   }
 
 

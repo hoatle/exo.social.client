@@ -22,8 +22,6 @@ import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.service.IdentityServiceImpl;
-import org.junit.After;
-import org.junit.Before;
 
 /**
  * Created by The eXo Platform SAS
@@ -35,7 +33,6 @@ public abstract class AbstractClientTest {
 
   protected IdentityService<RestIdentity> identityService;
   
-  @Before
   public void setUp() {
     SocialClientContext.setProtocol("http");
     // Load host and port from System properties if available
@@ -47,7 +44,6 @@ public abstract class AbstractClientTest {
     identityService = new IdentityServiceImpl();
   }
   
-  @After
   public void tearDown() {
     SocialClientContext.setProtocol("http");
     SocialClientContext.setHost(null);

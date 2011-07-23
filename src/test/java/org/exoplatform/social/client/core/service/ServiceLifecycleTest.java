@@ -17,17 +17,20 @@
 package org.exoplatform.social.client.core.service;
 
 import org.exoplatform.social.client.api.event.Lifecycle;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
 
 /**
  * Unit Test for {@link Lifecycle}.
  */
 public class ServiceLifecycleTest extends AbstractLifecycleTest {
 
-  @Before
+  @BeforeMethod
   public void setUp() throws Exception {
     super.setUp();
     mockService = new MockService();
@@ -37,7 +40,7 @@ public class ServiceLifecycleTest extends AbstractLifecycleTest {
     mockService.addCRUDLifecycleListener(captureCRUDLifecycle);
   }
   
-  @After
+  @AfterMethod
   public void tearDown() throws Exception {
     super.tearDown();
   }
@@ -45,36 +48,36 @@ public class ServiceLifecycleTest extends AbstractLifecycleTest {
   @Test
   public void startService() throws Exception {
     mockService.start();
-    Assert.assertTrue(mockService.started);
+    assertTrue(mockService.started);
     
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.START_EVENT));
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.START_EVENT));
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
   }
   
   @Test
   public void stopService() throws Exception {
     mockService.start();
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.START_EVENT));
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
-    Assert.assertTrue(mockService.started);
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.START_EVENT));
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_START_EVENT));
+    assertTrue(mockService.started);
     
     mockService.stop();
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_STOP_EVENT));
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.STOP_EVENT));
-    Assert.assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_STOP_EVENT));
-    Assert.assertFalse(mockService.started);
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_STOP_EVENT));
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.STOP_EVENT));
+    assertTrue(captureLifecycle.hasEvent(Lifecycle.BEFORE_STOP_EVENT));
+    assertFalse(mockService.started);
   }
   
   @Test
   public void checkCRUDLifecycleListenerToService() throws Exception {
-    Assert.assertEquals(1, mockService.findCRUDLifecycleListeners().length);
+    assertEquals(1, mockService.findCRUDLifecycleListeners().length);
   }
   
   @Test
   public void checkLifecycleListenerToService() throws Exception {
-    Assert.assertEquals(1, mockService.findLifecycleListeners().length);
+    assertEquals(1, mockService.findLifecycleListeners().length);
   }
   
 }

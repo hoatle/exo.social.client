@@ -29,8 +29,6 @@ import org.exoplatform.social.client.api.event.LifecycleListener;
 import org.exoplatform.social.client.api.event.PropertyChangeEvent;
 import org.exoplatform.social.client.api.event.PropertyChangeListener;
 import org.exoplatform.social.client.api.model.Model;
-import org.junit.After;
-import org.junit.Before;
 
 public abstract class AbstractLifecycleTest {
 
@@ -39,12 +37,11 @@ public abstract class AbstractLifecycleTest {
   protected MockLifecycleListener captureLifecycle = null;
   protected MockCRUDLifecycleListener captureCRUDLifecycle = null;
   protected MockPropertyChangeListener capturePropertyChange = null;
-  
-  @Before
+
   public void setUp() throws Exception {
+
   }
   
-  @After
   public void tearDown() throws Exception {
     captureLifecycle = null;
     captureCRUDLifecycle = null;

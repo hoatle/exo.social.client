@@ -20,12 +20,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.exoplatform.social.client.api.model.RestActivity;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.core.IsNull.nullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  * Unit Test for {@link RestActivityImpl}.

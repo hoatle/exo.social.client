@@ -17,7 +17,7 @@
 package org.exoplatform.social.client.core.net;
 
 import org.exoplatform.social.client.api.net.SocialHttpClient;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 /**
  * Created by The eXo Platform SAS

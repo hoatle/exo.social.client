@@ -30,8 +30,9 @@
 
     <!-- project dependencies versions -->
     <json_simple.version>1.1</json_simple.version>
-    <junit.version>4.8.2</junit.version>
     <org.apache.httpclient.version>4.0</org.apache.httpclient.version>
+    <org.testng.version>6.1.1</org.testng.version>
+    <org.hamcrest.version>1.2.1</org.hamcrest.version>
 
     <!-- ########################## -->
     <!-- Integration tests settings -->
@@ -102,9 +103,16 @@
     </dependency>
 
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>${org.testng.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-core</artifactId>
+      <version>${org.hamcrest.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>

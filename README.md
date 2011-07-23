@@ -19,7 +19,12 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
     |  +- org.apache.httpcomponents:httpcore:jar:4.0.1:compile
     |  +- commons-logging:commons-logging:jar:1.1.1:compile
     |  \- commons-codec:commons-codec:jar:1.3:compile
-    \- junit:junit:jar:4.8.2:test
+    +- org.testng:testng:jar:6.1.1:test
+    |  +- junit:junit:jar:3.8.1:test
+    |  +- org.beanshell:bsh:jar:2.0b4:test
+    |  +- com.beust:jcommander:jar:1.12:test
+    |  \- org.yaml:snakeyaml:jar:1.6:test
+    \- org.hamcrest:hamcrest-core:jar:1.2.1:test
 
   </pre>
 

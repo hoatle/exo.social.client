@@ -20,7 +20,7 @@ import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.junit.Test;
+import org.testng.annotations.Test;
 
 /**
  * Unit Test for {@link org.exoplatform.social.client.api.service.ActivityService}'s implementation.

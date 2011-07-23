@@ -20,12 +20,12 @@ import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.VersionService;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
-import static org.junit.Assert.assertThat;
 
 /**
  * Unit test for {@link ClientServiceFactoryImpl}.
@@ -38,12 +38,12 @@ public class ClientServiceFactoryImplTest {
   private ClientServiceFactory clientServiceFactory;
 
 
-  @Before
+  @BeforeMethod
   public void setUp() {
     clientServiceFactory = new ClientServiceFactoryImpl();
   }
 
-  @After
+  @AfterMethod
   public void tearDown() {
     clientServiceFactory = null;
   }
