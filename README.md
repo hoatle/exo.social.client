@@ -90,13 +90,9 @@ You can change the version by adding the following parameter in the command line
 
 ### Integration tests with a social server already deployed
 
-Or you can run integration tests against a social server already deployed on your network. By default it will try to use deployed on http://127.0.0.1:8080/. This solution is quickest to execute but requires an initial setup of a social server. To launch tests on an existing server launch the following command :
+Or you can run integration tests against a social server already deployed on your network. This solution is quickest to execute but requires an initial setup of a social server. You need to define the host and port of the server to use. To launch tests on an existing server launch the following command :
 
-    mvn clean install -Prun-its -Dit.cargo.skip=true
-
-You can redefine the host and port of the server to use by adding the following options in the command line
-
-    -Dsocial.server.host=myHost -Dsocial.server.port=8888
+    mvn clean install -Prun-its -Dit.cargo.skip=true -Dsocial.server.host=myHost -Dsocial.server.http.port=8888
 
 ### Project resources
 

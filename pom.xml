@@ -41,7 +41,6 @@
     <social.server.version>1.2.0-GA</social.server.version>
     <!-- integration tests options -->
     <social.server.host>127.0.0.1</social.server.host>
-    <social.server.port>8080</social.server.port>
     <!-- skip cargo execution to use your own server ?? -->
     <it.cargo.skip>false</it.cargo.skip>
 
@@ -55,6 +54,8 @@
     <maven-source-plugin.version>2.1.2</maven-source-plugin.version>
     <maven-surefire-plugin.version>2.9</maven-surefire-plugin.version>
     <maven-deploy-plugin.version>2.6</maven-deploy-plugin.version>
+    <build-helper-maven-plugin.version>1.7</build-helper-maven-plugin.version>
+    <maven-patch-plugin.version>1.1.1</maven-patch-plugin.version>
     <maven-dependency-plugin.version>2.2</maven-dependency-plugin.version>
     <wagon-webdav-jackrabbit.version>1.0-beta-7</wagon-webdav-jackrabbit.version>
 
@@ -154,6 +155,16 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${maven-deploy-plugin.version}</version>
         </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>${build-helper-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-patch-plugin</artifactId>
+          <version>${maven-patch-plugin.version}</version>
+        </plugin>
       </plugins>
     </pluginManagement>
     <plugins>
@@ -187,9 +198,109 @@
 
   <profiles>
     <profile>
+      <!-- If the property social.server.http.port isn't set in the command line or in user settings
+      we reserve a free port ourselves -->
+      <id>set-social-server-http-port</id>
+      <activation>
+        <property>
+          <name>!social.server.http.port</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Reserve network ports -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>set-social-server-http-port</id>
+                <goals>
+                  <goal>reserve-network-port</goal>
+                </goals>
+                <phase>pre-integration-test</phase>
+                <configuration>
+                  <portNames>
+                    <portName>social.server.http.port</portName>
+                  </portNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- If the property social.server.ajp.port isn't set in the command line or in user settings
+      we reserve a free port ourselves -->
+      <id>set-social-server-ajp-port</id>
+      <activation>
+        <property>
+          <name>!social.server.ajp.port</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Reserve network ports -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>set-social-server-ajp-port</id>
+                <goals>
+                  <goal>reserve-network-port</goal>
+                </goals>
+                <phase>pre-integration-test</phase>
+                <configuration>
+                  <portNames>
+                    <portName>social.server.ajp.port</portName>
+                  </portNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <!-- If the property social.server.shutdown.port isn't set in the command line or in user settings
+      we reserve a free port ourselves -->
+      <id>set-social-server-shutdown-port</id>
+      <activation>
+        <property>
+          <name>!social.server.shutdown.port</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <!-- Reserve network ports -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>set-social-server-shutdown-port</id>
+                <goals>
+                  <goal>reserve-network-port</goal>
+                </goals>
+                <phase>pre-integration-test</phase>
+                <configuration>
+                  <portNames>
+                    <portName>social.server.shutdown.port</portName>
+                  </portNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <id>run-its</id>
       <build>
         <plugins>
+          <!-- Unpack the app server - if cargo used -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
@@ -202,6 +313,7 @@
                   <goal>unpack</goal>
                 </goals>
                 <configuration>
+                  <skip>${it.cargo.skip}</skip>
                   <artifactItems>
                     <artifactItem>
                       <groupId>org.exoplatform.social</groupId>
@@ -216,6 +328,27 @@
                 </configuration>
               </execution>
             </executions>
+          </plugin>
+          <!-- Patch the server config to set ports - if cargo used -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-patch-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>patch</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>apply</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <patches>
+                <patch>server.xml.patch</patch>
+              </patches>
+              <targetDirectory>${project.build.directory}/social-server/eXoSocial-${social.server.version}/conf/</targetDirectory>
+              <skipApplication>${it.cargo.skip}</skipApplication>
+            </configuration>
           </plugin>
           <!-- Start/Stop the social server used for tests -->
           <plugin>
@@ -255,6 +388,10 @@
                   <!-- These 2 properties below are configured by Social 1.2.x and 1.3.x's configuration file -->
                   <gatein.gadgets.securityTokenKeyFile>${project.build.directory}/social-server/eXoSocial-${social.server.version}/gatein/conf/gadgets/key.txt</gatein.gadgets.securityTokenKeyFile>
                   <gatein.gadgets.signingKeyFile>${project.build.directory}/social-server/eXoSocial-${social.server.version}/gatein/conf/gadgets/oauthkey.pem</gatein.gadgets.signingKeyFile>
+                  <!-- Ports to be used by the server -->
+                  <social.server.http.port>${social.server.http.port}</social.server.http.port>
+                  <social.server.ajp.port>${social.server.ajp.port}</social.server.ajp.port>
+                  <social.server.shutdown.port>${social.server.shutdown.port}</social.server.shutdown.port>
                 </systemProperties>
               </container>
               <!-- Configuration to use with the container -->
@@ -262,6 +399,7 @@
                 <type>existing</type>
                 <home>${project.build.directory}/social-server/eXoSocial-${social.server.version}/</home>
                 <properties>
+                  <cargo.servlet.port>${social.server.http.port}</cargo.servlet.port>
                   <cargo.jvm.args>-Xms128m -Xmx512m -XX:MaxPermSize=256m</cargo.jvm.args>
                 </properties>
               </configuration>
@@ -274,7 +412,7 @@
             <configuration>
               <systemPropertyVariables>
                 <social.server.host>${social.server.host}</social.server.host>
-                <social.server.port>${social.server.port}</social.server.port>
+                <social.server.port>${social.server.http.port}</social.server.port>
               </systemPropertyVariables>
             </configuration>
             <executions>
