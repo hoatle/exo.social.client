@@ -16,8 +16,10 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestProfile;
+import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -27,6 +29,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
+import static org.testng.Assert.fail;
 
 /**
  * Unit Test for {@link IdentityServiceImpl}.
@@ -49,33 +52,72 @@ public class IdentityServiceIT extends AbstractClientTest {
     super.tearDown();
   }
 
-  @Test
-  public void testGet() {
-    //TODO gets an identity by its id
-  }
-
-
-  @Test
-  public void testGetIdentityId() {
-    String identityId = identityService.getIdentityId("organization", "demo");
-    assertThat("identityId must not be null", identityId, notNullValue());
+  /**
+   * Test the case create a new identity.
+   */
+  @Test(expectedExceptions = UnsupportedMethodException.class)
+  public void testCreate() {
+    identityService.create(new RestIdentityImpl());
   }
   
+  /**
+   * Test the case update an existing identity.
+   */
+  @Test(expectedExceptions = UnsupportedMethodException.class)
+  public void testUpdate() {
+    identityService.update(identityService.get(getDemoIdentityId()));
+  }
+
+  /**
+   * Test the case delete an existing identity.
+   */
+  @Test(expectedExceptions = UnsupportedMethodException.class)
+  public void testDelete() {
+    identityService.delete(identityService.get(getDemoIdentityId()));
+  }
+  
+  /**
+   * Test the case get an identity by its id.
+   */
   @Test
-  public void testGetIdentityById() throws Exception {
+  public void testGetIdentity() {
+    String id = getDemoIdentityId();
+    RestIdentity identity = identityService.get(id);
+    assertThat("Identity must not be null", identity, notNullValue());
+    assertThat("Identity provider must be organization", identity.getProviderId(), equalTo("organization"));
+    assertThat("RemoteId must be demo", identity.getRemoteId(), equalTo("demo"));
     
-    String demoIdentityId = getDemoIdentityId();
-    RestIdentity restIdentity = identityService.get(demoIdentityId);
-    assertThat("RestIdentity must not not be null.", restIdentity, notNullValue());
-    assertThat("restIdentity.getId() must return: " + demoIdentityId, restIdentity.getId(), equalTo(demoIdentityId));
-    assertThat("restIdentity.getRemoteId() must return: demo", restIdentity.getRemoteId(), equalTo("demo"));
-    assertThat("restIdentity.getProviderId() must return: organization",
-               restIdentity.getProviderId(), equalTo("organization"));
-    RestProfile profile = restIdentity.getProfile();
+    RestProfile profile = identity.getProfile();
     assertThat("profile must not be null", profile, notNullValue());
     assertThat("profile.getAvatarUrl() must be null", profile.getAvatarUrl(), nullValue());
     assertThat("profile.getFullName() must return: Demo gtn", profile.getFullName(), equalTo("Demo gtn"));
+    
+    try {
+      identity = identityService.get(null);
+      fail("Expecting Null Pointer Exception from IdentityService#get(String)");
+    } catch (NullPointerException npe) {
+    }
   }
-
-
+  
+  /**
+   * Test the case get id of identity.
+   */
+  @Test
+  public void testGetIdentityId() {
+    String expectedId = getDemoIdentityId();
+    String resultId = identityService.getIdentityId("organization", "demo");
+    assertThat("identity id must be " + expectedId, resultId, equalTo(expectedId));
+    
+    try {
+      resultId = identityService.getIdentityId(null, "demo");
+      fail("Expecting Null Pointer Exception from IdentityService#getIdentityId(String, String)");
+    } catch (NullPointerException npe) {
+    }
+    
+    try {
+      resultId = identityService.getIdentityId(null, null);
+      fail("Expecting Null Pointer Exception from IdentityService#getIdentityId(String, String)");
+    } catch (NullPointerException npe) {
+    }
+  }
 }
