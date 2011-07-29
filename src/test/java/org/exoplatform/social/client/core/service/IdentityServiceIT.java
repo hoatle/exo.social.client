@@ -94,7 +94,7 @@ public class IdentityServiceIT extends AbstractClientTest {
     
     try {
       identity = identityService.get(null);
-      fail("Expecting Null Pointer Exception from IdentityService#get(String)");
+      fail("Expecting NullPointerException from IdentityService#get(String)");
     } catch (NullPointerException npe) {
     }
   }
@@ -110,13 +110,13 @@ public class IdentityServiceIT extends AbstractClientTest {
     
     try {
       resultId = identityService.getIdentityId(null, "demo");
-      fail("Expecting Null Pointer Exception from IdentityService#getIdentityId(String, String)");
+      fail("Expecting NullPointerException from IdentityService#getIdentityId(String, String)");
     } catch (NullPointerException npe) {
     }
     
     try {
       resultId = identityService.getIdentityId(null, null);
-      fail("Expecting Null Pointer Exception from IdentityService#getIdentityId(String, String)");
+      fail("Expecting NullPointerException from IdentityService#getIdentityId(String, String)");
     } catch (NullPointerException npe) {
     }
   }

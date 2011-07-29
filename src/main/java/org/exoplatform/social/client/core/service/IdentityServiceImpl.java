@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
@@ -42,11 +43,12 @@ public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityServi
   
   @Override
   public RestIdentity create(RestIdentity newInstance) throws AccessDeniedException, ServiceException {
-    return null;
+    throw new UnsupportedMethodException("Not Supported Yet.");
   }
 
   @Override
-  public RestIdentity get(String uuid) throws AccessDeniedException, ServiceException {
+  public RestIdentity get(String uuid) throws NullPointerException, AccessDeniedException, ServiceException {
+    if (uuid == null) throw new NullPointerException("Input param can not be null");
     final String targetURL = BASE_URL + "identity/" + uuid + ".json";
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
     try {
@@ -61,19 +63,20 @@ public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityServi
 
   @Override
   public RestIdentity update(RestIdentity existingInstance) throws AccessDeniedException, ServiceException {
-    return null;
+    throw new UnsupportedMethodException("Not Supported Yet.");
   }
 
   @Override
   public RestIdentity delete(RestIdentity existingInstance) throws AccessDeniedException, ServiceException {
-    return null;
+    throw new UnsupportedMethodException("Not Supported Yet.");
   }
 
   /**
    * {@inheritDoc}
    */
   @Override
-  public String getIdentityId(String provider, String remoteId) throws ServiceException {
+  public String getIdentityId(String provider, String remoteId) throws NullPointerException, ServiceException {
+    if ((provider == null) || (remoteId == null)) throw new NullPointerException("Input param can not be null.");
     final String targetURL =  "/" + SocialClientContext.getRestContextName() + "/" + SocialClientContext.getPortalContainerName() + "/social/identity/" + remoteId + "/id/show.json";
     HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
     try {
