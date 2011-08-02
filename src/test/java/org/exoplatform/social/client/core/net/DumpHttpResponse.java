@@ -29,6 +29,8 @@ import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by The eXo Platform SAS
@@ -37,6 +39,7 @@ import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
  * Jun 29, 2011  
  */
 public class DumpHttpResponse {
+  private static final Logger LOGGER = LoggerFactory.getLogger(DumpHttpResponse.class);
   
   /**
    * Dump the HttpResponse content which Rest Service to return.
@@ -47,13 +50,13 @@ public class DumpHttpResponse {
   public static void dumpContent(HttpResponse response) throws SocialHttpClientException {
     String responseContent = SocialHttpClientSupport.getContent(response);
     if (responseContent.length() > 0) {
-      System.out.println("\n\n++++++++++CONTENT OF RESPONSE+++++++++++++++++++++++\n\n");
-      System.out.println("RESPONSE CONTENT::" + responseContent);
+      LOGGER.debug("\n\n++++++++++CONTENT OF RESPONSE+++++++++++++++++++++++\n\n");
+      LOGGER.debug("RESPONSE CONTENT::" + responseContent);
       try {
           Map contentMap = SocialJSONDecodingSupport.parser(responseContent);
           Set<Entry> list = contentMap.entrySet();
           for(Entry e : list) {
-            System.out.println(e.getKey() +  "::" + e.getValue());
+            LOGGER.debug(e.getKey() +  "::" + e.getValue());
           }
       } catch (org.json.simple.parser.ParseException pex) {
         throw new SocialHttpClientException("dumpContent() is parsing error.", pex);
@@ -68,9 +71,9 @@ public class DumpHttpResponse {
    */
   public static void dumpHeader(HttpResponse response) {
     Header[] headers = response.getAllHeaders();
-    System.out.println("\n\n++++++++++HEADER OF RESPONSE+++++++++++++++++++++++\n\n");
+    LOGGER.debug("\n\n++++++++++HEADER OF RESPONSE+++++++++++++++++++++++\n\n");
     for (int i = 0; i < headers.length; i++) {
-      System.out.println(headers[i].getName() + " : " + headers[i].getValue());
+      LOGGER.debug(headers[i].getName() + " : " + headers[i].getValue());
     }
 
   }

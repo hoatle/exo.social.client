@@ -15,15 +15,15 @@
     <url>http://www.exoplatform.org</url>
   </organization>
 
-
+ 
   <properties>
     <!-- ################ -->
     <!-- Project settings -->
     <!-- ################ -->
 
     <!-- java version -->
-    <maven.compiler.source>1.5</maven.compiler.source>
-    <maven.compiler.target>1.5</maven.compiler.target>
+    <maven.compiler.source>1.6</maven.compiler.source>
+    <maven.compiler.target>1.6</maven.compiler.target>
 
     <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,8 +31,11 @@
     <!-- project dependencies versions -->
     <json_simple.version>1.1</json_simple.version>
     <org.apache.httpclient.version>4.0</org.apache.httpclient.version>
+    <org.slf4j.version>1.6.1</org.slf4j.version>
+    
     <org.testng.version>6.1.1</org.testng.version>
     <org.hamcrest.version>1.2.1</org.hamcrest.version>
+    <ch.qos.logback.version>0.9.28</ch.qos.logback.version>
 
     <!-- ########################## -->
     <!-- Integration tests settings -->
@@ -102,14 +105,28 @@
       <version>${org.apache.httpclient.version}</version>
       <scope>compile</scope>
     </dependency>
-
+    
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${org.slf4j.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    
     <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${org.testng.version}</version>
       <scope>test</scope>
     </dependency>
-
+    
+    <dependency>
+       <groupId>ch.qos.logback</groupId>
+       <artifactId>logback-classic</artifactId>
+       <version>${ch.qos.logback.version}</version>
+       <scope>test</scope>
+    </dependency>
+    
     <dependency>
       <groupId>org.hamcrest</groupId>
       <artifactId>hamcrest-core</artifactId>
@@ -117,7 +134,6 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-
 
   <build>
     <resources>
