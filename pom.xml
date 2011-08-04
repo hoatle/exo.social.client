@@ -34,6 +34,7 @@
     <org.slf4j.version>1.6.1</org.slf4j.version>
     
     <org.testng.version>6.1.1</org.testng.version>
+    <org.mockito.version>1.8.5</org.mockito.version>
     <org.hamcrest.version>1.2.1</org.hamcrest.version>
     <ch.qos.logback.version>0.9.28</ch.qos.logback.version>
 
@@ -119,7 +120,14 @@
       <version>${org.testng.version}</version>
       <scope>test</scope>
     </dependency>
-    
+
+    <dependency>
+      <groupId>org.mockito</groupId>
+      <artifactId>mockito-core</artifactId>
+      <version>${org.mockito.version}</version>
+      <scope>test</scope>
+    </dependency>
+
     <dependency>
        <groupId>ch.qos.logback</groupId>
        <artifactId>logback-classic</artifactId>

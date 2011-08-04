@@ -10,6 +10,7 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
     + httpclient-4.0            (compile)   :     http://hc.apache.org/httpcomponents-client-ga/
     + slf4j-api-1.6.1           (compile)   :     http://www.slf4j.org
     + testng-6.1.1              (test)      :     http://testng.org/doc/index.html
+    + mockito-core-1.8.5        (test)      :     http://code.google.com/p/mockito
     + logback-classic-0.9.28    (test)      :     http://logback.qos.ch/
     + org.hamcrest-core-1.2.1   (test)      :     http://code.google.com/p/hamcrest/
 
@@ -27,6 +28,8 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
      |  +- org.beanshell:bsh:jar:2.0b4:test
      |  +- com.beust:jcommander:jar:1.12:test
      |  \- org.yaml:snakeyaml:jar:1.6:test
+     +- org.mockito:mockito-core:jar:1.8.5:test
+     |  \- org.objenesis:objenesis:jar:1.0:test
      +- ch.qos.logback:logback-classic:jar:0.9.28:test
      |  \- ch.qos.logback:logback-core:jar:0.9.28:test
      \- org.hamcrest:hamcrest-core:jar:1.2.1:test
