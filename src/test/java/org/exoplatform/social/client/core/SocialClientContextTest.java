@@ -44,8 +44,6 @@ public class SocialClientContextTest {
             equalTo("v1-alpha1"));
     assertThat("SocialClientContext.getUsername() must be null", SocialClientContext.getUsername(), nullValue());
     assertThat("SocialClientContext.getPassword() must be null", SocialClientContext.getPassword(), nullValue());
-    assertThat("SocialClientContext.isDeveloping() must return false", SocialClientContext.isDeveloping(),
-               equalTo(false));
   }
 
   @Test
@@ -57,7 +55,6 @@ public class SocialClientContextTest {
     SocialClientContext.setRestVersion("v1-alpha1");
     SocialClientContext.setUsername("demo");
     SocialClientContext.setPassword("gtn");
-    SocialClientContext.setIsDeveloping(true);
 
     assertThat(SocialClientContext.getHost(), equalTo("http://platform35.demo.exoplatform.org"));
     assertThat(SocialClientContext.getPort(), equalTo(80));
@@ -66,8 +63,6 @@ public class SocialClientContextTest {
     assertThat(SocialClientContext.getRestVersion(), equalTo("v1-alpha1"));
     assertThat(SocialClientContext.getUsername(), equalTo("demo"));
     assertThat(SocialClientContext.getPassword(), equalTo("gtn"));
-    assertThat("SocialClientContext.isDeveloping() must return true", SocialClientContext.isDeveloping(),
-              equalTo(true));
   }
 
 }

@@ -182,25 +182,6 @@ public class SocialClientContext {
   public Context getCurrentContext() {
     return currentContext;
   }
-  
-
-  /**
-   * Checks to know if this lib is running on development mode to log more info.
-   *
-   * @return a boolean value
-   */
-  public static boolean isDeveloping() {
-    return isDeveloping;
-  }
-
-  /**
-   * Sets this lib to run on developing mode or not.
-   *
-   * @param isDevelopingMode a boolean value
-   */
-  public static void setIsDeveloping(boolean isDevelopingMode) {
-    isDeveloping = isDevelopingMode;
-  }
 
   /**
    * Sets current request and response context.
@@ -219,7 +200,6 @@ public class SocialClientContext {
   private static String restVersion = "v1-alpha1";
   private static String username;
   private static String password;
-  private static boolean isDeveloping = false;
   
   private Context currentContext;
 

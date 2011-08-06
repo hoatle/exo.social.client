@@ -78,11 +78,6 @@ public class SocialHttpClientSupport {
     try {
       HttpResponse response = httpClient.execute(targetHost, httpGet);
       handleError(response);
-      //Debugging in the devlopment mode
-      if (SocialClientContext.isDeveloping()) {
-        dumpHttpResponsetHeader(response);
-        dumpContent(response);
-      }
       return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -136,13 +131,7 @@ public class SocialHttpClientSupport {
         httpPost.setEntity(entity);
       }
       HttpResponse response = httpClient.execute(targetHost, httpPost);
-      
       handleError(response);
-      //Debugging in the devlopment mode
-      if (SocialClientContext.isDeveloping()) {
-        dumpHttpResponsetHeader(response);
-        dumpContent(response);
-      }
       return response;  
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -218,11 +207,6 @@ public class SocialHttpClientSupport {
     try {
       HttpResponse response = httpClient.execute(targetHost, httpDelete);
       handleError(response);
-      //Debugging in the devlopment mode
-      if (SocialClientContext.isDeveloping()) {
-        dumpHttpResponsetHeader(response);
-        dumpContent(response);
-      }
       return response;
     } catch (ClientProtocolException cpex) {
       throw new SocialHttpClientException(cpex.toString(), cpex);
@@ -364,7 +348,7 @@ public class SocialHttpClientSupport {
   
   /**
    * Dump the HttpResponse's header which Rest Service to return.
-   * @param request
+   * @param response
    */
   public static void dumpHttpResponsetHeader(HttpResponse response) {
     Header[] headers = response.getAllHeaders();
@@ -376,7 +360,7 @@ public class SocialHttpClientSupport {
   
   /**
    * Dump the HttpResponse content which Rest Service to return.
-   * @param entity Entity to dump
+   * @param response Entity to dump
    * @throws ParseException
    * @throws IOException
    */
