@@ -16,15 +16,15 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.service.VersionService;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsEqual.equalTo;
+import static org.hamcrest.core.IsNull.notNullValue;
 
 
 /**
@@ -52,15 +52,14 @@ public class VersionServiceIT extends AbstractClientTest {
    
   @Test
   public void testGetLatestVersion() throws Exception {
-    String version = service.getLatest();
-    assertEquals(version, SocialClientContext.getRestVersion(), "Verifying rest service version.");
+    String latestVersion = service.getLatest();
+    assertThat("latestVersion must not be null", latestVersion, notNullValue());
   }
   
   @Test
   public void testGetSupportedVersion() throws Exception {
     String[] versions = service.getSupported();
-    assertTrue(versions.length > 0, "Rest Service version support greater than zero.");
-    assertEquals(versions[0], SocialClientContext.getRestVersion(), "Verifying rest service version.");
+    assertThat("versions.length must be greater than 0", versions.length > 0, equalTo(true));
   }
   
 }

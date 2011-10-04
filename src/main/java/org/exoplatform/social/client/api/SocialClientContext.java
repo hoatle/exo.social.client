@@ -19,6 +19,9 @@ package org.exoplatform.social.client.api;
 import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The client context to hold states of: host, port, portalContainerName,
  * restContextName and rest version and auth schema.
@@ -27,6 +30,17 @@ import org.apache.http.HttpResponse;
  * @since May 19, 2011
  */
 public class SocialClientContext {
+
+  public static List<String> supportedVersionList;
+
+  static {
+    supportedVersionList = new ArrayList<String>();
+    /**
+     * the latest must be added first, the older is added later
+     */
+    supportedVersionList.add("v1-alpha2");
+    supportedVersionList.add("v1-alpha1");
+  }
 
   /**
    * Gets host of the portal container to access services.
@@ -116,7 +130,10 @@ public class SocialClientContext {
    *
    * @param newRestVersion the eXo Social Rest version
    */
-  public static void setRestVersion(String newRestVersion) {
+  public static void setRestVersion(String newRestVersion) throws UnsupportedRestVersionException {
+    if (!supportedVersionList.contains(newRestVersion)) {
+      throw new UnsupportedRestVersionException(newRestVersion + " is not supported.");
+    }
     restVersion = newRestVersion;
   }
 
@@ -216,7 +233,10 @@ public class SocialClientContext {
   private static String protocol = "http";
   private static String portalContainerName;
   private static String restContextName;
-  private static String restVersion = "v1-alpha1";
+  /**
+   * Default is the latest version
+   */
+  private static String restVersion = supportedVersionList.get(0);
   private static String username;
   private static String password;
   private static boolean isDeveloping = false;

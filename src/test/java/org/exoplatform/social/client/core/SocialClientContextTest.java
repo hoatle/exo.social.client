@@ -17,6 +17,7 @@
 package org.exoplatform.social.client.core;
 
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.UnsupportedRestVersionException;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
@@ -40,12 +41,18 @@ public class SocialClientContextTest {
                nullValue());
 
     assertThat("SocialClientContext.getRestContextName() must be null", SocialClientContext.getRestContextName(), nullValue());
-    assertThat("SocialClientContext.getRestVersion() must return: v1-alpha1", SocialClientContext.getRestVersion(),
-            equalTo("v1-alpha1"));
+    assertThat("SocialClientContext.getRestVersion() must return: v1-alpha2", SocialClientContext.getRestVersion(),
+            equalTo("v1-alpha2"));
     assertThat("SocialClientContext.getUsername() must be null", SocialClientContext.getUsername(), nullValue());
     assertThat("SocialClientContext.getPassword() must be null", SocialClientContext.getPassword(), nullValue());
     assertThat("SocialClientContext.isDeveloping() must return false", SocialClientContext.isDeveloping(),
                equalTo(false));
+  }
+
+
+  @Test(expectedExceptions = UnsupportedRestVersionException.class)
+  public void shouldThrowExceptionIfNotSupported() {
+    SocialClientContext.setRestVersion("v1");
   }
 
   @Test
@@ -55,6 +62,7 @@ public class SocialClientContextTest {
     SocialClientContext.setPortalContainerName("portal");
     SocialClientContext.setRestContextName("rest");
     SocialClientContext.setRestVersion("v1-alpha1");
+    SocialClientContext.setRestVersion("v1-alpha2");
     SocialClientContext.setUsername("demo");
     SocialClientContext.setPassword("gtn");
     SocialClientContext.setIsDeveloping(true);
@@ -63,7 +71,7 @@ public class SocialClientContextTest {
     assertThat(SocialClientContext.getPort(), equalTo(80));
     assertThat(SocialClientContext.getPortalContainerName(), equalTo("portal"));
     assertThat(SocialClientContext.getRestContextName(), equalTo("rest"));
-    assertThat(SocialClientContext.getRestVersion(), equalTo("v1-alpha1"));
+    assertThat(SocialClientContext.getRestVersion(), equalTo("v1-alpha2"));
     assertThat(SocialClientContext.getUsername(), equalTo("demo"));
     assertThat(SocialClientContext.getPassword(), equalTo("gtn"));
     assertThat("SocialClientContext.isDeveloping() must return true", SocialClientContext.isDeveloping(),

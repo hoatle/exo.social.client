@@ -404,6 +404,8 @@
                   <!-- These 2 properties below are configured by Social 1.2.x and 1.3.x's configuration file -->
                   <gatein.gadgets.securityTokenKeyFile>${project.build.directory}/social-server/eXoSocial-${social.server.version}/gatein/conf/gadgets/key.txt</gatein.gadgets.securityTokenKeyFile>
                   <gatein.gadgets.signingKeyFile>${project.build.directory}/social-server/eXoSocial-${social.server.version}/gatein/conf/gadgets/oauthkey.pem</gatein.gadgets.signingKeyFile>
+                  <!-- Controller configuration -->
+                  <gatein.portal.controller.config>${project.build.directory}/social-server/eXoSocial-${social.server.version}/gatein/conf/controller.xml</gatein.portal.controller.config>
                   <!-- Ports to be used by the server -->
                   <social.server.http.port>${social.server.http.port}</social.server.http.port>
                   <social.server.ajp.port>${social.server.ajp.port}</social.server.ajp.port>
