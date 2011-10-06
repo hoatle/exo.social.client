@@ -17,8 +17,9 @@
 package org.exoplatform.social.client.core.service;
 
 import org.exoplatform.social.client.api.UnsupportedMethodException;
-import org.exoplatform.social.client.api.model.RestIdentity;
+import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.model.RestProfile;
+import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.testng.annotations.AfterMethod;
@@ -119,5 +120,17 @@ public class IdentityServiceIT extends AbstractClientTest {
       fail("Expecting NullPointerException from IdentityService#getIdentityId(String, String)");
     } catch (NullPointerException npe) {
     }
+  }
+
+  @Test
+  public void testGetIdentityByProviderAndRemoteId() throws Exception {
+    SocialClientContext.setRestVersion("v1-alpha2");
+    RestIdentity restIdentity = identityService.getIdentity("organization", "demo");
+    assertThat("RestIdentity must not null.", restIdentity, notNullValue());
+    assertThat("RemoteId must be demo", "demo", equalTo(restIdentity.getRemoteId()));
+    assertThat("Provider must be organization", "organization", equalTo(restIdentity.getProviderId()));
+    RestProfile restProfile = restIdentity.getProfile();
+    assertThat("Avatar URL must not be null", restProfile.getAvatarUrl(), notNullValue());
+    assertThat("Profile's full name must be Demo gtn", "Demo gtn", equalTo(restProfile.getFullName()));
   }
 }

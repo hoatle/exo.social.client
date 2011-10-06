@@ -21,12 +21,12 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
-import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
@@ -87,6 +87,22 @@ public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityServi
       throw new ServiceException(ActivityServiceImpl.class, "Exception when reads Json Content.", ex);
     }
   }
-  
-  
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public RestIdentity getIdentity(String identityProvider, String remoteId) throws UnsupportedMethodException,
+                                                                           AccessDeniedException,
+                                                                           ServiceException {
+    String targetURL = SocialHttpClientSupport.buildCommonRestPathFromContext(true) + "identity/" + identityProvider + "/" + remoteId + ".json";
+    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+    try {
+      return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
+    } catch (IOException ioex) {
+      throw new ServiceException(IdentityServiceImpl.class, "IOException when reads Json Content.", ioex);
+    } catch (ParseException pex) {
+      throw new ServiceException(IdentityServiceImpl.class, "ParseException when reads Json Content.", pex);
+    }
+  }
 }
