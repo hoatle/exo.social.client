@@ -19,17 +19,12 @@ package org.exoplatform.social.client.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
-import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.service.ActivityService;
-import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.ClientServiceFactoryHelper;
+import org.exoplatform.social.client.core.AbstractClientTestV1Alpha1;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.model.RestCommentImpl;
-import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,10 +38,7 @@ import static org.testng.Assert.fail;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 3, 2011
  */
-public class ActivityServiceIT extends AbstractClientTest {
-
-  private ActivityService<RestActivity> activityService;
-  private IdentityService<RestIdentity> identityService;
+public class ActivityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
 
   private List<RestActivity> tearDownActivityList;
 
@@ -54,23 +46,24 @@ public class ActivityServiceIT extends AbstractClientTest {
   @Override
   public void setUp() {
     super.setUp();
-    ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
-    activityService = clientServiceFactory.createActivityService();
-    identityService = clientServiceFactory.createIdentityService();
+  }
+
+  @Override
+  public void afterSetup() {
     tearDownActivityList = new ArrayList<RestActivity>();
+  }
+
+  @Override
+  public void beforeTearDown() {
+    startSessionAs("demo", "gtn");
+    for (RestActivity activity : tearDownActivityList) {
+      activityService.delete(activity);
+    }
   }
 
   @AfterMethod
   @Override
   public void tearDown() {
-    startSessionAs("demo", "gtn");
-    for (RestActivity activity: tearDownActivityList) {
-      activityService.delete(activity);
-    }
-    startSessionAsAnonymous();
-    tearDownActivityList = null;
-    activityService = null;
-    identityService = null;
     super.tearDown();
   }
 
@@ -79,6 +72,9 @@ public class ActivityServiceIT extends AbstractClientTest {
    */
   @Test
   public void shouldBeForbidden() {
+    if (!canRunTest()) {
+      return;
+    }
     try {
       activityService.get("notfound");
       fail("Expecting ServiceException from ActivityService#get(String)");

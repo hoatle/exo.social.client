@@ -16,11 +16,11 @@
  */
 package org.exoplatform.social.client.api;
 
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
 
 /**
  * The client context to hold states of: host, port, portalContainerName,
@@ -31,6 +31,31 @@ import java.util.List;
  */
 public class SocialClientContext {
 
+  /**
+   * The enum for supported Social Rest APIs versions.
+   */
+  public static enum SupportedVersion {
+    V1_ALPHA2("v1-alpha2"),
+    V1_ALPHA1("v1-alpha1");
+    /**
+     * The string field representing string version
+     */
+    private final String version;
+
+    /**
+     * Create a SupportedVersion instance based on version string
+     *
+     * @param version the version string
+     */
+    private SupportedVersion(String version) {
+      this.version = version;
+    }
+    @Override
+    public String toString() {
+      return version;
+    }
+  }
+
   public static List<String> supportedVersionList;
 
   static {
@@ -38,8 +63,8 @@ public class SocialClientContext {
     /**
      * the latest must be added first, the older is added later
      */
-    supportedVersionList.add("v1-alpha2");
-    supportedVersionList.add("v1-alpha1");
+    supportedVersionList.add(SupportedVersion.V1_ALPHA2.toString());
+    supportedVersionList.add(SupportedVersion.V1_ALPHA1.toString());
   }
 
   /**

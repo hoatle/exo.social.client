@@ -28,9 +28,9 @@ import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestLike;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.service.ActivityServiceImpl;
-import org.exoplatform.social.client.core.service.IdentityServiceImpl;
+import org.exoplatform.social.client.core.service.IdentityServiceImplV1Alpha1;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONArray;
@@ -210,7 +210,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       }
       return result;
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+      throw new ServiceException(RestActivityImpl.class,e.getMessage(),null);
     }
   }
 
@@ -219,7 +219,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    */
   @Override
   public RestIdentity getPosterIdentity() {
-    return new IdentityServiceImpl().get(this.getIdentityId());
+    return new IdentityServiceImplV1Alpha1().get(this.getIdentityId());
   }
 
 
@@ -241,7 +241,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       result.addAll(comments);
       return result;
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(),null);
     }
     
   }
@@ -278,7 +278,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       result.addAll(comments);
       return result;
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(),null);
     }
   }
 
@@ -297,7 +297,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       RestActivityStreamImpl activityStream = SocialJSONDecodingSupport.parser(RestActivityStreamImpl.class, activityStreamJson.toJSONString());
       return activityStream;
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(),null);
     }
   }
 

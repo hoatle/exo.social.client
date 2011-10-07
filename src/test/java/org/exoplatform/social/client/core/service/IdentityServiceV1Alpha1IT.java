@@ -17,11 +17,10 @@
 package org.exoplatform.social.client.core.service;
 
 import org.exoplatform.social.client.api.UnsupportedMethodException;
-import org.exoplatform.social.client.api.SocialClientContext;
-import org.exoplatform.social.client.api.model.RestProfile;
 import org.exoplatform.social.client.api.model.RestIdentity;
+import org.exoplatform.social.client.api.model.RestProfile;
+import org.exoplatform.social.client.core.AbstractClientTestV1Alpha1;
 import org.exoplatform.social.client.core.model.RestIdentityImpl;
-import org.exoplatform.social.client.core.net.AbstractClientTest;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -33,12 +32,12 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.testng.Assert.fail;
 
 /**
- * Unit Test for {@link IdentityServiceImpl}.
+ * Unit Test for {@link IdentityServiceImplV1Alpha1}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
  */
-public class IdentityServiceIT extends AbstractClientTest {
+public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
 
   @BeforeMethod
   @Override
@@ -58,6 +57,9 @@ public class IdentityServiceIT extends AbstractClientTest {
    */
   @Test(expectedExceptions = UnsupportedMethodException.class)
   public void testCreate() {
+    if (!canRunTest()) {
+      throw new UnsupportedMethodException();
+    }
     identityService.create(new RestIdentityImpl());
   }
   
@@ -66,6 +68,9 @@ public class IdentityServiceIT extends AbstractClientTest {
    */
   @Test(expectedExceptions = UnsupportedMethodException.class)
   public void testUpdate() {
+    if (!canRunTest()) {
+      throw new UnsupportedMethodException();
+    }
     identityService.update(identityService.get(getDemoIdentityId()));
   }
 
@@ -74,6 +79,9 @@ public class IdentityServiceIT extends AbstractClientTest {
    */
   @Test(expectedExceptions = UnsupportedMethodException.class)
   public void testDelete() {
+    if (!canRunTest()) {
+      throw new UnsupportedMethodException();
+    }
     identityService.delete(identityService.get(getDemoIdentityId()));
   }
   
@@ -82,6 +90,9 @@ public class IdentityServiceIT extends AbstractClientTest {
    */
   @Test
   public void testGetIdentity() {
+    if (!canRunTest()) {
+      return;
+    }
     String id = getDemoIdentityId();
     RestIdentity identity = identityService.get(id);
     assertThat("Identity must not be null", identity, notNullValue());
@@ -105,6 +116,9 @@ public class IdentityServiceIT extends AbstractClientTest {
    */
   @Test
   public void testGetIdentityId() {
+    if (!canRunTest()) {
+      return;
+    }
     String expectedId = getDemoIdentityId();
     String resultId = identityService.getIdentityId("organization", "demo");
     assertThat("identity id must be " + expectedId, resultId, equalTo(expectedId));
@@ -124,13 +138,15 @@ public class IdentityServiceIT extends AbstractClientTest {
 
   @Test
   public void testGetIdentityByProviderAndRemoteId() throws Exception {
-    SocialClientContext.setRestVersion("v1-alpha2");
+    if (!canRunTest()) {
+      return;
+    }
     RestIdentity restIdentity = identityService.getIdentity("organization", "demo");
     assertThat("RestIdentity must not null.", restIdentity, notNullValue());
     assertThat("RemoteId must be demo", "demo", equalTo(restIdentity.getRemoteId()));
     assertThat("Provider must be organization", "organization", equalTo(restIdentity.getProviderId()));
     RestProfile restProfile = restIdentity.getProfile();
-    assertThat("Avatar URL must not be null", restProfile.getAvatarUrl(), notNullValue());
+    assertThat("Avatar URL must be null", restProfile.getAvatarUrl(), nullValue());
     assertThat("Profile's full name must be Demo gtn", "Demo gtn", equalTo(restProfile.getFullName()));
   }
 }

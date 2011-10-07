@@ -21,12 +21,12 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
@@ -36,11 +36,11 @@ import org.json.simple.parser.ParseException;
  * Created by The eXo Platform SAS
  * Author : eXoPlatform
  *          exo@exoplatform.com
- * Jun 30, 2011  
+ * Jun 30, 2011
  */
-public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityService<RestIdentity>> implements IdentityService<RestIdentity> {
+public class IdentityServiceImplV1Alpha1 extends ServiceBase<RestIdentity, IdentityService<RestIdentity>> implements IdentityService<RestIdentity> {
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
-  
+
   @Override
   public RestIdentity create(RestIdentity newInstance) throws AccessDeniedException, ServiceException {
     throw new UnsupportedMethodException("Not Supported Yet.");
@@ -54,10 +54,10 @@ public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityServi
     try {
       return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
     } catch (IOException ioex) {
-      throw new ServiceException(IdentityServiceImpl.class, "IOException when reads Json Content.", ioex);
-      
+      throw new ServiceException(IdentityServiceImplV1Alpha1.class, "IOException when reads Json Content.", ioex);
+
     } catch (ParseException pex) {
-      throw new ServiceException(IdentityServiceImpl.class, "ParseException when reads Json Content.", pex);
+      throw new ServiceException(IdentityServiceImplV1Alpha1.class, "ParseException when reads Json Content.", pex);
     }
   }
 
@@ -84,7 +84,7 @@ public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityServi
       Map map = SocialJSONDecodingSupport.parser(content);
       return (String) map.get("id");
     } catch (Exception ex) {
-      throw new ServiceException(ActivityServiceImpl.class, "Exception when reads Json Content.", ex);
+      throw new ServiceException(IdentityServiceImplV1Alpha1.class, "Exception when reads Json Content.", ex);
     }
   }
 
@@ -95,14 +95,7 @@ public class IdentityServiceImpl extends ServiceBase<RestIdentity, IdentityServi
   public RestIdentity getIdentity(String identityProvider, String remoteId) throws UnsupportedMethodException,
                                                                            AccessDeniedException,
                                                                            ServiceException {
-    String targetURL = SocialHttpClientSupport.buildCommonRestPathFromContext(true) + "identity/" + identityProvider + "/" + remoteId + ".json";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
-    try {
-      return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
-    } catch (IOException ioex) {
-      throw new ServiceException(IdentityServiceImpl.class, "IOException when reads Json Content.", ioex);
-    } catch (ParseException pex) {
-      throw new ServiceException(IdentityServiceImpl.class, "ParseException when reads Json Content.", pex);
-    }
+    String identityId = getIdentityId(identityProvider, remoteId);
+    return get(identityId);
   }
 }

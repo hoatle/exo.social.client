@@ -16,12 +16,6 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.api.model.RestIdentity;
-import org.exoplatform.social.client.api.service.ActivityService;
-import org.exoplatform.social.client.api.service.IdentityService;
-import org.exoplatform.social.client.core.net.AbstractClientTest;
-import org.testng.annotations.Test;
-
 /**
  * Unit Test for {@link org.exoplatform.social.client.api.service.ActivityService}'s implementation.
  *
@@ -29,21 +23,6 @@ import org.testng.annotations.Test;
  * @since Jul 3, 2011
  */
 
-public class ActivityServiceTest extends AbstractClientTest {
-  private IdentityService<RestIdentity> identityService;
-  private ActivityService activityService;
-
-  public void setUp() {
-    super.setUp();
-    activityService = new ActivityServiceImpl();
-  }
-
-  public void tearDown() {
-    activityService = null;
-    super.tearDown();
-  }
-  @Test
-  public void testDump() {
-  
-  }
+public class ActivityServiceV1Alpha1Test {
+  //TODO
 }

@@ -14,45 +14,111 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.net;
+package org.exoplatform.social.client.core;
 
 
+import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
+import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
-import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.service.IdentityServiceImpl;
+import org.exoplatform.social.client.api.service.VersionService;
 
 /**
- * Created by The eXo Platform SAS
- * Author : eXoPlatform
- *          exo@exoplatform.com
- * Jun 29, 2011  
+ * The base abstract class for integration test. This class is provided for extending to set the
+ * restVersion for use by implementing {@link #setRestVersion()}.
+ *
+ * It's required for all tests to check {@link #canRunTest()} to make sure if the rest vesion is not supported
+ * by server, just pass.
+ *
+ * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
+ * @since 1.0.0-alpha2
  */
 public abstract class AbstractClientTest {
 
+  protected VersionService versionService;
   protected IdentityService<RestIdentity> identityService;
-  
+  protected ActivityService<RestActivity> activityService;
+
+  private String defaultRestVersion;
+
+  private boolean canRun = false;
+
+  /**
+   * template method
+   */
+  protected void beforeSetup() {
+
+  }
+
   public void setUp() {
+    beforeSetup();
+    defaultRestVersion = SocialClientContext.getRestVersion();
+
     SocialClientContext.setProtocol("http");
     // Load host and port from System properties if available
     SocialClientContext.setHost(System.getProperty("social.server.host", "127.0.0.1"));
     SocialClientContext.setPort(Integer.getInteger("social.server.port", 8080));
     SocialClientContext.setPortalContainerName("socialdemo");
     SocialClientContext.setRestContextName("rest-socialdemo");
-    SocialClientContext.setRestVersion("v1-alpha1");
-    identityService = new IdentityServiceImpl();
+    setRestVersion();
+    ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
+    versionService = clientServiceFactory.createVersionService();
+    String[] supportedVersions = versionService.getSupported();
+    for (String supportedVersion : supportedVersions) {
+      if (supportedVersion.equals(SocialClientContext.getRestVersion())) {
+        canRun = true;
+        break;
+      }
+    }
+    identityService = clientServiceFactory.createIdentityService();
+    activityService = clientServiceFactory.createActivityService();
+    afterSetup();
   }
-  
+
+  /**
+   * template method
+   */
+  protected void afterSetup() {
+
+  }
+
+  protected abstract void setRestVersion();
+
+  /**
+   * template method
+   */
+  protected void beforeTearDown() {
+
+  }
+
   public void tearDown() {
+    beforeTearDown();
     SocialClientContext.setProtocol("http");
     SocialClientContext.setHost(null);
     SocialClientContext.setPort(0);
     SocialClientContext.setPortalContainerName(null);
     SocialClientContext.setRestContextName(null);
-    SocialClientContext.setRestVersion("v1-alpha1");
+    SocialClientContext.setRestVersion(defaultRestVersion);
     startSessionAsAnonymous();
-    identityService = null;
+    afterTearDown();
+  }
+
+  /**
+   * template method
+   */
+  protected void afterTearDown() {
+
+  };
+
+  /**
+   * To checks if the rest version is supported by the server to run tests, otherwise, just pass.
+   *
+   * @return a boolean value
+   */
+  protected boolean canRunTest() {
+    return canRun;
   }
 
   /**
@@ -73,12 +139,5 @@ public abstract class AbstractClientTest {
     SocialClientContext.setUsername(username);
     SocialClientContext.setPassword(password);
   }
-  /**
-   * Support to get the IdentityId value.
-   * @return
-   */
-  protected String getDemoIdentityId() throws ServiceException {
-    return identityService.getIdentityId("organization", "demo");
-  }
-  
+
 }

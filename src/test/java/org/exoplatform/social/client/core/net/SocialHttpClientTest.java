@@ -17,6 +17,7 @@
 package org.exoplatform.social.client.core.net;
 
 import org.exoplatform.social.client.api.net.SocialHttpClient;
+import org.exoplatform.social.client.core.AbstractClientTestV1Alpha1;
 import org.testng.annotations.Test;
 
 /**
@@ -25,7 +26,7 @@ import org.testng.annotations.Test;
  *          exo@exoplatform.com
  * Jun 29, 2011  
  */
-public class SocialHttpClientTest extends AbstractClientTest {
+public class SocialHttpClientTest extends AbstractClientTestV1Alpha1 {
 
   private SocialHttpClient socialHttpClient;
 

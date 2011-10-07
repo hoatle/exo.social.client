@@ -25,8 +25,8 @@ import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.service.ActivityServiceImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONArray;
@@ -288,7 +288,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActi
       Collections.copy(copyRestActivities, activities);
       return copyRestActivities;
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+      throw new ServiceException(ActivityService.class,"invalid response",null);
     }
   }
   

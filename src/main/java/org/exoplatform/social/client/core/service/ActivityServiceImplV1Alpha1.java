@@ -42,7 +42,7 @@ import org.json.simple.JSONValue;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 28, 2011
  */
-public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityService<RestActivity>> implements ActivityService<RestActivity> {
+public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, ActivityService<RestActivity>> implements ActivityService<RestActivity> {
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
 
   /**
@@ -57,7 +57,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
         RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
         return restActivity;
       } catch (Exception e) {
-        throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+        throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
       }
   }
 
@@ -73,7 +73,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
         RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
         return restActivity;
       } catch (Exception e) {
-        throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+        throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
       }
   }
 
@@ -82,7 +82,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    */
   @Override
   public RestActivity update(RestActivity existingInstance) throws AccessDeniedException, ServiceException {
-    throw new ServiceException(ActivityServiceImpl.class,"Do Not Support",null);
+    throw new ServiceException(ActivityServiceImplV1Alpha1.class,"Do Not Support",null);
   }
 
   /**
@@ -97,7 +97,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
       RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
       return restActivity;
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+      throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
     }
   }
 
@@ -143,7 +143,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
         RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
         return restComment;
       } catch (Exception e) {
-        throw new ServiceException(ActivityServiceImpl.class,e.getMessage(),null);
+        throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
       }
   }
 
@@ -152,24 +152,24 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
    */
   @Override
   public RestComment getComment(String commentId) throws AccessDeniedException, ServiceException {
-    throw new ServiceException(ActivityServiceImpl.class, "Not Supported",null);
+    throw new ServiceException(ActivityServiceImplV1Alpha1.class, "Not Supported",null);
 //    final String GET_ACTIVITY_REQUEST_URL = BASE_URL+commentId+".json";
 //    try {
 //      HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
 //      int statusCode = response.getStatusLine().getStatusCode();
 //      if(statusCode != ServiceException.HTTP_OK){
-//          throw new ServiceException(ActivityServiceImpl.class,"invalid response: Status " + statusCode, null);
+//          throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response: Status " + statusCode, null);
 //      } else {
 //        String responseContent = SocialHttpClientSupport.getContent(response);
 //        try{
 //          RestComment comment = SocialJSONDecodingSupport.parser(RestComment.class, responseContent);
 //          return comment;
 //        } catch (Exception e) {
-//          throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+//          throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
 //        }
 //      }
 //    } catch (Exception e) {
-//      throw new ServiceException(ActivityServiceImpl.class, "There's error when execute request",null);
+//      throw new ServiceException(ActivityServiceImplV1Alpha1.class, "There's error when execute request",null);
 //    }
   }
 
@@ -187,7 +187,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
       RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
       return restComment;
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+      throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
     }
   }
 
@@ -204,10 +204,10 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
       if((Boolean) responeJson.get("like")){
         return new RestLikeImpl(existingRestActivity.getId(), null);
       } else {
-        throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+        throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
       }
     } catch (Exception e) {
-      throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+      throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
     }
   }
 
@@ -224,7 +224,7 @@ public class ActivityServiceImpl extends ServiceBase<RestActivity, ActivityServi
     if(!(Boolean) responeJson.get("like")){
       return new RestLikeImpl(existingRestActivity.getId(), null);
     } else {
-      throw new ServiceException(ActivityServiceImpl.class,"invalid response",null);
+      throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
     }
   }
 }

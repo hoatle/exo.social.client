@@ -28,19 +28,19 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
- * Unit test for {@link ClientServiceFactoryImpl}.
+ * Unit test for {@link ClientServiceFactoryImplV1Alpha1}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
  */
-public class ClientServiceFactoryImplTest {
+public class ClientServiceFactoryImplV1Alpha1Test {
 
   private ClientServiceFactory clientServiceFactory;
 
 
   @BeforeMethod
   public void setUp() {
-    clientServiceFactory = new ClientServiceFactoryImpl();
+    clientServiceFactory = new ClientServiceFactoryImplV1Alpha1();
   }
 
   @AfterMethod

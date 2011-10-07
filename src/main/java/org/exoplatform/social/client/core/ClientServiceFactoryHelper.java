@@ -17,6 +17,12 @@
 package org.exoplatform.social.client.core;
 
 import org.exoplatform.social.client.api.ClientServiceFactory;
+import org.exoplatform.social.client.api.SocialClientContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.exoplatform.social.client.api.SocialClientContext.SupportedVersion.V1_ALPHA1;
+import static org.exoplatform.social.client.api.SocialClientContext.SupportedVersion.V1_ALPHA2;
 
 /**
  * The clientServiceFactory helper to get {@link org.exoplatform.social.client.api.ClientServiceFactory} to work
@@ -27,7 +33,18 @@ import org.exoplatform.social.client.api.ClientServiceFactory;
  */
 public class ClientServiceFactoryHelper {
 
+  /**
+   * Logger
+   */
+  private static final Logger LOG = LoggerFactory.getLogger(ClientServiceFactoryHelper.class);
+
   private static ClientServiceFactory clientServiceFactory;
+
+  /**
+   * Used for unit testing purpose mainly, this should not happen on actual client code when 2 rest api versions are used
+   * at the same time
+   **/
+  private static String currentRestVersion = null;
 
   /**
    * Gets the clientServiceFactory.
@@ -35,10 +52,25 @@ public class ClientServiceFactoryHelper {
    * @return the clientServiceFactory
    */
   public static ClientServiceFactory getClientServiceFactory() {
-    if (clientServiceFactory == null) {
-      clientServiceFactory = new ClientServiceFactoryImpl();
+    if (clientServiceFactory == null || isVersionChanged()) {
+      currentRestVersion = SocialClientContext.getRestVersion();
+      if (V1_ALPHA1.toString().equals(currentRestVersion)) {
+        clientServiceFactory = new ClientServiceFactoryImplV1Alpha1();
+      } else if (V1_ALPHA2.toString().equals(currentRestVersion)) {
+        clientServiceFactory = new ClientServiceFactoryImplV1Alpha2();
+      }
     }
     return clientServiceFactory;
+  }
+
+  private static boolean isVersionChanged() {
+    if (!SocialClientContext.getRestVersion().equals(currentRestVersion)) {
+      LOG.warn("restVersion changed, from: " + currentRestVersion + " to: " + SocialClientContext.getRestVersion());
+
+      currentRestVersion = SocialClientContext.getRestVersion();
+      return true;
+    }
+    return false;
   }
 
 }
