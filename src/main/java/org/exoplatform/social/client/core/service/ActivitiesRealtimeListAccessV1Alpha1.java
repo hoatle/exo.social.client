@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.model;
+package org.exoplatform.social.client.core.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,6 +27,7 @@ import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.ServiceException;
+import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONArray;
@@ -39,7 +40,7 @@ import org.json.simple.JSONValue;
  *          phuonglm@exoplatform.com
  * Jul 5, 2011  
  */
-public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActivity> {
+public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<RestActivity> {
 
   /** The activity type.*/
   public static enum ActivityType {
@@ -67,7 +68,7 @@ public class ActivitiesRealtimeListAccess implements RealtimeListAccess<RestActi
    * @param ownerIdentity
    * @param activityType
    */
-  public ActivitiesRealtimeListAccess(RestIdentity ownerIdentity, ActivityType activityType) {
+  public ActivitiesRealtimeListAccessV1Alpha1(RestIdentity ownerIdentity, ActivityType activityType) {
     this.ownerIdentity = ownerIdentity;
     this.activityType = activityType;
   }

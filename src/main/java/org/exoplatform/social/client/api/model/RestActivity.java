@@ -67,9 +67,6 @@ public interface RestActivity extends Model {
     TOTAL_NUMBER_OF_LIKES("totalNumberOfLikes"),
     /** the json field for activityStream */
     ACTIVITY_STREAM("activityStream");
-    ;
-    
-    
 
     /**
      * The json field that the instance represents.

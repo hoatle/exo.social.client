@@ -17,6 +17,7 @@
 package org.exoplatform.social.client.core.service;
 
 import org.apache.http.HttpResponse;
+import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
@@ -25,14 +26,14 @@ import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestLike;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ActivityService;
+import org.exoplatform.social.client.api.service.QueryParams;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.model.RestCommentImpl;
 import org.exoplatform.social.client.core.model.RestLikeImpl;
+import org.exoplatform.social.client.core.service.ActivitiesRealtimeListAccessV1Alpha1.ActivityType;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
-import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess;
-import org.exoplatform.social.client.core.model.ActivitiesRealtimeListAccess.ActivityType;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -108,24 +109,24 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
   @Override
   public RealtimeListAccess<RestActivity> getActivityStream(RestIdentity restIdentity) throws AccessDeniedException,
                                                                           ServiceException {
-    return new ActivitiesRealtimeListAccess(restIdentity, ActivityType.ACTIVITY_STREAM);
+    return new ActivitiesRealtimeListAccessV1Alpha1(restIdentity, ActivityType.ACTIVITY_STREAM);
   }
 
   @Override
   public RealtimeListAccess<RestActivity> getSpacesActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException, ServiceException {
-    return new ActivitiesRealtimeListAccess(userRestIdentity, ActivityType.USER_SPACE_ACTIVITIES);
+    return new ActivitiesRealtimeListAccessV1Alpha1(userRestIdentity, ActivityType.USER_SPACE_ACTIVITIES);
   }
 
   @Override
   public RealtimeListAccess<RestActivity> getConnectionsActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
                                                                                                  ServiceException {
-    return new ActivitiesRealtimeListAccess(userRestIdentity, ActivityType.CONNECTIONS_ACTIVITIES);
+    return new ActivitiesRealtimeListAccessV1Alpha1(userRestIdentity, ActivityType.CONNECTIONS_ACTIVITIES);
   }
 
   @Override
   public RealtimeListAccess<RestActivity> getFeedActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
                                                                                           ServiceException {
-    return new ActivitiesRealtimeListAccess(userRestIdentity, ActivityType.ACTIVITY_FEED);
+    return new ActivitiesRealtimeListAccessV1Alpha1(userRestIdentity, ActivityType.ACTIVITY_FEED);
   }
 
 
@@ -226,5 +227,45 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
     } else {
       throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
     }
+  }
+
+  @Override
+  public RealtimeListAccess<RestActivity> getActivityStream(
+      RestIdentity restIdentity, QueryParams queryParams)
+      throws AccessDeniedException, ServiceException {
+    throw new UnsupportedMethodException("Not Supported Yet.");
+  }
+
+  @Override
+  public RestActivity create(RestActivity newActivity, QueryParams queryParams)
+      throws AccessDeniedException, ServiceException {
+    throw new UnsupportedMethodException("Not Supported Yet.");
+  }
+
+  @Override
+  public RealtimeListAccess<RestActivity> getSpacesActivityStream(
+      RestIdentity restIdentity, QueryParams queryParams)
+      throws AccessDeniedException, ServiceException {
+    throw new UnsupportedMethodException("Not Supported Yet.");
+  }
+
+  @Override
+  public RealtimeListAccess<RestActivity> getConnectionsActivityStream(
+      RestIdentity restIdentity, QueryParams queryParams)
+      throws AccessDeniedException, ServiceException {
+    throw new UnsupportedMethodException("Not Supported Yet.");
+  }
+
+  @Override
+  public RealtimeListAccess<RestActivity> getFeedActivityStream(
+      RestIdentity restIdentity, QueryParams queryParams)
+      throws AccessDeniedException, ServiceException {
+    throw new UnsupportedMethodException("Not Supported Yet.");
+  }
+
+  @Override
+  public RestActivity get(String activityId, QueryParams queryParams)
+      throws AccessDeniedException, ServiceException {
+    throw new UnsupportedMethodException("Not Supported Yet.");
   }
 }
