@@ -43,6 +43,8 @@ public interface RestActivity extends Model {
     TYPE("type"),
     /** the json field for postedTime. */
     POSTED_TIME("postedTime"),
+    /** the json field for posterIdentity. */
+    POSTER_IDENTITY("posterIdentity"),
     /** the json field for createdAt. */
     CREATED_AT("createdAt"),
     /** the json field for priority. */
@@ -57,8 +59,17 @@ public interface RestActivity extends Model {
     LIKED("liked"),
     /** the json field for likedByIdentities */
     LIKED_BY_IDENTITIES("likedByIdentities"),
+    /** the json field for Comments */
+    COMMENTS("comments"),
     /** the json field for numberOfCommens */
-    TOTAL_NUMBER_OF_COMMENTS("totalNumberOfComments");
+    TOTAL_NUMBER_OF_COMMENTS("totalNumberOfComments"),
+    /** the json field for numberOfLikes */
+    TOTAL_NUMBER_OF_LIKES("totalNumberOfLikes"),
+    /** the json field for activityStream */
+    ACTIVITY_STREAM("activityStream");
+    ;
+    
+    
 
     /**
      * The json field that the instance represents.
@@ -252,11 +263,6 @@ public interface RestActivity extends Model {
   boolean isLiked();
 
   /**
-   * Gets the list of likes.
-   */
-  List<RestLike> getLikes();
-
-  /**
    * Gets the poster identity who created this activity.
    *
    * @return the poster identity
@@ -265,13 +271,21 @@ public interface RestActivity extends Model {
 
   /**
    * Gets the available list of comments for this activity.
-   * Return maximum 5 latest comments of this activity.
+   * Return Number of latest comments of this activity.
    *
-   * @return maximum 5 latest comments
+   * @return Number of latest comments
    * @see #getTotalComments()
    */
   List<RestComment> getAvailableComments();
-
+  
+  /**
+   * Gets the available list of likes for this activity.
+   * Return Number of latest likes of this activity.
+   *
+   * @return Number of latest likes
+   * @see #getTotalLikes()
+   */
+  List<RestIdentity> getAvailableLikes();
 
   /**
    * Sets the available list of comments for this activity.
@@ -294,6 +308,20 @@ public interface RestActivity extends Model {
    * @return the total comment list
    */
   List<RestComment> getTotalComments();
+  
+  /**
+   * Gets the number of total likes.
+   *
+   * @return the the number of total likes
+   */
+  int getTotalNumberOfLikes();
+
+  /**
+   * Gets the total number of likes.
+   *
+   * @return the total like list
+   */
+  List<RestIdentity> getTotalLikes();
 
   /**
    * Gets activity stream.
