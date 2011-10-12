@@ -264,7 +264,7 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
     String responseContent = SocialHttpClientSupport.getContent(response);
     try{
       JSONObject responseJson = (JSONObject)JSONValue.parse(responseContent);
-      if((Boolean) responseJson.get("like")){
+      if((Boolean) responseJson.get("liked")){
         return new RestLikeImpl(existingRestActivity.getId(), null);
       } else {
         throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
@@ -284,7 +284,7 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
     HttpResponse response = SocialHttpClientSupport.executePost(LIKE_ACTIVITY_REQUEST_URL,POLICY.BASIC_AUTH);
     String responseContent = SocialHttpClientSupport.getContent(response);
     JSONObject responseJson = (JSONObject)JSONValue.parse(responseContent);
-    if(!(Boolean) responseJson.get("like")){
+    if(!(Boolean) responseJson.get("liked")){
       return new RestLikeImpl(existingRestActivity.getId(), null);
     } else {
       throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
