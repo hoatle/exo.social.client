@@ -43,7 +43,9 @@ public interface RestComment extends Model {
     /** the json field for postedTime. */
     POSTED_TIME("postedTime"),
     /** the json field for createdAt. */
-    CREATED_AT("createdAt");
+    CREATED_AT("createdAt"),
+    /** the identity who comment the activity */
+    POSTER_IDENTITY("posterIdentity");
 
     /**
      * The json field that the instance represents.
@@ -88,6 +90,7 @@ public interface RestComment extends Model {
    * Gets identity id who posted this comment.
    *
    * @return the identity id
+   * @deprecated only use with v1-alpha1
    */
   String getIdentityId();
 
@@ -95,6 +98,7 @@ public interface RestComment extends Model {
    * Sets identity id who posted this comment.
    *
    * @param identidyId the identity id
+   * @deprecated only use with v1-alpha1
    */
   void setIdentityId(String identidyId);
 
@@ -169,6 +173,21 @@ public interface RestComment extends Model {
    * This must be lazy loading for better performance.
    *
    * @return the identity
+   * @deprecated only use with v1-alpha1
    */
   RestIdentity getIdentity();
+  
+  /**
+   * Gets the identity who commented.
+   * if poster identity is null this will be lazy loading the identity from Rest.
+   * @return
+   */
+  RestIdentity getPosterIdentity();
+  
+  /**
+   * Sets the identity who commented.
+   * @param restIdentity
+   * @return
+   */
+  void setPosterIdentity(RestIdentity restIdentity);
 }

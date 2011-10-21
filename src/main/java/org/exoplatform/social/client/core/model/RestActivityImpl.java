@@ -42,7 +42,7 @@ import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
  * @since May 26, 2011
  */
 public class RestActivityImpl extends ModelImpl implements RestActivity {
-
+  
   /**
    * Constructor without any params.
    */
@@ -113,7 +113,19 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   public void setAppId(String appId) {
     setField(Field.APP_ID.toString(), appId);
   }
-
+  
+  /**
+   * {@inheritDoc}
+   */
+  public String getType(){
+    return getFieldAsString(Field.TYPE.toString());
+  }
+  /**
+   * {@inheritDoc}
+   */
+  public void setType(String type){
+    setField(Field.TYPE.toString() , type);
+  }
 
   /**
    * {@inheritDoc}

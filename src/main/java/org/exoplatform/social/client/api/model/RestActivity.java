@@ -28,7 +28,10 @@ import java.util.Map;
  * @since May 19, 2011
  */
 public interface RestActivity extends Model {
-
+  public final static String DOC_ACTIVITY_TYPE = "DOC_ACTIVITY";
+  public final static String DEFAULT_ACTIVITY_TYPE = "DEFAULT_ACTIVITY";
+  public final static String LINK_ACTIVITY_TYPE = "LINK_ACTIVITY";
+  
   /**
    * The fields that represent the activity object in json form.
    */
@@ -172,6 +175,20 @@ public interface RestActivity extends Model {
    */
   void setAppId(String appId);
 
+  /**
+   * Gets a string specifying the type of activity. Container support for this field is REQUIRED.
+   *
+   * @return A string specifying the application that this activity is associated with
+   */
+  String getType();
+
+  /**
+   * Sets a string specifying the type of activity. Container support for this field is REQUIRED.
+   *
+   * @param appId A string specifying the application that this activity is associated with
+   */
+  void setType(String type);
+  
   /**
    * Gets the time at which this activity took place in milliseconds since the epoch. Container
    * support for this field is OPTIONAL.

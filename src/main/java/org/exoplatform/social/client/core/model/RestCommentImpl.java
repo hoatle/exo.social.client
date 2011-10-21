@@ -23,6 +23,7 @@ import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
+import org.exoplatform.social.client.api.model.RestIdentity.Field;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
@@ -192,5 +193,26 @@ public class RestCommentImpl extends ModelImpl implements RestComment {
       throw new ServiceException(RestCommentImpl.class, "ParseException when reads Json Content.", e);
     }
     return restIdentity;
+  }
+  
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public RestIdentity getPosterIdentity() {
+    String posterIdentityJson = getFieldAsString(Field.POSTER_IDENTITY.toString());
+    try {
+      return posterIdentityJson == null ? new RestIdentityImpl() : SocialJSONDecodingSupport.parser(RestIdentityImpl.class, posterIdentityJson);
+    } catch (ParseException pex) {
+      return new RestIdentityImpl();
+    }
+  }
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public void setPosterIdentity(RestIdentity restIdentity) {
+    setField(Field.POSTER_IDENTITY.toString(), restIdentity);
   }
 }
