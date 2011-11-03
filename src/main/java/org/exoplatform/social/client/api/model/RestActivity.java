@@ -40,6 +40,8 @@ public interface RestActivity extends Model {
     ID("id"),
     /** the json field for title. */
     TITLE("title"),
+    /** the json field for body. */
+    BODY("body"),
     /** the json field for appId. */
     APP_ID("appId"),
     /** the json field for type. */
@@ -147,6 +149,18 @@ public interface RestActivity extends Model {
    */
   String getTitleId();
 
+  /**
+   * Sets the body fields of Activity, this field is optional and use to storage the extended attribute of activity.
+   * @param body
+   */
+  void setBody(String body);
+  
+  /**
+   * gets the body fields of Activity, this field is optional and use to storage the extended attribute of activity.
+   * @return
+   */
+  String getBody();
+  
   /**
    * Sets a string specifying the title template message ID in the gadget spec. Container support for
    * this field is REQUIRED.

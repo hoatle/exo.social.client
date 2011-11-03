@@ -78,10 +78,26 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    * {@inheritDoc}
    */
   @Override
+  public void setBody(String title) {
+    setField(Field.BODY.toString(), title);
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public String getBody() {
+    return getFieldAsString(Field.BODY.toString());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
   public void setTitle(String title) {
     setField(Field.TITLE.toString(), title);
   }
-
+  
   /**
    * {@inheritDoc}
    */
