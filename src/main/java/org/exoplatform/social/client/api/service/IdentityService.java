@@ -16,8 +16,7 @@
  */
 package org.exoplatform.social.client.api.service;
 
-import org.exoplatform.social.client.api.UnsupportedMethodException;
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.SocialClientLibException;
 
 /**
  * eXo Social Account Service
@@ -36,9 +35,7 @@ public interface IdentityService<Identity> extends Service<Identity> {
    * @throws ServiceException
    * @since  1.0.0-alpha2
    */
-  Identity getIdentity(String identityProvider, String remoteId) throws UnsupportedMethodException,
-                                                                 AccessDeniedException,
-                                                                 ServiceException;
+  Identity getIdentity(String identityProvider, String remoteId) throws SocialClientLibException;
 
   
   /**
@@ -49,5 +46,5 @@ public interface IdentityService<Identity> extends Service<Identity> {
    * @deprecated Use {@link #getIdentity(String, String)} then getIdentityId() instead.
    */
   @Deprecated
-  String getIdentityId(String provider, String remoteId) throws ServiceException;
+  String getIdentityId(String provider, String remoteId) throws SocialClientLibException;
 }

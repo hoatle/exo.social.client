@@ -18,6 +18,9 @@ package org.exoplatform.social.client.core;
 
 
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.SocialClientLibException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 
 /**
@@ -46,7 +49,7 @@ public abstract class AbstractClientTestV1Alpha2 extends AbstractClientTest {
    *
    * @return Demo's Identity.
    */
-  protected RestIdentity getDemoIdentity() {
+  protected RestIdentity getDemoIdentity() throws SocialClientLibException {
     if (demoIdentity == null) {
       demoIdentity = identityService.getIdentity("organization", "demo");
     }

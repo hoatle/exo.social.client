@@ -23,7 +23,7 @@ package org.exoplatform.social.client.api.auth;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since  May 20, 2011
  */
-public class AccessDeniedException extends RuntimeException {
+public class AccessDeniedException extends Exception {
 
   /**
    * Exception without any message.

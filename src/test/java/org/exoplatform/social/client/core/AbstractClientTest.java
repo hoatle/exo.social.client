@@ -19,6 +19,7 @@ package org.exoplatform.social.client.core;
 
 import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.UnsupportedRestVersionException;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.service.ActivityService;
@@ -84,7 +85,7 @@ public abstract class AbstractClientTest {
 
   }
 
-  protected abstract void setRestVersion();
+  protected abstract void setRestVersion() throws UnsupportedRestVersionException;
 
   /**
    * template method

@@ -22,12 +22,18 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.api.service.VersionService;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
+
+import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.*;
+import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
 
 /**
  * Created by The eXo Platform SAS
@@ -40,14 +46,15 @@ public class VersionServiceImpl implements VersionService {
   private final static String VERSION_FIELD = "version";
   private final static String SUPPORTED_FIELD = "versions";
   @Override
-  public String getLatest() throws ServiceException {
+  public String getLatest() throws ServiceException{
     final String targetURL = "/" + SocialClientContext.getRestContextName() + "/api/social/version/latest.json";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
-    String content = SocialHttpClientSupport.getContent(response);
     try {
+      HttpResponse response = executeGet(targetURL, POLICY.NO_AUTH);
+      handleError(response);
+      String content = getContent(response);
       Map versionMap = SocialJSONDecodingSupport.parser(content);
       return (String) versionMap.get(VERSION_FIELD);
-    } catch (ParseException pex) {
+    } catch (Exception pex) {
       throw new ServiceException(VersionServiceImpl.class, "Failed to getLatest version", pex);
     }
   }
@@ -55,14 +62,14 @@ public class VersionServiceImpl implements VersionService {
   @Override
   public String[] getSupported() throws ServiceException {
     final String targetURL = "/" + SocialClientContext.getRestContextName() + "/api/social/version/supported.json";
-
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.NO_AUTH);
-    String content = SocialHttpClientSupport.getContent(response);
     try {
+      HttpResponse response = executeGet(targetURL, POLICY.NO_AUTH);
+      String content = getContent(response);
+      handleError(response);
       Map versionMap = SocialJSONDecodingSupport.parser(content);
       List supportVersion = (LinkedList) versionMap.get(SUPPORTED_FIELD);
       return (String[]) supportVersion.toArray(new String[0]);
-    } catch (ParseException pex) {
+    } catch (Exception pex) {
       throw new ServiceException(VersionServiceImpl.class, "Failed to getSupported versions", pex);
     }
   }

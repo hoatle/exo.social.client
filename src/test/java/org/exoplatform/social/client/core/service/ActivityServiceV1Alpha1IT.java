@@ -19,6 +19,9 @@ package org.exoplatform.social.client.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -57,7 +60,11 @@ public class ActivityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
   public void beforeTearDown() {
     startSessionAs("demo", "gtn");
     for (RestActivity activity : tearDownActivityList) {
-      activityService.delete(activity);
+      try {
+        activityService.delete(activity);
+      } catch (Exception e) {
+        //OK
+      }
     }
   }
 
@@ -71,44 +78,42 @@ public class ActivityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
    * Tests the case when not authenticated
    */
   @Test
-  public void shouldBeForbidden() {
+  public void shouldBeForbidden() throws SocialClientLibException {
     if (!canRunTest()) {
       return;
     }
+    startSessionAs("demo", "gtn");
     try {
       activityService.get("notfound");
-      fail("Expecting ServiceException from ActivityService#get(String)");
-    } catch (ServiceException se) {
-
+      fail("Expecting NotFoundException from ActivityService#get(String)");
+    } catch (SocialClientLibException se) {
+      assert(se.getCause() instanceof NotFoundException);
     }
+
+
     RestActivity activity = new RestActivityImpl();
     activity.setTitle("Hello There");
-    try {
       activityService.create(activity);
-      fail("Expecting ServiceException from ActivityService#create(RestActivity)");
-    } catch (ServiceException se) {
-
-    }
+    startSessionAs("mary", "gtn");
     try {
       activityService.update(activity);
       fail("Expecting ServiceException from ActivityService#update(RestActivity)");
     } catch (ServiceException se) {
-
     }
 
     //create a activity to demo's stream
     startSessionAs("demo", "gtn");
     RestActivity demoActivity = createActivities(1).get(0);
-    startSessionAsAnonymous();
+    startSessionAs("mary", "gtn");
 
     RestComment comment = new RestCommentImpl();
     comment.setText("comment");
 
     try {
       activityService.createComment(demoActivity, comment);
-      fail("Expecting ServiceException from ActivityService#createComment(RestActivity, RestComment)");
-    } catch (ServiceException se) {
-
+      fail("Expecting AccessDeniedException from ActivityService#createComment(RestActivity, RestComment)");
+    } catch (SocialClientLibException se) {
+      assert(se.getCause() instanceof AccessDeniedException);
     }
 
 
@@ -223,7 +228,7 @@ public class ActivityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
   }
   */
 
-  private List<RestActivity> createActivities(int numberOfActivity) {
+  private List<RestActivity> createActivities(int numberOfActivity) throws SocialClientLibException {
     List<RestActivity> createdActivityList = new ArrayList<RestActivity>();
     for (int i = 0; i < numberOfActivity; i++) {
       RestActivity restActivityToCreate = new RestActivityImpl();

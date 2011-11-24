@@ -21,10 +21,14 @@ import java.util.Collections;
 import java.util.List;
 
 import org.apache.http.HttpResponse;
+import org.exoplatform.social.client.api.SocialClientLibException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.QueryParams;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -34,6 +38,8 @@ import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+
+import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.*;
 
 /**
  * Created by The eXo Platform SAS
@@ -64,7 +70,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
   QueryParams queryParams = new QueryParamsImpl();
 
   /** The base url. */
-  private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
+  private static final String BASE_URL = buildCommonRestPathFromContext(true);
   
   /**
    * The constructor.
@@ -103,7 +109,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public boolean hasNewer(RestActivity baseElement) {
+  public boolean hasNewer(RestActivity baseElement) throws SocialClientLibException {
     return this.loadNewerAsList(baseElement, 1).size() > 0;
   }
 
@@ -111,7 +117,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public boolean hasOlder(RestActivity baseElement) {
+  public boolean hasOlder(RestActivity baseElement) throws SocialClientLibException {
     return this.loadOlderAsList(baseElement, 1).size() > 0;
   }
 
@@ -119,7 +125,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public RestActivity[] loadNewer(RestActivity baseElement, int limit) {
+  public RestActivity[] loadNewer(RestActivity baseElement, int limit) throws SocialClientLibException {
     return this.convertListToArray(this.loadNewerAsList(baseElement, limit), RestActivity.class);
   }
 
@@ -127,7 +133,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public List<RestActivity> loadNewerAsList(RestActivity baseElement, int limit) {
+  public List<RestActivity> loadNewerAsList(RestActivity baseElement, int limit) throws SocialClientLibException {
     String requestURL = null;
     HttpResponse response = null;
     queryParams.append(QueryParams.LIMIT_PARAM.setValue(limit));
@@ -155,7 +161,13 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
     }
     queryParams.remove(QueryParams.LIMIT_PARAM);
     queryParams.remove(QueryParams.SINCE_ID_PARAM);
-    response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
+
+    try {
+      response = executeGet(requestURL, POLICY.BASIC_AUTH);
+      handleError(response);
+    } catch (SocialHttpClientException e) {
+      throw new ServiceException(e.getMessage(),e);
+    }
     return this.getListActivitiesFromResponse(response);
   }
 
@@ -163,7 +175,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public RestActivity[] loadOlder(RestActivity baseElement, int limit) {
+  public RestActivity[] loadOlder(RestActivity baseElement, int limit) throws SocialClientLibException {
     return this.convertListToArray(this.loadOlderAsList(baseElement, limit), RestActivity.class);
   }
 
@@ -171,7 +183,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public List<RestActivity> loadOlderAsList(RestActivity baseElement, int limit) {
+  public List<RestActivity> loadOlderAsList(RestActivity baseElement, int limit) throws SocialClientLibException {
     String requestURL = null;
     HttpResponse response = null;
     queryParams.append(QueryParams.LIMIT_PARAM.setValue(limit));
@@ -199,7 +211,12 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
     }
     queryParams.remove(QueryParams.LIMIT_PARAM);
     queryParams.remove(QueryParams.MAX_ID_PARAM);
-    response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
+    try {
+      response = executeGet(requestURL, POLICY.BASIC_AUTH);
+      handleError(response);
+    } catch (SocialHttpClientException e) {
+      throw new ServiceException(e.getMessage(),e);
+    }
     return this.getListActivitiesFromResponse(response);
   }
 
@@ -216,7 +233,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public RestActivity[] load(int index, int limit) {
+  public RestActivity[] load(int index, int limit) throws SocialClientLibException {
     return this.convertListToArray(this.loadAsList(index, limit), RestActivity.class);
   }
 
@@ -224,7 +241,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * {@inheritDoc}
    */
   @Override
-  public List<RestActivity> loadAsList(int index, int limit) {
+  public List<RestActivity> loadAsList(int index, int limit) throws SocialClientLibException {
     String requestURL = null;
     HttpResponse response = null;
     switch (activityType) {
@@ -248,7 +265,12 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
         break;
       }
     }
-    response = SocialHttpClientSupport.executeGet(requestURL, POLICY.BASIC_AUTH);
+    try {
+      response = executeGet(requestURL, POLICY.BASIC_AUTH);
+      handleError(response);
+    } catch (SocialHttpClientException e) {
+      throw new ServiceException(e.getMessage(),e);
+    }
     return this.getListActivitiesFromResponse(response);
   }
 
@@ -296,7 +318,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    */
   private List<RestActivity> getListActivitiesFromResponse(HttpResponse response) {
     try {
-      JSONObject jsonObject = (JSONObject) JSONValue.parse(SocialHttpClientSupport.getContent(response));
+      JSONObject jsonObject = (JSONObject) JSONValue.parse(getContent(response));
       JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
       List<RestActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString());
       List<RestActivity> copyRestActivities = new ArrayList(activities);

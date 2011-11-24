@@ -16,16 +16,21 @@
  */
 package org.exoplatform.social.client.core.model;
 
+import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
+
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestActivityStream;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
+import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.QueryParams;
@@ -34,6 +39,7 @@ import org.exoplatform.social.client.core.ClientServiceFactoryHelper;
 import org.exoplatform.social.client.core.service.QueryParamsImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.json.simple.parser.ParseException;
 
 /**
  * Implementation of {@link org.exoplatform.social.client.api.model.RestActivity}.
@@ -217,9 +223,10 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   
   /**
    * {@inheritDoc}
+   * @throws SocialClientLibException 
    */
   @Override
-  public RestIdentity getPosterIdentity() {
+  public RestIdentity getPosterIdentity() throws SocialClientLibException {
     String posterIdentityString = getFieldAsString(Field.POSTER_IDENTITY.toString());
     RestIdentity restIdentity = null;
     
@@ -268,7 +275,6 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    */
   @Override
   public int getTotalNumberOfComments() {
-
     return Integer.parseInt(this.getFieldAsString(RestActivity.Field.TOTAL_NUMBER_OF_COMMENTS.toString()));
   }
 
@@ -276,23 +282,30 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
    * {@inheritDoc}
    */
   @Override
-  public List<RestComment> getTotalComments() {
+  public List<RestComment> getTotalComments() throws SocialClientLibException{
     final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)+"activity/"+this.getId()+"/comments.json";
+
+
     try{
       HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
+      SocialHttpClientSupport.handleError(response);
       String responseContent = SocialHttpClientSupport.getContent(response);
+
       List<? extends RestComment> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(RestCommentImpl.class, responseContent);
       return (List<RestComment>)comments;
-    } catch (Exception e) {
+    } catch (IOException e) {
+      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+    } catch (ParseException e) {
       throw new ServiceException(ActivityService.class,e.getMessage(),null);
     }
   }
 
   /**
    * {@inheritDoc}
+   * @throws SocialClientLibException 
    */
   @Override
-  public RestActivityStream getActivityStream() {
+  public RestActivityStream getActivityStream() throws SocialClientLibException {
     String activityStreamJSON = this.getFieldAsString(RestActivity.Field.ACTIVITY_STREAM.toString());
     RestActivityStream restActivityStream = null;
     try {
@@ -303,7 +316,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
         final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)
                                                           + "activity/" + this.getId() + ".json?" + queryParamBuilder.buildQuery();
         HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
-        
+        handleError(response);
         RestActivity activity = (RestActivity) SocialJSONDecodingSupport.parser(RestActivityImpl.class, response);
         //get ActivityStream when JSON content is existing.
         restActivityStream = activity.getActivityStream();
@@ -311,7 +324,11 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
         //caching for ActivityStreamJSON content in this RestActivity which avoid Request again.
         this.setField(RestActivity.Field.ACTIVITY_STREAM.toString(), activity.getFieldAsString(RestActivity.Field.ACTIVITY_STREAM.toString()));
       }
-    } catch (Exception e) {
+    } catch (SocialHttpClientException e) {
+      throw new ServiceException(ActivityService.class, e.getMessage(), null);
+    } catch (ParseException e) {
+      throw new ServiceException(ActivityService.class, e.getMessage(), null);
+    } catch (IOException e) {
       throw new ServiceException(ActivityService.class, e.getMessage(), null);
     }
     return restActivityStream;
@@ -348,15 +365,20 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   }
 
   @Override
-  public List<RestIdentity> getTotalLikes() {
+  public List<RestIdentity> getTotalLikes() throws SocialClientLibException  {
     final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)
         + "activity/" + this.getId() + "/likes.json";
     try {
       HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
       String responseContent = SocialHttpClientSupport.getContent(response);
+      handleError(response);
       List<? extends RestIdentity> likedByIdentities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestIdentityImpl.class, responseContent);
       return (List<RestIdentity>) likedByIdentities;
-    } catch (Exception e) {
+    } catch (SocialHttpClientException e) {
+      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+    } catch (IOException e) {
+      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+    } catch (ParseException e) {
       throw new ServiceException(ActivityService.class,e.getMessage(),null);
     }
   }

@@ -38,10 +38,15 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.params.HttpParams;
 import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.SocialClientLibException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
+import org.exoplatform.social.client.api.auth.UnAuthenticatedException;
 import org.exoplatform.social.client.api.model.Model;
 import org.exoplatform.social.client.api.net.SocialHttpClient;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.net.SocialHttpClientException;
+import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.net.SocialHttpClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,7 +82,7 @@ public class SocialHttpClientSupport {
     
     try {
       HttpResponse response = httpClient.execute(targetHost, httpGet);
-      handleError(response);
+      //handleError(response);
       //Debugging in the devlopment mode
       if (SocialClientContext.isDeveloping()) {
         dumpHttpResponsetHeader(response);
@@ -137,7 +142,7 @@ public class SocialHttpClientSupport {
       }
       HttpResponse response = httpClient.execute(targetHost, httpPost);
       
-      handleError(response);
+      //handleError(response);
       //Debugging in the devlopment mode
       if (SocialClientContext.isDeveloping()) {
         dumpHttpResponsetHeader(response);
@@ -217,7 +222,7 @@ public class SocialHttpClientSupport {
     }
     try {
       HttpResponse response = httpClient.execute(targetHost, httpDelete);
-      handleError(response);
+      //handleError(response);
       //Debugging in the devlopment mode
       if (SocialClientContext.isDeveloping()) {
         dumpHttpResponsetHeader(response);
@@ -354,17 +359,28 @@ public class SocialHttpClientSupport {
   /**
    * Handles the error code which contains in HttpResponse. 
    * @param response HttpResponse
+   * @throws SocialClientLibException 
    * @throws SocialHttpClientException
    */
-  public static void handleError(HttpResponse response) throws SocialHttpClientException {
-    if (response.getStatusLine().getStatusCode() != 200) {
-      throw new SocialHttpClientException(response.getStatusLine().toString());
+  public static void handleError(HttpResponse response) throws SocialClientLibException {
+    int statusCode = response.getStatusLine().getStatusCode();
+
+    if (statusCode != 200) {
+      if(statusCode == 404){
+        throw new SocialClientLibException(response.getStatusLine().toString(), new NotFoundException());
+      } else if(statusCode == 403){
+        throw new SocialClientLibException(response.getStatusLine().toString(), new AccessDeniedException());
+      } else if(statusCode == 401){
+        throw new SocialClientLibException(response.getStatusLine().toString(), new UnAuthenticatedException());
+      } else {
+        throw new ServiceException(response.getStatusLine().toString());
+      }
     }
   }
   
   /**
    * Dump the HttpResponse's header which Rest Service to return.
-   * @param request
+   * @param response
    */
   public static void dumpHttpResponsetHeader(HttpResponse response) {
     Header[] headers = response.getAllHeaders();
@@ -376,7 +392,7 @@ public class SocialHttpClientSupport {
   
   /**
    * Dump the HttpResponse content which Rest Service to return.
-   * @param entity Entity to dump
+   * @param response Entity to dump
    * @throws ParseException
    * @throws IOException
    */
@@ -394,7 +410,6 @@ public class SocialHttpClientSupport {
       } catch (org.json.simple.parser.ParseException pex) {
         throw new SocialHttpClientException("dumpContent() is parsing error.", pex);
       }
-      
     }
   }
 }

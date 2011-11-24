@@ -26,6 +26,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.model.Model;
+import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ContainerFactory;
@@ -121,7 +122,12 @@ public class SocialJSONDecodingSupport {
    * @throws ParseException Throw this exception if any
    */
   public static Map parser(HttpResponse response) throws ParseException {
-    String jsonContent = SocialHttpClientSupport.getContent(response);
+    String jsonContent = null;
+    try {
+      jsonContent = SocialHttpClientSupport.getContent(response);
+    } catch (SocialHttpClientException e) {
+      throw new ParseException(0);
+    }
     return parser(jsonContent);
   }
 

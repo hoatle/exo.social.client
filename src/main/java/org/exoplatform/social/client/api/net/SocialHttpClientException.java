@@ -16,6 +16,8 @@
  */
 package org.exoplatform.social.client.api.net;
 
+import java.io.IOException;
+
 /**
  * Created by The eXo Platform SAS
  * Author : eXoPlatform
@@ -23,7 +25,7 @@ package org.exoplatform.social.client.api.net;
  * Jun 30, 2011  
  */
 @SuppressWarnings("serial")
-public class SocialHttpClientException extends RuntimeException {
+public class SocialHttpClientException extends IOException {
 
 
   /**

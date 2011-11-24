@@ -39,6 +39,25 @@ public class ServiceException extends RuntimeException {
   }
 
   /**
+   * Constructor for ServiceException.
+   *
+   * @param message      the message of exception
+   * @param cause        the cause of exception
+   */
+  public ServiceException(String message, Throwable cause) {
+    super(message, cause);
+  }
+
+  /**
+   * Constructor for ServiceException.
+   *
+   * @param message      the message of exception
+   */
+  public ServiceException(String message) {
+    super(message);
+  }
+
+  /**
    * Gets the class service that cause the exception.
    *
    * @return the class service FQN

@@ -16,6 +16,7 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
 import org.exoplatform.social.client.api.service.ServiceException;
 
@@ -28,27 +29,26 @@ import org.exoplatform.social.client.api.service.ServiceException;
 public class MockService extends ServiceBase<MockModel, MockService> {
 
   @Override
-  public MockModel create(MockModel newInstance) throws AccessDeniedException, ServiceException {
+  public MockModel create(MockModel newInstance) throws SocialClientLibException {
     // TODO Auto-generated method stub
     return null;
     
   }
 
   @Override
-  public MockModel get(String uuid) throws AccessDeniedException, ServiceException {
+  public MockModel get(String uuid) throws SocialClientLibException {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public MockModel update(MockModel existingInstance) throws AccessDeniedException,
-                                                     ServiceException {
+  public MockModel update(MockModel existingInstance) throws SocialClientLibException {
     // TODO Auto-generated method stub
     return null;
   }
 
   @Override
-  public MockModel delete(MockModel existingInstance) throws AccessDeniedException, ServiceException {
+  public MockModel delete(MockModel existingInstance) throws SocialClientLibException {
     // TODO Auto-generated method stub
     return null;
   }

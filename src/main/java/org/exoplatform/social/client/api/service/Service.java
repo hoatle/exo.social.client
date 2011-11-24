@@ -16,7 +16,9 @@
  */
 package org.exoplatform.social.client.api.service;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 
 /**
  * eXo Social Service.
@@ -34,7 +36,7 @@ public interface Service<M> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  M create(M newInstance) throws AccessDeniedException, ServiceException;
+  M create(M newInstance) throws SocialClientLibException;
 
   /**
    * Gets an existing instance by its uuid.
@@ -43,7 +45,7 @@ public interface Service<M> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  M get(String uuid) throws AccessDeniedException, ServiceException;
+  M get(String uuid) throws SocialClientLibException;
 
   /**
    * Updates an existing instance.
@@ -53,7 +55,7 @@ public interface Service<M> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  M update(M existingInstance) throws AccessDeniedException, ServiceException;
+  M update(M existingInstance) throws SocialClientLibException;
 
   /**
    * Deletes an existing instance.
@@ -63,6 +65,6 @@ public interface Service<M> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  M delete(M existingInstance) throws AccessDeniedException, ServiceException;
+  M delete(M existingInstance) throws SocialClientLibException;
 
 }

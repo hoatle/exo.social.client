@@ -16,7 +16,9 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.event.CRUDLifecycle;
 import org.exoplatform.social.client.api.event.CRUDLifecycleListener;
 import org.exoplatform.social.client.api.event.Lifecycle;
@@ -159,7 +161,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public final void doCreate(M newInstance) throws AccessDeniedException, ServiceException {
+  public final void doCreate(M newInstance) throws SocialClientLibException {
     preCreate(newInstance);
     create(newInstance);
     postCreate(newInstance);
@@ -172,7 +174,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
   * @throws AccessDeniedException
   * @throws ServiceException
   */
-  public void preCreate(M newInstance) throws AccessDeniedException, ServiceException {
+  public void preCreate(M newInstance) throws SocialClientLibException {
     crudLifecycle.broadcastEvent(BEFORE_CREATE_EVENT, newInstance);
   }
   
@@ -184,7 +186,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public void postCreate(M newInstance) throws AccessDeniedException, ServiceException {
+  public void postCreate(M newInstance) throws SocialClientLibException {
     crudLifecycle.broadcastEvent(AFTER_CREATE_EVENT, newInstance);
   }
   
@@ -196,7 +198,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public final void doDelete(M existingInstance) throws AccessDeniedException, ServiceException {
+  public final void doDelete(M existingInstance) throws SocialClientLibException {
     preDelete(existingInstance);
     delete(existingInstance);
     postDelete(existingInstance);
@@ -209,7 +211,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public void preDelete(M existingInstance) throws AccessDeniedException, ServiceException {
+  public void preDelete(M existingInstance) throws SocialClientLibException {
     crudLifecycle.broadcastEvent(BEFORE_DELETE_EVENT, existingInstance);
   }
   
@@ -220,7 +222,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public void postDelete(M existingInstance) throws AccessDeniedException, ServiceException {
+  public void postDelete(M existingInstance) throws SocialClientLibException {
     crudLifecycle.broadcastEvent(AFTER_DELETE_EVENT, existingInstance);
   }
   
@@ -232,7 +234,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public final void doUpdate(M existingInstance) throws AccessDeniedException, ServiceException {
+  public final void doUpdate(M existingInstance) throws SocialClientLibException {
     preUpdate(existingInstance);
     update(existingInstance);
     postUpdate(existingInstance);
@@ -245,7 +247,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public void preUpdate(M existingInstance) throws AccessDeniedException, ServiceException {
+  public void preUpdate(M existingInstance) throws SocialClientLibException {
     crudLifecycle.broadcastEvent(BEFORE_UPDATE_EVENT, existingInstance);
   }
   
@@ -256,7 +258,7 @@ public abstract class ServiceBase<M, S> implements Service<M>, CRUDLifecycle<M>,
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  public void postUpdate(M existingInstance) throws AccessDeniedException, ServiceException {
+  public void postUpdate(M existingInstance) throws SocialClientLibException {
     crudLifecycle.broadcastEvent(AFTER_UPDATE_EVENT, existingInstance);
   }
 }

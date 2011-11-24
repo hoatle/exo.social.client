@@ -16,7 +16,9 @@
  */
 package org.exoplatform.social.client.api.service;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
@@ -55,8 +57,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    */
 
 
-  RealtimeListAccess<Activity> getActivityStream(RestIdentity ownerStreamRestIdentity) throws AccessDeniedException,
-                                                                                      ServiceException;
+  RealtimeListAccess<Activity> getActivityStream(RestIdentity ownerStreamRestIdentity) throws SocialClientLibException;
   /**
    * Get Activity Stream with input parameter (limit, number of comment, number of like);
    * @param restIdentity
@@ -67,7 +68,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @since  1.0.0-alpha2
    */
   RealtimeListAccess<RestActivity> getActivityStream(RestIdentity restIdentity, QueryParams queryParams)
-                                                                                    throws AccessDeniedException,ServiceException;
+                                                                                    throws SocialClientLibException;
   /**
    * Create new Activity from current Identity to targetIdentity
    * @param newActivity Activity
@@ -77,7 +78,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws ServiceException
    * @since  1.0.0-alpha2
    */
-  RestActivity create(RestActivity newActivity, QueryParams queryParams) throws AccessDeniedException, ServiceException;
+  RestActivity create(RestActivity newActivity, QueryParams queryParams) throws SocialClientLibException;
 
 
   /**
@@ -88,8 +89,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getSpacesActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
-                                                                                     ServiceException;
+  RealtimeListAccess<Activity> getSpacesActivityStream(RestIdentity userRestIdentity) throws SocialClientLibException;
 
 
   /**
@@ -103,7 +103,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @since  1.0.0-alpha2
    */
   RealtimeListAccess<RestActivity> getSpacesActivityStream(RestIdentity restIdentity, QueryParams queryParams)
-                                                                                    throws AccessDeniedException,ServiceException;
+                                                                                    throws SocialClientLibException;
 
   /**
    * Gets all connections' activities aggregated into one stream.
@@ -113,8 +113,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getConnectionsActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
-                                                                                          ServiceException;
+  RealtimeListAccess<Activity> getConnectionsActivityStream(RestIdentity userRestIdentity) throws SocialClientLibException;
 
   /**
    * Gets all connections' activities aggregated into one stream with input parameter (limit, number of comment, number of like);
@@ -126,7 +125,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @since  1.0.0-alpha2
    */
   RealtimeListAccess<RestActivity> getConnectionsActivityStream(RestIdentity restIdentity, QueryParams queryParams)
-                                                                                    throws AccessDeniedException,ServiceException;
+                                                                                    throws SocialClientLibException;
 
   /**
    * Gets all activities from a stream owner, his connections and spaces aggregated into one stream.
@@ -136,8 +135,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RealtimeListAccess<Activity> getFeedActivityStream(RestIdentity userRestIdentity) throws AccessDeniedException,
-                                                                                   ServiceException;
+  RealtimeListAccess<Activity> getFeedActivityStream(RestIdentity userRestIdentity) throws SocialClientLibException;
 
   /**
    * Gets all activities from a stream owner, his connections and spaces aggregated into one stream with input parameter
@@ -150,7 +148,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @since  1.0.0-alpha2
    */
   RealtimeListAccess<RestActivity> getFeedActivityStream(RestIdentity restIdentity, QueryParams queryParams)
-                                                                                    throws AccessDeniedException,ServiceException;
+                                                                                    throws SocialClientLibException;
 
   /**
    * Creates a new comment to this activity.
@@ -161,8 +159,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RestComment createComment(Activity existingActivity, RestComment newRestComment) throws AccessDeniedException,
-                                                                                              ServiceException;
+  RestComment createComment(Activity existingActivity, RestComment newRestComment) throws SocialClientLibException;
 
   /**
    * Gets an existing comment by its id.
@@ -172,7 +169,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RestComment getComment(String commentId) throws AccessDeniedException, ServiceException;
+  RestComment getComment(String commentId) throws SocialClientLibException;
 
   /**
    * Deletes an existing comment.
@@ -182,7 +179,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RestComment deleteComment(RestComment existingRestComment) throws AccessDeniedException, ServiceException;
+  RestComment deleteComment(RestComment existingRestComment) throws SocialClientLibException;
 
 
   /**
@@ -193,7 +190,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RestLike like(Activity existingActivity) throws AccessDeniedException, ServiceException;
+  RestLike like(Activity existingActivity) throws SocialClientLibException;
 
   /**
    * The authenticated identity unlikes an existing activity.
@@ -203,7 +200,7 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws AccessDeniedException
    * @throws ServiceException
    */
-  RestLike unlike(Activity existingActivity) throws AccessDeniedException, ServiceException;
+  RestLike unlike(Activity existingActivity) throws SocialClientLibException;
 
   /**
    * Gets an existing instance by its activityId and limit the number of comment/like by by input parameter .
@@ -214,5 +211,5 @@ public interface ActivityService<Activity> extends Service<Activity> {
    * @throws ServiceException
    * @since v1-alpha2
    */
-  Activity get(String activityId, QueryParams queryParams) throws AccessDeniedException, ServiceException;
+  Activity get(String activityId, QueryParams queryParams) throws SocialClientLibException;
 }

@@ -16,6 +16,8 @@
  */
 package org.exoplatform.social.client.api.model;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
+
 import java.util.List;
 import java.util.Map;
 
@@ -295,7 +297,7 @@ public interface RestActivity extends Model {
    *
    * @return the poster identity
    */
-  RestIdentity getPosterIdentity();
+  RestIdentity getPosterIdentity() throws SocialClientLibException;
 
   /**
    * Gets the available list of comments for this activity.
@@ -335,7 +337,7 @@ public interface RestActivity extends Model {
    *
    * @return the total comment list
    */
-  List<RestComment> getTotalComments();
+  List<RestComment> getTotalComments() throws SocialClientLibException;
   
   /**
    * Gets the number of total likes.
@@ -349,7 +351,7 @@ public interface RestActivity extends Model {
    *
    * @return the total like list
    */
-  List<RestIdentity> getTotalLikes();
+  List<RestIdentity> getTotalLikes() throws SocialClientLibException;
 
   /**
    * Gets activity stream.
@@ -358,7 +360,7 @@ public interface RestActivity extends Model {
    *
    * @return the associated activity stream.
    */
-  RestActivityStream getActivityStream();
+  RestActivityStream getActivityStream() throws SocialClientLibException;
 
 
   /**

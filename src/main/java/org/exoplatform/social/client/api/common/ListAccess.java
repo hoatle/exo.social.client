@@ -16,6 +16,10 @@
  */
 package org.exoplatform.social.client.api.common;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
+
 import java.util.List;
 
 /**
@@ -38,7 +42,7 @@ public interface ListAccess<E> {
    * @param limit the limit
    * @return the array
    */
-  E[] load(int index, int limit);
+  E[] load(int index, int limit) throws SocialClientLibException;
 
   /**
    * Retrieves a list of objects from the list access.
@@ -47,7 +51,7 @@ public interface ListAccess<E> {
    * @param limit
    * @return a list
    */
-  List<E> loadAsList(int index, int limit);
+  List<E> loadAsList(int index, int limit) throws SocialClientLibException;
 
   /**
    * Returns the list size.

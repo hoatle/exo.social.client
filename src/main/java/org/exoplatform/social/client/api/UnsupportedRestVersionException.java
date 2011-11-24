@@ -23,7 +23,7 @@ package org.exoplatform.social.client.api;
  * @since  1.0.0-alpha2
  * @since  Oct 4, 2011
  */
-public class UnsupportedRestVersionException extends RuntimeException {
+public class UnsupportedRestVersionException extends IllegalArgumentException {
 
   /**
    * Default constructor.

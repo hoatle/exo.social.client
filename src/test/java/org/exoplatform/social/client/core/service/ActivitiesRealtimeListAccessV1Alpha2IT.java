@@ -3,6 +3,9 @@ package org.exoplatform.social.client.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.core.AbstractClientTestV1Alpha2;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
@@ -34,7 +37,11 @@ public class ActivitiesRealtimeListAccessV1Alpha2IT extends AbstractClientTestV1
   public void beforeTearDown() {
     startSessionAs("demo", "gtn");
     for (RestActivity activity : tearDownActivityList) {
-      activityService.delete(activity);
+      try {
+        activityService.delete(activity);
+      } catch (Exception e) {
+        // OK
+      }
     }
   }
 
@@ -56,7 +63,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2IT extends AbstractClientTestV1
     
   }
   
-  private List<RestActivity> createActivities(int numberOfActivity) {
+  private List<RestActivity> createActivities(int numberOfActivity) throws SocialClientLibException {
     List<RestActivity> createdActivityList = new ArrayList<RestActivity>();
     for (int i = 0; i < numberOfActivity; i++) {
       RestActivity restActivityToCreate = new RestActivityImpl();

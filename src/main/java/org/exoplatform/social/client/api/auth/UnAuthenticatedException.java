@@ -14,37 +14,30 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core;
-
-
-import org.exoplatform.social.client.api.SocialClientContext;
-import org.exoplatform.social.client.api.SocialClientLibException;
+package org.exoplatform.social.client.api.auth;
 
 /**
- * The base abstract class for integration tests of of Social Rest APIs v1-alpha1.
- *
- * It's required for all tests to check {@link #canRunTest()} to make sure if the rest version is not supported
- * by server, just pass.
+ * The Access Denied Exception when something needs authentication but
+ * it is not authenticated yet.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
- * @since 1.0.0-alpha2
+ * @since  May 20, 2011
  */
-public abstract class AbstractClientTestV1Alpha1 extends AbstractClientTest {
+public class UnAuthenticatedException extends Exception {
 
   /**
-   * {@inheritDoc}
+   * Exception without any message.
    */
-  protected void setRestVersion(){
-    SocialClientContext.setRestVersion("v1-alpha1");
+  public UnAuthenticatedException(){
+    super();
   }
 
   /**
-   * Support to get the IdentityId value.
-   * @return
+   * Exception with message.
+   *
+   * @param message the message
    */
-  protected String getDemoIdentityId() throws SocialClientLibException {
-    return identityService.getIdentityId("organization", "demo");
+  public UnAuthenticatedException(String message){
+    super(message);
   }
-
-
 }

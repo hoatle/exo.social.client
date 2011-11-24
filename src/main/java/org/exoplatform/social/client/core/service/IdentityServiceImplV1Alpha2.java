@@ -19,8 +19,10 @@ package org.exoplatform.social.client.core.service;
 import java.io.IOException;
 
 import org.apache.http.HttpResponse;
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.IdentityService;
@@ -29,6 +31,8 @@ import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
+
+import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
 
 /**
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
@@ -39,11 +43,12 @@ public class IdentityServiceImplV1Alpha2 implements IdentityService<RestIdentity
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
 
   @Override
-  public RestIdentity getIdentity(String identityProvider, String remoteId) throws UnsupportedMethodException, AccessDeniedException, ServiceException {
+  public RestIdentity getIdentity(String identityProvider, String remoteId) throws SocialClientLibException {
     if ((identityProvider == null) || (remoteId == null)) throw new NullPointerException("Input param can not be null.");
     String targetURL = BASE_URL + "identity/" + identityProvider + "/" + remoteId + ".json";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
     try {
+      HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+      handleError(response);
       return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
     } catch (IOException ioex) {
       throw new ServiceException(IdentityServiceImplV1Alpha2.class, "IOException when reads Json Content.", ioex);
@@ -53,37 +58,37 @@ public class IdentityServiceImplV1Alpha2 implements IdentityService<RestIdentity
   }
 
   @Override
-  public String getIdentityId(String provider, String remoteId) throws ServiceException {
+  public String getIdentityId(String provider, String remoteId) throws SocialClientLibException {
     return getIdentity(provider, remoteId).getId();
   }
 
   @Override
-  public RestIdentity create(RestIdentity newInstance) throws AccessDeniedException, ServiceException {
+  public RestIdentity create(RestIdentity newInstance) throws SocialClientLibException {
     throw new UnsupportedMethodException("Not Supported Yet.");
   }
 
   @Override
-  public RestIdentity get(String uuid) throws NullPointerException, AccessDeniedException, ServiceException {
+  public RestIdentity get(String uuid) throws SocialClientLibException {
     if (uuid == null) throw new NullPointerException("Input param can not be null");
     final String targetURL = BASE_URL + "identity/" + uuid + ".json";
-    HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
     try {
+      HttpResponse response = SocialHttpClientSupport.executeGet(targetURL, POLICY.BASIC_AUTH);
+      handleError(response);
       return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
     } catch (IOException ioex) {
       throw new ServiceException(IdentityServiceImplV1Alpha2.class, "IOException when reads Json Content.", ioex);
-
     } catch (ParseException pex) {
       throw new ServiceException(IdentityServiceImplV1Alpha2.class, "ParseException when reads Json Content.", pex);
     }
   }
 
   @Override
-  public RestIdentity update(RestIdentity existingInstance) throws AccessDeniedException, ServiceException {
+  public RestIdentity update(RestIdentity existingInstance) throws SocialClientLibException {
     throw new UnsupportedMethodException("Not Supported Yet.");
   }
 
   @Override
-  public RestIdentity delete(RestIdentity existingInstance) throws AccessDeniedException, ServiceException {
+  public RestIdentity delete(RestIdentity existingInstance) throws SocialClientLibException {
     throw new UnsupportedMethodException("Not Supported Yet.");
   }
 }

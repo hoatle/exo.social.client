@@ -16,7 +16,10 @@
  */
 package org.exoplatform.social.client.core.service;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestProfile;
 import org.exoplatform.social.client.core.AbstractClientTestV1Alpha1;
@@ -56,7 +59,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
    * Test the case create a new identity.
    */
   @Test(expectedExceptions = UnsupportedMethodException.class)
-  public void testCreate() {
+  public void testCreate() throws SocialClientLibException {
     if (!canRunTest()) {
       throw new UnsupportedMethodException();
     }
@@ -67,7 +70,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
    * Test the case update an existing identity.
    */
   @Test(expectedExceptions = UnsupportedMethodException.class)
-  public void testUpdate() {
+  public void testUpdate() throws SocialClientLibException {
     if (!canRunTest()) {
       throw new UnsupportedMethodException();
     }
@@ -78,7 +81,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
    * Test the case delete an existing identity.
    */
   @Test(expectedExceptions = UnsupportedMethodException.class)
-  public void testDelete() {
+  public void testDelete() throws SocialClientLibException {
     if (!canRunTest()) {
       throw new UnsupportedMethodException();
     }
@@ -89,7 +92,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
    * Test the case get an identity by its id.
    */
   @Test
-  public void testGetIdentity() {
+  public void testGetIdentity() throws SocialClientLibException {
     if (!canRunTest()) {
       return;
     }
@@ -115,7 +118,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
    * Test the case get id of identity.
    */
   @Test
-  public void testGetIdentityId() {
+  public void testGetIdentityId() throws SocialClientLibException{
     if (!canRunTest()) {
       return;
     }

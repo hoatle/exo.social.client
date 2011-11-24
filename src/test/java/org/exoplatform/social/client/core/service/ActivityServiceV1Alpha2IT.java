@@ -19,7 +19,11 @@ package org.exoplatform.social.client.core.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
+import org.exoplatform.social.client.api.auth.AccessDeniedException;
+import org.exoplatform.social.client.api.auth.NotFoundException;
+import org.exoplatform.social.client.api.auth.UnAuthenticatedException;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
@@ -61,7 +65,11 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
   public void beforeTearDown() {
     startSessionAs("demo", "gtn");
     for (RestActivity activity : tearDownActivityList) {
-      activityService.delete(activity);
+      try {
+        activityService.delete(activity);
+      } catch (Exception e) {
+        //OK
+      }
     }
   }
 
@@ -75,29 +83,29 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
    * Tests the case when not authenticated
    */
   @Test
-  public void shouldBeForbidden() {
+  public void shouldBeForbidden() throws SocialClientLibException {
     if (!canRunTest()) {
       return;
     }
     try {
       activityService.get("notfound");
       fail("Expecting ServiceException from ActivityService#get(String)");
-    } catch (ServiceException se) {
-
+    } catch (SocialClientLibException se) {
+      assert(se.getCause() instanceof NotFoundException);
     }
     RestActivity activity = new RestActivityImpl();
     activity.setTitle("Hello There");
     try {
       activityService.create(activity);
       fail("Expecting ServiceException from ActivityService#create(RestActivity)");
-    } catch (ServiceException se) {
-
+    } catch (SocialClientLibException se) {
+      assert(se.getCause() instanceof AccessDeniedException);
     }
     try {
       activityService.update(activity);
       fail("Expecting UnsupportedMethodException from ActivityService#update(RestActivity)");
-    } catch (UnsupportedMethodException se) {
-
+    } catch (SocialClientLibException se) {
+      
     }
 
     //create a activity to demo's stream
@@ -110,9 +118,18 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
 
     try {
       activityService.createComment(demoActivity, comment);
-      fail("Expecting ServiceException from ActivityService#createComment(RestActivity, RestComment)");
-    } catch (ServiceException se) {
-
+      fail("Expecting AccessDeniedException from ActivityService#createComment(RestActivity, RestComment)");
+    } catch (SocialClientLibException se) {
+      assert(se.getCause() instanceof AccessDeniedException);
+    }
+    
+    //create a activity to demo's stream
+    startSessionAs("wrongUsername", "wrongPassword");
+    try {
+      activityService.createComment(demoActivity, comment);
+      fail("Expecting AccessDeniedException from ActivityService#createComment(RestActivity, RestComment)");
+    } catch (SocialClientLibException se) {
+      assert(se.getCause() instanceof UnAuthenticatedException);
     }
   }
 
@@ -128,7 +145,7 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
 
 
   @Test
-  public void shouldCreate() {
+  public void shouldCreate() throws SocialClientLibException {
     if (!canRunTest()) {
       return;
     }
@@ -144,7 +161,7 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
   }
 
   @Test
-  public void shouldGet() {
+  public void shouldGet() throws SocialClientLibException {
     if (!canRunTest()) {
       return;
     }
@@ -162,7 +179,7 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
   }
 
   @Test
-  public void shouldDelete() {
+  public void shouldDelete() throws SocialClientLibException {
     if (!canRunTest()) {
       return;
     }
@@ -257,7 +274,7 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
   }
   */
 
-  private List<RestActivity> createActivities(int numberOfActivity) {
+  private List<RestActivity> createActivities(int numberOfActivity) throws SocialClientLibException {
     List<RestActivity> createdActivityList = new ArrayList<RestActivity>();
     for (int i = 0; i < numberOfActivity; i++) {
       RestActivity restActivityToCreate = new RestActivityImpl();
