@@ -68,7 +68,11 @@ public class SocialHttpClientSupport {
   public static HttpResponse executeGet(String targetURL, POLICY authPolicy, HttpParams params) throws SocialHttpClientException {
     SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
     if (POLICY.BASIC_AUTH == authPolicy) {
-      httpClient.setBasicAuthenticateToRequest();
+      try {
+        httpClient.setBasicAuthenticateToRequest();
+      } catch (SocialClientLibException e) {
+        throw new SocialHttpClientException(e.getMessage(), e);
+      }
     }
 
     HttpGet httpGet = new HttpGet(targetURL);
@@ -122,7 +126,11 @@ public class SocialHttpClientSupport {
     SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
 
     if (POLICY.BASIC_AUTH == authPolicy) {
-      httpClient.setBasicAuthenticateToRequest();
+      try {
+        httpClient.setBasicAuthenticateToRequest();
+      } catch (SocialClientLibException e) {
+        throw new SocialHttpClientException(e.getMessage(), e);
+      }
     }
 
     HttpPost httpPost = new HttpPost(targetURL);
@@ -210,7 +218,11 @@ public class SocialHttpClientSupport {
     SocialHttpClient httpClient = SocialHttpClientImpl.newInstance();
 
     if (POLICY.BASIC_AUTH == authPolicy) {
-      httpClient.setBasicAuthenticateToRequest();
+      try {
+        httpClient.setBasicAuthenticateToRequest();
+      } catch (SocialClientLibException e) {
+        new SocialHttpClientException(e.getMessage(), e);
+      }
     }
     
     HttpDelete httpDelete = new HttpDelete(targetURL);

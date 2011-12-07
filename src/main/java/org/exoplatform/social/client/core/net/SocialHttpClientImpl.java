@@ -41,6 +41,8 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.BasicHttpProcessor;
 import org.apache.http.protocol.HttpContext;
 import org.exoplatform.social.client.api.SocialClientContext;
+import org.exoplatform.social.client.api.SocialClientLibException;
+import org.exoplatform.social.client.api.auth.UnAuthenticatedException;
 import org.exoplatform.social.client.api.net.SocialHttpClient;
 
 /**
@@ -176,8 +178,12 @@ public final class SocialHttpClientImpl implements SocialHttpClient {
   }
   
   @Override
-  public void setBasicAuthenticateToRequest() {
+  public void setBasicAuthenticateToRequest() throws SocialClientLibException {
     if (delegate == null) return;
+    if (SocialClientContext.getUsername() == null || SocialClientContext.getPassword() == null) {
+      //fast check from client
+      throw new SocialClientLibException("401 Unauthorized", new UnAuthenticatedException());
+    }
     delegate.getCredentialsProvider().setCredentials(new AuthScope(SocialClientContext.getHost(), SocialClientContext.getPort()), 
                                                      new UsernamePasswordCredentials(SocialClientContext.getUsername(), SocialClientContext.getPassword()));
     

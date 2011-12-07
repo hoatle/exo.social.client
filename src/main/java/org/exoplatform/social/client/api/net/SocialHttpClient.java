@@ -17,6 +17,7 @@
 package org.exoplatform.social.client.api.net;
 
 import org.apache.http.client.HttpClient;
+import org.exoplatform.social.client.api.SocialClientLibException;
 
 /**
  * Created by The eXo Platform SAS
@@ -33,5 +34,5 @@ public interface SocialHttpClient extends HttpClient {
    * Setting the basic authenticate which uses 
    * the username/password in <code>SocialClientContext</code>
    */
-  public void setBasicAuthenticateToRequest();
+  public void setBasicAuthenticateToRequest() throws SocialClientLibException;
 }

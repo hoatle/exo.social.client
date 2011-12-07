@@ -21,8 +21,6 @@ import java.util.List;
 
 import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.auth.UnAuthenticatedException;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
@@ -90,22 +88,23 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
     try {
       activityService.get("notfound");
       fail("Expecting ServiceException from ActivityService#get(String)");
-    } catch (SocialClientLibException se) {
-      assert(se.getCause() instanceof NotFoundException);
+    } catch (ServiceException se) {
+
     }
     RestActivity activity = new RestActivityImpl();
     activity.setTitle("Hello There");
     try {
       activityService.create(activity);
       fail("Expecting ServiceException from ActivityService#create(RestActivity)");
-    } catch (SocialClientLibException se) {
-      assert(se.getCause() instanceof AccessDeniedException);
+    } catch (ServiceException se) {
+
     }
+
     try {
       activityService.update(activity);
       fail("Expecting UnsupportedMethodException from ActivityService#update(RestActivity)");
-    } catch (SocialClientLibException se) {
-      
+    } catch (UnsupportedMethodException e) {
+
     }
 
     //create a activity to demo's stream
@@ -119,8 +118,8 @@ public class ActivityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
     try {
       activityService.createComment(demoActivity, comment);
       fail("Expecting AccessDeniedException from ActivityService#createComment(RestActivity, RestComment)");
-    } catch (SocialClientLibException se) {
-      assert(se.getCause() instanceof AccessDeniedException);
+    } catch (ServiceException se) {
+
     }
     
     //create a activity to demo's stream
