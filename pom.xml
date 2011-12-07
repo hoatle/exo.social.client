@@ -41,7 +41,7 @@
     <!-- Integration tests settings -->
     <!-- ########################## -->
     <!-- social server version -->
-    <social.server.version>1.2.0-GA</social.server.version>
+    <social.server.version>1.2.6</social.server.version>
     <!-- integration tests options -->
     <social.server.host>127.0.0.1</social.server.host>
     <!-- skip cargo execution to use your own server ?? -->

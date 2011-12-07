@@ -15,7 +15,7 @@ http://exoplatform.org/company/en/platform/exo-extended-services/exo-social
 
 * mvn dependency:tree
   <pre>
-     org.exoplatform.social:exo.social.client:jar:1.0.0-alpha2-SNAPSHOT
+     org.exoplatform.social:exo.social.client:jar:1.0.0-alpha2
      +- com.googlecode:json_simple:jar:1.1:compile
      +- org.apache.httpcomponents:httpclient:jar:4.0:compile
      |  +- org.apache.httpcomponents:httpcore:jar:4.0.1:compile
@@ -122,7 +122,7 @@ Sample code:
     SocialClientContext.setPort(80);
     SocialClientContext.setPortalContainerName("portal");
     SocialClientContext.setRestContextName("rest");
-    SocialClientContext.setRestVersion("v1-alpha1");
+    SocialClientContext.setRestVersion("v1-alpha2");
     SocialClientContext.setUsername("demo");
     SocialClientContext.setPassword("gtn");
 

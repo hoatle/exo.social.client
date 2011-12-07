@@ -1,5 +1,4 @@
                         eXo Social Client Library
-                          Version 1.0.0-alpha1
                              Release Notes
 
 
@@ -8,8 +7,80 @@ INTRODUCTION:
 This library plays as a connector between 3rd party apps and eXo Social Rest Service APIs,
 any 3rd parties do not have to care about low level eXo Social Rest APIs when using this library.
 
-Issues closed: https://github.com/exosocial/exo.social.client/issues?milestone=1&state=closed
 
+##################################### 1.0.0-alpha2 ####################################################
+
+Fully support Social Rest API v1-alpha2. Should work with v1-alpha1 as backward compatibility.
+Fully test on Social 1.2.6. Should work with Social 1.2.0-GA and above for Rest v1-alpha1.
+                            Should work with Social 1.2.6 and above for Rest v1-alpha2.
+
+Issues closed: https://jira.exoplatform.org/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+SCL+AND+fixVersion+%3D+%221.0.0-alpha2%22+AND+status+%3D+Closed+ORDER+BY+priority+DESC
+
+ADDITIONS IN 1.0.0-alpha2
+=========================
+    Change architecture and implement for supporting Rest v1-alpha2 and for backward compatibility of Rest v1-alpha1
+    Use slf4j for logging
+    Switch to user TestNG instead of JUnit for unit testing
+    Add more configuration to cargo for custom ports
+
+    APIs:
+      Identity IdentityService#getIdentity(String identityProvider, String remoteId) throws SocialClientLibException;
+
+      RealtimeListAccess<RestActivity> ActivityService#getActivityStream(RestIdentity restIdentity, QueryParams queryParams)
+                                                                                    throws SocialClientLibException;
+      RestActivity ActivityService#create(RestActivity newActivity, QueryParams queryParams) throws SocialClientLibException;
+      RealtimeListAccess<RestActivity> ActivityService#getSpacesActivityStream(RestIdentity restIdentity, QueryParams queryParams)
+                                                                                    throws SocialClientLibException;
+      RealtimeListAccess<RestActivity> ActivityService#getConnectionsActivityStream(RestIdentity restIdentity, QueryParams queryParams)
+                                                                                    throws SocialClientLibException;
+      RealtimeListAccess<RestActivity> ActivityService#getFeedActivityStream(RestIdentity restIdentity, QueryParams queryParams)
+                                                                                    throws SocialClientLibException;
+      RestActivity ActivityService#get(String activityId, QueryParams queryParams) throws SocialClientLibException;
+
+REMOVALS IN 1.0.0-alpha2
+=========================
+
+
+IMPROVEMENTS IN 1.0.0-alpha2
+============================
+    Architecture improvement
+
+BUG FIXES IN 1.0.0-alpha2
+=========================
+
+
+DETAILED ISSUES IN 1.0.0-alpha2
+==============================
+** Bug
+    * [SCL-32] - Fix integration test of VersionService
+
+** Improvement
+    * [SCL-16] - Unexpected files generated to project when running integration tests
+    * [SCL-17] - Add more configuration to cargo for custom ports
+    * [SCL-37] - The json of Activity Rest doesn't have body field in result which use by forum.
+
+** Task
+    * [SCL-1] - Update README to reflect issue management on jira; fisheye...
+    * [SCL-2] - Use logging system
+    * [SCL-3] - The distributed jar file must include README, RELEASE-NOTES, LICENSE, NOTICE
+    * [SCL-14] - Switch to use TestNG instead of JUnit
+    * [SCL-31] - Support Social Rest APIs v1-alpha2
+
+** Sub-task
+    * [SCL-20] - Write integration tests for IdentityServiceIT
+    * [SCL-33] - Implement IdentityService
+    * [SCL-34] - Implement ActivityService
+    * [SCL-35] - Update some models implementation with rest service v1-alpha2
+    * [SCL-36] - Implement ActivitiesRealtimeListAccess with rest service v1-alpha2
+
+
+
+##################################### 1.0.0-alpha1 ####################################################
+
+Fully support Social Rest API v1-alpha1.
+Fully test on Social 1.2.0-GA, should work with Social 1.2.0-GA and above.
+
+Issues closed: https://github.com/exosocial/exo.social.client/issues?milestone=1&state=closed
 
 ADDITIONS IN 1.0.0-alpha1
 =========================
