@@ -18,11 +18,9 @@ package org.exoplatform.social.client.core.service;
 
 import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestProfile;
-import org.exoplatform.social.client.core.AbstractClientTestV1Alpha2;
+import org.exoplatform.social.client.core.AbstractClientTestV1Alpha3;
 import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -39,7 +37,7 @@ import static org.testng.Assert.fail;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
  */
-public class IdentityServiceV1Alpha2IT extends AbstractClientTestV1Alpha2 {
+public class IdentityServiceV1Alpha3IT extends AbstractClientTestV1Alpha3 {
 
 
   @BeforeMethod

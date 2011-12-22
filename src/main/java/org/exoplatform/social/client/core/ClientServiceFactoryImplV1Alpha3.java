@@ -20,18 +20,18 @@ import org.exoplatform.social.client.api.ClientServiceFactory;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.VersionService;
-import org.exoplatform.social.client.core.service.ActivityServiceImplV1Alpha1;
-import org.exoplatform.social.client.core.service.IdentityServiceImplV1Alpha1;
+import org.exoplatform.social.client.core.service.ActivityServiceImplV1Alpha3;
+import org.exoplatform.social.client.core.service.IdentityServiceImplV1Alpha3;
 import org.exoplatform.social.client.core.service.VersionServiceImpl;
 
 /**
- * Implementation for {@link org.exoplatform.social.client.api.ClientServiceFactory} for Social Rest APIs v1-alpha1
+ * Implementation for {@link org.exoplatform.social.client.api.ClientServiceFactory} for Social Rest APIs v1-alpha3
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Oct 7, 2011
  * @since 1.0.0-alpha2
  */
-public class ClientServiceFactoryImplV1Alpha1 implements ClientServiceFactory {
+public class ClientServiceFactoryImplV1Alpha3 implements ClientServiceFactory {
 
   private VersionService versionService;
   private ActivityService activityService;
@@ -54,7 +54,7 @@ public class ClientServiceFactoryImplV1Alpha1 implements ClientServiceFactory {
   @Override
   public ActivityService createActivityService() {
     if (activityService == null) {
-      activityService = new ActivityServiceImplV1Alpha1();
+      activityService = new ActivityServiceImplV1Alpha3();
     }
     return activityService;
   }
@@ -65,7 +65,7 @@ public class ClientServiceFactoryImplV1Alpha1 implements ClientServiceFactory {
   @Override
   public IdentityService createIdentityService() {
     if (identityService == null) {
-      identityService = new IdentityServiceImplV1Alpha1();
+      identityService = new IdentityServiceImplV1Alpha3();
     }
     return identityService;
   }

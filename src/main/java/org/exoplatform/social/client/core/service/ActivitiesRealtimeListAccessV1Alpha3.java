@@ -30,6 +30,7 @@ import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ActivityService;
+import org.exoplatform.social.client.api.service.QueryParams;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
@@ -46,7 +47,7 @@ import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.*;
  *          phuonglm@exoplatform.com
  * Jul 5, 2011  
  */
-public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<RestActivity> {
+public class ActivitiesRealtimeListAccessV1Alpha3 implements RealtimeListAccess<RestActivity> {
 
   /** The activity type.*/
   public static enum ActivityType {
@@ -65,6 +66,9 @@ public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<
   /** The identity. */
   private RestIdentity ownerIdentity;
   
+  /** Query param */
+  QueryParams queryParams = new QueryParamsImpl();
+
   /** The base url. */
   private static final String BASE_URL = buildCommonRestPathFromContext(true);
   
@@ -74,9 +78,13 @@ public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<
    * @param ownerIdentity
    * @param activityType
    */
-  public ActivitiesRealtimeListAccessV1Alpha1(RestIdentity ownerIdentity, ActivityType activityType) {
+  public ActivitiesRealtimeListAccessV1Alpha3(RestIdentity ownerIdentity, ActivityType activityType, QueryParams queryParams) {
     this.ownerIdentity = ownerIdentity;
     this.activityType = activityType;
+    if(queryParams != null ){
+      this.queryParams.append(queryParams.get(QueryParams.NUMBER_OF_COMMENTS_PARAM));
+      this.queryParams.append(queryParams.get(QueryParams.NUMBER_OF_LIKES_PARAM));
+    }
   }
   
   /**
@@ -128,27 +136,31 @@ public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<
   public List<RestActivity> loadNewerAsList(RestActivity baseElement, int limit) throws SocialClientLibException {
     String requestURL = null;
     HttpResponse response = null;
+    queryParams.append(QueryParams.LIMIT_PARAM.setValue(limit));
+    queryParams.append(QueryParams.SINCE_ID_PARAM.setValue(baseElement.getId()));
     switch (activityType) {
       case ACTIVITY_STREAM: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + ".json?"+queryParams.buildQuery();
         break;
       }
       
       case ACTIVITY_FEED: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/feed.json?" + queryParams.buildQuery();
         break;
       }
       
       case CONNECTIONS_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/connections.json?" + queryParams.buildQuery();
         break;
       }
       
       case USER_SPACE_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/newer/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/spaces.json?" + queryParams.buildQuery();
         break;
       }
     }
+    queryParams.remove(QueryParams.LIMIT_PARAM);
+    queryParams.remove(QueryParams.SINCE_ID_PARAM);
 
     try {
       response = executeGet(requestURL, POLICY.BASIC_AUTH);
@@ -156,8 +168,6 @@ public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<
     } catch (SocialHttpClientException e) {
       throw new ServiceException(e.getMessage(),e);
     }
-
-
     return this.getListActivitiesFromResponse(response);
   }
 
@@ -176,35 +186,37 @@ public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<
   public List<RestActivity> loadOlderAsList(RestActivity baseElement, int limit) throws SocialClientLibException {
     String requestURL = null;
     HttpResponse response = null;
-    
+    queryParams.append(QueryParams.LIMIT_PARAM.setValue(limit));
+    queryParams.append(QueryParams.MAX_ID_PARAM.setValue(baseElement.getId()));
     switch (activityType) {
       case ACTIVITY_STREAM: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/older/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + ".json?"+queryParams.buildQuery();
         break;
       }
       
       case ACTIVITY_FEED: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/older/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/feed.json?" + queryParams.buildQuery();
         break;
       }
       
       case CONNECTIONS_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/older/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/connections.json?" + queryParams.buildQuery();
         break;
       }
       
       case USER_SPACE_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/older/" + baseElement.getId() + ".json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/spaces.json?" + queryParams.buildQuery();
         break;
       }
     }
+    queryParams.remove(QueryParams.LIMIT_PARAM);
+    queryParams.remove(QueryParams.MAX_ID_PARAM);
     try {
       response = executeGet(requestURL, POLICY.BASIC_AUTH);
       handleError(response);
     } catch (SocialHttpClientException e) {
       throw new ServiceException(e.getMessage(),e);
     }
-
     return this.getListActivitiesFromResponse(response);
   }
 
@@ -234,22 +246,22 @@ public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<
     HttpResponse response = null;
     switch (activityType) {
       case ACTIVITY_STREAM: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/user/default.json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + ".json?limit=" + limit;
         break;
       }
       
       case ACTIVITY_FEED: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/feed/default.json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/feed.json?limit=" + limit;
         break;
       }
       
       case CONNECTIONS_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/connections/default.json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/connections.json?limit=" + limit;
         break;
       }
       
       case USER_SPACE_ACTIVITIES: {
-        requestURL = BASE_URL + "activity_stream/" + this.ownerIdentity.getId() + "/spaces/default.json?limit=" + limit;
+        requestURL = BASE_URL + "activity_stream/spaces.json?limit=" + limit;
         break;
       }
     }
@@ -259,7 +271,6 @@ public class ActivitiesRealtimeListAccessV1Alpha1 implements RealtimeListAccess<
     } catch (SocialHttpClientException e) {
       throw new ServiceException(e.getMessage(),e);
     }
-
     return this.getListActivitiesFromResponse(response);
   }
 

@@ -32,7 +32,7 @@ import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.exoplatform.social.client.core.model.RestCommentImpl;
 import org.exoplatform.social.client.core.model.RestLikeImpl;
-import org.exoplatform.social.client.core.service.ActivitiesRealtimeListAccessV1Alpha2.ActivityType;
+import org.exoplatform.social.client.core.service.ActivitiesRealtimeListAccessV1Alpha3.ActivityType;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -50,7 +50,7 @@ import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.ha
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 28, 2011
  */
-public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, ActivityService<RestActivity>> implements ActivityService<RestActivity> {
+public class ActivityServiceImplV1Alpha3 extends ServiceBase<RestActivity, ActivityService<RestActivity>> implements ActivityService<RestActivity> {
   private static final String BASE_URL = buildCommonRestPathFromContext(true);
 
   /**
@@ -66,9 +66,9 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
         RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
         return restActivity;
       } catch (SocialHttpClientException e) {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class,e.getMessage(), e);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class,e.getMessage(), e);
       } catch (ParseException e) {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class,e.getMessage(), e);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class,e.getMessage(), e);
       }
   }
 
@@ -87,9 +87,9 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
       RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
       return restActivity;
     } catch (SocialHttpClientException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class,e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class,e.getMessage(), e);
     } catch (ParseException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class,e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class,e.getMessage(), e);
     }
   }
 
@@ -106,9 +106,9 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
         RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
         return restActivity;
       } catch (SocialHttpClientException e) {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class,e.getMessage(), e);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class,e.getMessage(), e);
       } catch (ParseException e) {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class,e.getMessage(), e);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class,e.getMessage(), e);
       }
   }
 
@@ -133,9 +133,9 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
       RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
       return restActivity;
     } catch (SocialHttpClientException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
     } catch (ParseException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
     }
   }
 
@@ -153,7 +153,7 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
    */
   @Override
   public RealtimeListAccess<RestActivity> getActivityStream(RestIdentity restIdentity, QueryParams queryParams) throws SocialClientLibException {
-    return new ActivitiesRealtimeListAccessV1Alpha2(restIdentity, ActivityType.ACTIVITY_STREAM, queryParams);
+    return new ActivitiesRealtimeListAccessV1Alpha3(restIdentity, ActivityType.ACTIVITY_STREAM, queryParams);
   }
 
   /**
@@ -170,7 +170,7 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
   @Override
   public RealtimeListAccess<RestActivity> getSpacesActivityStream(RestIdentity userRestIdentity, QueryParams queryParams)
                                                                                   throws SocialClientLibException {
-    return new ActivitiesRealtimeListAccessV1Alpha2(userRestIdentity, ActivityType.USER_SPACE_ACTIVITIES, queryParams);
+    return new ActivitiesRealtimeListAccessV1Alpha3(userRestIdentity, ActivityType.USER_SPACE_ACTIVITIES, queryParams);
   }
 
   /**
@@ -188,7 +188,7 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
   @Override
   public RealtimeListAccess<RestActivity> getConnectionsActivityStream(RestIdentity restIdentity, QueryParams queryParams) 
                                                                                               throws SocialClientLibException {
-    return new ActivitiesRealtimeListAccessV1Alpha2(restIdentity, ActivityType.CONNECTIONS_ACTIVITIES, queryParams);
+    return new ActivitiesRealtimeListAccessV1Alpha3(restIdentity, ActivityType.CONNECTIONS_ACTIVITIES, queryParams);
   }
 
   /**
@@ -205,7 +205,7 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
   @Override
   public RealtimeListAccess<RestActivity> getFeedActivityStream(RestIdentity userRestIdentity , QueryParams queryParams)
                                                                                   throws SocialClientLibException {
-    return new ActivitiesRealtimeListAccessV1Alpha2(userRestIdentity, ActivityType.ACTIVITY_FEED, queryParams);
+    return new ActivitiesRealtimeListAccessV1Alpha3(userRestIdentity, ActivityType.ACTIVITY_FEED, queryParams);
   }
 
   /**
@@ -222,9 +222,9 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
         RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
         return restComment;
       } catch (SocialHttpClientException e) {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
       } catch (ParseException e) {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
       }
   }
 
@@ -268,9 +268,9 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
       RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
       return restComment;
     } catch (SocialHttpClientException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
     } catch (ParseException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
     }
   }
 
@@ -288,10 +288,10 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
       if((Boolean) responseJson.get("liked")){
         return new RestLikeImpl(existingRestActivity.getId(), null);
       } else {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class, "invalid response", null);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class, "invalid response", null);
       }
     } catch (SocialHttpClientException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, "invalid response", null);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, "invalid response", null);
     }
   }
 
@@ -310,10 +310,10 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
       if(!(Boolean) responseJson.get("liked")){
         return new RestLikeImpl(existingRestActivity.getId(), null);
       } else {
-        throw new ServiceException(ActivityServiceImplV1Alpha2.class, "invalid response", null);
+        throw new ServiceException(ActivityServiceImplV1Alpha3.class, "invalid response", null);
       }
     } catch (SocialHttpClientException e){
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
     }
   }
 
@@ -331,9 +331,9 @@ public class ActivityServiceImplV1Alpha2 extends ServiceBase<RestActivity, Activ
       RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
       return restActivity;
     } catch (SocialHttpClientException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
     } catch (ParseException e) {
-      throw new ServiceException(ActivityServiceImplV1Alpha2.class, e.getMessage(), e);
+      throw new ServiceException(ActivityServiceImplV1Alpha3.class, e.getMessage(), e);
     }
   }
 }

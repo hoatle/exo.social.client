@@ -19,12 +19,10 @@ package org.exoplatform.social.client.core;
 
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.SocialClientLibException;
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 
 /**
- * The base abstract class for integration tests of of Social Rest APIs v1-alpha2.
+ * The base abstract class for integration tests of of Social Rest APIs v1-alpha3.
  *
  * It's required for all tests to check {@link #canRunTest()} to make sure if the rest version is not supported
  * by server, just pass.
@@ -32,7 +30,7 @@ import org.exoplatform.social.client.api.model.RestIdentity;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since 1.0.0-alpha2
  */
-public abstract class AbstractClientTestV1Alpha2 extends AbstractClientTest {
+public abstract class AbstractClientTestV1Alpha3 extends AbstractClientTest {
 
   private RestIdentity demoIdentity;
 
@@ -41,7 +39,7 @@ public abstract class AbstractClientTestV1Alpha2 extends AbstractClientTest {
    */
   @Override
   protected void setRestVersion() {
-    SocialClientContext.setRestVersion("v1-alpha2");
+    SocialClientContext.setRestVersion("v1-alpha3");
   }
 
   /**

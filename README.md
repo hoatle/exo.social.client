@@ -87,7 +87,7 @@ Either you launch the automated build which will deploy for you an exo-social se
 
     mvn clean install -Prun-its
 
-By default it will use the latest release with Rest APIs (1.2.0-GA).
+By default it will use the latest release with Rest APIs (as defined by social.server.version property on pom.xml).
 You can change the version by adding the following parameter in the command line (to use version 1.3.0-SNAPSHOT for example) :
 
     -Dsocial.server.version=1.3.0-SNAPSHOT
@@ -122,7 +122,7 @@ Sample code:
     SocialClientContext.setPort(80);
     SocialClientContext.setPortalContainerName("portal");
     SocialClientContext.setRestContextName("rest");
-    SocialClientContext.setRestVersion("v1-alpha2");
+    SocialClientContext.setRestVersion("v1-alpha3");
     SocialClientContext.setUsername("demo");
     SocialClientContext.setPassword("gtn");
 

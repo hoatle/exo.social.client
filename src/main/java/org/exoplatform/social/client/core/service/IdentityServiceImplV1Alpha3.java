@@ -21,8 +21,6 @@ import java.io.IOException;
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.IdentityService;
@@ -38,7 +36,7 @@ import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.ha
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since 10/6/11
  */
-public class IdentityServiceImplV1Alpha2 implements IdentityService<RestIdentity> {
+public class IdentityServiceImplV1Alpha3 implements IdentityService<RestIdentity> {
 
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
 
@@ -51,9 +49,9 @@ public class IdentityServiceImplV1Alpha2 implements IdentityService<RestIdentity
       handleError(response);
       return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
     } catch (IOException ioex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha2.class, "IOException when reads Json Content.", ioex);
+      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "IOException when reads Json Content.", ioex);
     } catch (ParseException pex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha2.class, "ParseException when reads Json Content.", pex);
+      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "ParseException when reads Json Content.", pex);
     }
   }
 
@@ -76,9 +74,9 @@ public class IdentityServiceImplV1Alpha2 implements IdentityService<RestIdentity
       handleError(response);
       return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
     } catch (IOException ioex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha2.class, "IOException when reads Json Content.", ioex);
+      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "IOException when reads Json Content.", ioex);
     } catch (ParseException pex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha2.class, "ParseException when reads Json Content.", pex);
+      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "ParseException when reads Json Content.", pex);
     }
   }
 

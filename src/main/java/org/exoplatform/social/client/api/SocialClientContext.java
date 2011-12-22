@@ -35,8 +35,7 @@ public class SocialClientContext {
    * The enum for supported Social Rest APIs versions.
    */
   public static enum SupportedVersion {
-    V1_ALPHA2("v1-alpha2"),
-    V1_ALPHA1("v1-alpha1");
+    V1_ALPHA3("v1-alpha3");
     /**
      * The string field representing string version
      */
@@ -63,8 +62,7 @@ public class SocialClientContext {
     /**
      * the latest must be added first, the older is added later
      */
-    supportedVersionList.add(SupportedVersion.V1_ALPHA2.toString());
-    supportedVersionList.add(SupportedVersion.V1_ALPHA1.toString());
+    supportedVersionList.add(SupportedVersion.V1_ALPHA3.toString());
   }
 
   /**

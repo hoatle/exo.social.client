@@ -21,10 +21,8 @@ import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.SocialClientContext.SupportedVersion;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.IdentityService;
-import org.exoplatform.social.client.core.service.ActivityServiceImplV1Alpha1;
-import org.exoplatform.social.client.core.service.ActivityServiceImplV1Alpha2;
-import org.exoplatform.social.client.core.service.IdentityServiceImplV1Alpha1;
-import org.exoplatform.social.client.core.service.IdentityServiceImplV1Alpha2;
+import org.exoplatform.social.client.core.service.ActivityServiceImplV1Alpha3;
+import org.exoplatform.social.client.core.service.IdentityServiceImplV1Alpha3;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -45,31 +43,19 @@ public class ClientServiceFactoryHelperTest {
     assertThat("clientServiceFactory must not be null", clientServiceFactory, notNullValue());
   }
 
-  @Test
-  public void shouldSupportV1Alpha1() {
-    SocialClientContext.setRestVersion(SupportedVersion.V1_ALPHA1.toString());
-    ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
-    ActivityService activityService = clientServiceFactory.createActivityService();
-    assertThat("activityService must be instance of ActivityServiceImplV1Alpha1",
-               activityService instanceof ActivityServiceImplV1Alpha1,
-               equalTo(true));
-    IdentityService identityService = clientServiceFactory.createIdentityService();
-    assertThat("identityService must be instance of IdentityServiceImplV1Alpha1",
-               identityService instanceof IdentityServiceImplV1Alpha1,
-               equalTo(true));
-  }
+
 
   @Test
-  public void shouldSupportV1Alpha2() {
-    SocialClientContext.setRestVersion(SupportedVersion.V1_ALPHA2.toString());
+  public void shouldSupportV1Alpha3() {
+    SocialClientContext.setRestVersion(SupportedVersion.V1_ALPHA3.toString());
     ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
     ActivityService activityService = clientServiceFactory.createActivityService();
-    assertThat("activityService must be instance of ActivityServiceImplV1Alpha2",
-               activityService instanceof ActivityServiceImplV1Alpha2,
+    assertThat("activityService must be instance of ActivityServiceImplV1Alpha3",
+               activityService instanceof ActivityServiceImplV1Alpha3,
                equalTo(true));
     IdentityService identityService = clientServiceFactory.createIdentityService();
-    assertThat("identityService must be instance of IdentityServiceImplV1Alpha2",
-               identityService instanceof IdentityServiceImplV1Alpha2,
+    assertThat("identityService must be instance of IdentityServiceImplV1Alpha3",
+               identityService instanceof IdentityServiceImplV1Alpha3,
                equalTo(true));
   }
 
