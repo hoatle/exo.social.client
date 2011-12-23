@@ -170,6 +170,8 @@ public class ActivityServiceV1Alpha3IT extends AbstractClientTestV1Alpha3 {
     RestActivity resultActivity = activityService.get(activityId);
 
     assertThat("test 0", equalTo(resultActivity.getTitle()));
+//    assertThat(resultActivity.getActivityStream().getFullName(), equalTo("Demo gtn"));
+//    assertThat(resultActivity.getActivityStream().getType(), equalTo("organization"));
   }
 
   @Test

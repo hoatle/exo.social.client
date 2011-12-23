@@ -36,6 +36,10 @@ public interface RestActivityStream {
      */
     PRETTY_ID("prettyId"),
     /**
+     * the json field for fullName.
+     */    
+    FULL_NAME("fullName"),
+    /**
      * the json field for faviconUrl.
      */
     FAVICON_URL("faviconUrl"),
@@ -100,7 +104,21 @@ public interface RestActivityStream {
    * @param prettyId the pretty id
    */
   void setPrettyId(String prettyId);
+  
+  /**
+   * Gets the full name of activity stream owner.
+   *
+   * @return the fullName of activity stream.
+   */
+  String getFullName();
 
+  /**
+   * Sets the full name for the activity stream owner.
+   *
+   * @param fullName the full name
+   */
+  void setFullName(String fullName);
+  
   /**
    * Gets the favicon url of the activity stream.
    *

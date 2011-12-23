@@ -42,9 +42,10 @@ public class RestActivityStreamImpl extends ModelImpl implements RestActivityStr
    * @param title      the title
    * @param permaLink  the permalink
    */
-  public RestActivityStreamImpl(String type, String prettyId, String faviconUrl, String title, String permaLink) {
+  public RestActivityStreamImpl(String type, String prettyId, String fullName, String faviconUrl, String title, String permaLink) {
     setType(type);
     setPrettyId(prettyId);
+    setFullName(fullName);
     setFaviconUrl(faviconUrl);
     setTitle(title);
     setPermaLink(permaLink);
@@ -83,6 +84,21 @@ public class RestActivityStreamImpl extends ModelImpl implements RestActivityStr
     setField(Field.PRETTY_ID.toString(), prettyId);
   }
 
+  
+  /**
+   * {@inheritDoc}
+   */
+  public String getFullName(){
+    return getFieldAsString(Field.FULL_NAME.toString());
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  public void setFullName(String fullName){
+    setField(Field.FULL_NAME.toString(), fullName);
+  }
+  
   /**
    * {@inheritDoc}
    */

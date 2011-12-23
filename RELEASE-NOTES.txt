@@ -16,7 +16,8 @@ Issues closed: https://jira.exoplatform.org/secure/IssueNavigator.jspa?reset=tru
 
 ADDITIONS IN 1.0.0-alpha3
 =========================
-    Support Social Rest APIs v1-alpha3
+    Support Social Rest APIs v1-alpha3.
+    Update activity stream model for fullName.
 
 REMOVALS IN 1.0.0-alpha3
 =========================

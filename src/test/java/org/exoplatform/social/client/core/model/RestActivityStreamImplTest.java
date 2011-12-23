@@ -36,6 +36,7 @@ public class RestActivityStreamImplTest {
     RestActivityStream restActivityStream = new RestActivityStreamImpl();
     assertThat("restActivityStream.getType() must be null", restActivityStream.getType(), nullValue());
     assertThat("restActivityStream.getPrettyId() must be null", restActivityStream.getPrettyId(), nullValue());
+    assertThat("restActivityStream.getFullName() must be null", restActivityStream.getFullName(), nullValue());
     assertThat("restActivityStream.getFaviconUrl() must be null", restActivityStream.getFaviconUrl(), nullValue());
     assertThat("restActivityStream.getPermaLink() must be null", restActivityStream.getPermaLink(), nullValue());
     assertThat("restActivityStream.getTitle() must be null", restActivityStream.getTitle(), nullValue());
@@ -45,13 +46,16 @@ public class RestActivityStreamImplTest {
   public void shouldGetSettedValues() {
     final String type = "user";
     final String prettyId = "demo";
+    final String fullName = "Demo Demo";
     final String faviconUrl = "";
     final String permaLink = "http://platform35.demo.exoplatform.org/portal/classic/profile/demo";
     final String title = "Activity Stream of Demo";
-    RestActivityStream restActivityStream = new RestActivityStreamImpl(type, prettyId, faviconUrl, title, permaLink);
+    RestActivityStream restActivityStream = new RestActivityStreamImpl(type, prettyId, fullName, faviconUrl, title, permaLink);
 
     assertThat("restActivityStream.getType() must return: " + type, restActivityStream.getType(), equalTo(type));
     assertThat("restActivityStream.getPrettyId() must return: " + prettyId, restActivityStream.getPrettyId(), equalTo(prettyId));
+    assertThat("restActivityStream.getFullName() must return: " + fullName, restActivityStream.getFullName(), equalTo(fullName));
+
     assertThat("restActivityStream.getFaviconUrl() must return: " + faviconUrl, restActivityStream.getFaviconUrl(),
                 equalTo(faviconUrl));
     assertThat("restActivityStream.getPermaLink() must return: " + permaLink, restActivityStream.getPermaLink(),
