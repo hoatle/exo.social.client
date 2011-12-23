@@ -24,7 +24,7 @@ REMOVALS IN 1.0.0-alpha3
 
 IMPROVEMENTS IN 1.0.0-alpha3
 ============================
-
+    Send 1 request for one basic authentication request instead of 2
 
 BUG FIXES IN 1.0.0-alpha3
 =========================

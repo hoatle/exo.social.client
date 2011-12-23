@@ -18,12 +18,17 @@ package org.exoplatform.social.client.core.net;
 
 import java.io.IOException;
 
+import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
 import org.apache.http.HttpRequest;
+import org.apache.http.HttpRequestInterceptor;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.AuthState;
+import org.apache.http.auth.Credentials;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.client.params.HttpClientParams;
@@ -32,6 +37,7 @@ import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.PlainSocketFactory;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.impl.auth.BasicScheme;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
 import org.apache.http.params.BasicHttpParams;
@@ -39,6 +45,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.BasicHttpProcessor;
+import org.apache.http.protocol.ExecutionContext;
 import org.apache.http.protocol.HttpContext;
 import org.exoplatform.social.client.api.SocialClientContext;
 import org.exoplatform.social.client.api.SocialClientLibException;
@@ -61,6 +68,30 @@ public final class SocialHttpClientImpl implements SocialHttpClient {
   
   private final DefaultHttpClient delegate;
   
+  /*
+   * From Apache HttpClient 4, the client always check if site require authenticate before sending password hash.
+   * This HttpRequestInterceptor bypass that step to make request run faster.
+   */
+  private HttpRequestInterceptor preemptiveAuthInterceptor = new HttpRequestInterceptor() {
+      @Override
+      public void process(HttpRequest request, HttpContext context)
+          throws HttpException, IOException {
+        AuthState authState = (AuthState) context.getAttribute(ClientContext.TARGET_AUTH_STATE);
+        CredentialsProvider credsProvider = (CredentialsProvider) context.getAttribute(
+                ClientContext.CREDS_PROVIDER);
+        HttpHost targetHost = (HttpHost) context.getAttribute(ExecutionContext.HTTP_TARGET_HOST);
+
+        if (authState.getAuthScheme() == null) {
+            AuthScope authScope = new AuthScope(targetHost.getHostName(), targetHost.getPort());
+            Credentials creds = credsProvider.getCredentials(authScope);
+            if (creds != null) {
+                authState.setAuthScheme(new BasicScheme());
+                authState.setCredentials(creds);
+            }
+        }
+      }
+    };
+
   /**
    * Create a new HttpClient with reasonable defaults.
    * @return SocialHttpClient for you to use for all your requests.
@@ -186,8 +217,6 @@ public final class SocialHttpClientImpl implements SocialHttpClient {
     }
     delegate.getCredentialsProvider().setCredentials(new AuthScope(SocialClientContext.getHost(), SocialClientContext.getPort()), 
                                                      new UsernamePasswordCredentials(SocialClientContext.getUsername(), SocialClientContext.getPassword()));
-    
+    delegate.addRequestInterceptor(preemptiveAuthInterceptor ,0);
   }
-  
-
 }
