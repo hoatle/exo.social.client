@@ -23,6 +23,7 @@ import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.auth.UnAuthenticatedException;
 import org.exoplatform.social.client.api.model.RestActivity;
+import org.exoplatform.social.client.api.model.RestActivityStream;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.service.ServiceException;
@@ -121,7 +122,7 @@ public class ActivityServiceV1Alpha3IT extends AbstractClientTestV1Alpha3 {
     } catch (ServiceException se) {
 
     }
-    
+
     //create a activity to demo's stream
     startSessionAs("wrongUsername", "wrongPassword");
     try {
@@ -170,8 +171,10 @@ public class ActivityServiceV1Alpha3IT extends AbstractClientTestV1Alpha3 {
     RestActivity resultActivity = activityService.get(activityId);
 
     assertThat("test 0", equalTo(resultActivity.getTitle()));
-//    assertThat(resultActivity.getActivityStream().getFullName(), equalTo("Demo gtn"));
-//    assertThat(resultActivity.getActivityStream().getType(), equalTo("organization"));
+
+    RestActivityStream activityStream = resultActivity.getActivityStream();
+    assertThat(activityStream.getFullName(), equalTo("Demo gtn"));
+    assertThat(activityStream.getType(), equalTo("organization"));
   }
 
   @Test
@@ -188,9 +191,9 @@ public class ActivityServiceV1Alpha3IT extends AbstractClientTestV1Alpha3 {
     String activityId = createActivities(1).get(0).getId();
     RestActivity resultActivity = activityService.get(activityId);
     activityService.delete(resultActivity);
-    
+
     tearDownActivityList.remove(0);
-    
+
     try{
       activityService.get(activityId);
       fail("Activity was not deleted, failed.");

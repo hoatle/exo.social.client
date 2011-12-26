@@ -16,8 +16,6 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +38,10 @@ import org.exoplatform.social.client.core.service.QueryParamsImpl;
 import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
 import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
 
 /**
  * Implementation of {@link org.exoplatform.social.client.api.model.RestActivity}.
@@ -48,7 +50,11 @@ import org.json.simple.parser.ParseException;
  * @since May 26, 2011
  */
 public class RestActivityImpl extends ModelImpl implements RestActivity {
-  
+  /**
+   * The logger
+   */
+  private static final Logger LOGGER = LoggerFactory.getLogger(RestActivityImpl.class);
+
   /**
    * Constructor without any params.
    */
@@ -103,7 +109,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   public void setTitle(String title) {
     setField(Field.TITLE.toString(), title);
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -135,7 +141,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   public void setAppId(String appId) {
     setField(Field.APP_ID.toString(), appId);
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -220,21 +226,21 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
   public boolean isLiked() {
     return Boolean.parseBoolean(getFieldAsString(Field.LIKED.toString()));
   }
-  
+
   /**
    * {@inheritDoc}
-   * @throws SocialClientLibException 
+   * @throws SocialClientLibException
    */
   @Override
   public RestIdentity getPosterIdentity() throws SocialClientLibException {
     String posterIdentityString = getFieldAsString(Field.POSTER_IDENTITY.toString());
     RestIdentity restIdentity = null;
-    
-    if (posterIdentityString != null && posterIdentityString.length() >0) {
+
+    if (posterIdentityString != null && posterIdentityString.length() > 2) {
       try{
         restIdentity = SocialJSONDecodingSupport.parser(RestIdentityImpl.class, posterIdentityString);
       } catch (Exception e) {
-        throw new ServiceException(ActivityService.class,e.getMessage(),null);
+        throw new ServiceException(ActivityService.class,e.getMessage(), e);
       }
     } else {
       IdentityService service = ClientServiceFactoryHelper.getClientServiceFactory().createIdentityService();
@@ -254,12 +260,12 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       List<? extends RestComment> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(RestCommentImpl.class, commentsJSON);
       return (List<RestComment>) comments;
     } catch (Exception e) {
-      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(), e);
     }
-    
+
   }
-  
-  
+
+
 
   /**
    * {@inheritDoc}
@@ -294,42 +300,46 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       List<? extends RestComment> comments = SocialJSONDecodingSupport.JSONArrayObjectParser(RestCommentImpl.class, responseContent);
       return (List<RestComment>)comments;
     } catch (IOException e) {
-      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(), e);
     } catch (ParseException e) {
-      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(), e);
     }
   }
 
   /**
    * {@inheritDoc}
-   * @throws SocialClientLibException 
+   * @throws SocialClientLibException
    */
   @Override
   public RestActivityStream getActivityStream() throws SocialClientLibException {
     String activityStreamJSON = this.getFieldAsString(RestActivity.Field.ACTIVITY_STREAM.toString());
+    if (LOGGER.isDebugEnabled()) {
+      LOGGER.debug("activityStreamJSON: " + activityStreamJSON);
+    }
     RestActivityStream restActivityStream = null;
     try {
-      if (activityStreamJSON != null && activityStreamJSON.length() > 0) {
-        restActivityStream = (RestActivityStream) SocialJSONDecodingSupport.parser(RestActivityStreamImpl.class, activityStreamJSON);
+      // if no activity stream json is fetched, the json string is "{}"
+      if (activityStreamJSON != null && activityStreamJSON.length() > 2) {
+        restActivityStream = SocialJSONDecodingSupport.parser(RestActivityStreamImpl.class, activityStreamJSON);
       } else {
-        final QueryParams queryParamBuilder = new QueryParamsImpl().append(QueryParams.ACTIVITY_STREAM_PARAM.setValue("t")); 
+        final QueryParams queryParamBuilder = new QueryParamsImpl().append(QueryParams.ACTIVITY_STREAM_PARAM.setValue("t"));
         final String GET_ACTIVITY_REQUEST_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true)
                                                           + "activity/" + this.getId() + ".json?" + queryParamBuilder.buildQuery();
         HttpResponse response = SocialHttpClientSupport.executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
         handleError(response);
-        RestActivity activity = (RestActivity) SocialJSONDecodingSupport.parser(RestActivityImpl.class, response);
+        RestActivity activity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, response);
         //get ActivityStream when JSON content is existing.
         restActivityStream = activity.getActivityStream();
-        
+
         //caching for ActivityStreamJSON content in this RestActivity which avoid Request again.
         this.setField(RestActivity.Field.ACTIVITY_STREAM.toString(), activity.getFieldAsString(RestActivity.Field.ACTIVITY_STREAM.toString()));
       }
     } catch (SocialHttpClientException e) {
-      throw new ServiceException(ActivityService.class, e.getMessage(), null);
+      throw new ServiceException(ActivityService.class, e.getMessage(), e);
     } catch (ParseException e) {
-      throw new ServiceException(ActivityService.class, e.getMessage(), null);
+      throw new ServiceException(ActivityService.class, e.getMessage(), e);
     } catch (IOException e) {
-      throw new ServiceException(ActivityService.class, e.getMessage(), null);
+      throw new ServiceException(ActivityService.class, e.getMessage(), e);
     }
     return restActivityStream;
   }
@@ -358,7 +368,7 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
     templateParams.put(name, value);
     setTemplateParams(templateParams);
   }
-  
+
   @Override
   public int getTotalNumberOfLikes() {
     return Integer.parseInt(this.getFieldAsString(RestActivity.Field.TOTAL_NUMBER_OF_LIKES.toString()));
@@ -375,11 +385,11 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       List<? extends RestIdentity> likedByIdentities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestIdentityImpl.class, responseContent);
       return (List<RestIdentity>) likedByIdentities;
     } catch (SocialHttpClientException e) {
-      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(), e);
     } catch (IOException e) {
-      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(), e);
     } catch (ParseException e) {
-      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(), e);
     }
   }
 
@@ -390,9 +400,9 @@ public class RestActivityImpl extends ModelImpl implements RestActivity {
       List<? extends RestIdentity> likedByIdentities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestIdentityImpl.class, likedByIdentitiesJSON);
       return (List<RestIdentity>) likedByIdentities;
     } catch (Exception e) {
-      throw new ServiceException(ActivityService.class,e.getMessage(),null);
+      throw new ServiceException(ActivityService.class,e.getMessage(), e);
     }
   }
-  
-  
+
+
 }

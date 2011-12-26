@@ -16,12 +16,6 @@
  */
 package org.exoplatform.social.client.core.model;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.IsNull.notNullValue;
-import static org.hamcrest.core.IsNull.nullValue;
-import static org.testng.Assert.assertEquals;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +28,12 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.testng.annotations.Test;
+
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.IsNull.nullValue;
+import static org.testng.Assert.assertEquals;
 
 /**
  * Unit Test for {@link RestActivityImpl}.
@@ -88,10 +88,10 @@ public class ActivityImplTest {
             equalTo("bar3"));
   }
 
-  
+
   @Test
   public void shouldJsonActivityParser() throws Exception {
-    
+
     String jsonActivity1 = "{\"id\": \"1a2b3c4d5e6f7g8h9j\","
                               + "\"title\": \"Hello World!!!\","
                               +"\"appId\": \"\","
@@ -110,6 +110,7 @@ public class ActivityImplTest {
                               + "\"totalNumberOfComments\": 1234,"
                               +"\"activityStream\": {"
                               + "\"type\": \"user\"," // or "space"
+                              + "\"fullName\": \"Root Root\","
                               + "\"prettyId\": \"root\"," // or space_abcde
                               + "\"faviconUrl\": \"http://demo3.exoplatform.org/favicons/exo-default.jpg\","
                               + "\"title\": \"Activity Stream of Root Root\","
@@ -119,28 +120,28 @@ public class ActivityImplTest {
 
     RestActivityImpl model3 = SocialJSONDecodingSupport.parser(RestActivityImpl.class, jsonActivity1);
     assertEquals(model3.getIdentityId(), "123456789abcdefghi");
-    
+
     //
     JSONObject jsonObject = (JSONObject) JSONValue.parse(jsonActivity1);
     JSONArray jsonArray =  (JSONArray)jsonObject.get("likedByIdentities");
     //
     String actual = model3.getFieldAsString("likedByIdentities");
-    
+
     assertEquals(actual, jsonArray.toJSONString());
-    
+
     List<RestIdentityImpl> identities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestIdentityImpl.class, actual);
     assertEquals(identities.size(), 1);
   }
-  
+
   @Test
   public void shouldJsonActivityStreamArrayParser() throws Exception {
-    
+
     String jsonActivity1 = "{\"activities\":[" +
                                       "{" +
                                       "\"appId\":null,\"identityId\":\"f845f6ed7f000101003ed4d98a09beb3\"," +
                                       "\"totalNumberOfComments\":0,\"liked\":false,\"templateParams\":{}," +
                                       "\"postedTime\":1309839511830,\"type\":\"DEFAULT_ACTIVITY\"," +
-                                      "\"posterIdentity\":null,\"activityStream\":null," +
+                                      "\"posterIdentity\":{},\"activityStream\":{}," +
                                       "\"id\":\"f884d11a7f000101000230e5c0e8a602\"," +
                                       "\"title\":\"hello\",\"priority\":null," +
                                       "\"createdAt\":\"Tue Jul 5 11:18:31 +0700 2011\"," +
@@ -152,10 +153,10 @@ public class ActivityImplTest {
     RestActivityImpl model3 = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString()).get(0);
     assertEquals(model3.getIdentityId(), "f845f6ed7f000101003ed4d98a09beb3");
   }
-  
+
   @Test
   public void shouldJsonActivityStreamArrayParser1() throws Exception {
-    
+
     String jsonActivity1 = "{"
                             + "\"activities\":["
                             + "{"
@@ -246,6 +247,7 @@ public class ActivityImplTest {
                             + "\"totalNumberOfComments\":1234,"
                             + "\"activityStream\":{"
                             + "\"type\":\"user\","
+                            + "\"fullName\":\"Root Root\","
                             + "\"prettyId\":\"root\","
                             + "\"faviconUrl\":\"http://demo3.exoplatform.org/favicons/exo-default.jpg\","
                             + "\"title\":\"Activity Stream of Root Root\","
@@ -259,22 +261,22 @@ public class ActivityImplTest {
     JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
     List<RestActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString());
     assertEquals(activities.size(), 2);
-    
+
     for(RestActivityImpl e : activities) {
       assertThat("PosterIdentity must not be null.", e.getPosterIdentity(), notNullValue());
       assertThat("ActivityStream must not be null.", e.getActivityStream(), notNullValue());
       assertThat("LikedByIdentity must not be null.", e.getAvailableLikes(), notNullValue());
-      
+
       RestIdentity identity = e.getAvailableLikes().get(0);
       assertThat("RestProfile must not be null.", identity.getProfile(), notNullValue());
-      
+
       RestProfile profile = identity.getProfile();
       assertThat(profile.getFullName(), equalTo("Demo GTN"));
       assertThat(profile.getAvatarUrl(), equalTo("http://localhost:8080/profile/u/demo/avatar.jpg?u=12345"));
     }
   }
-  
-  
+
+
   @Test
   public void shouldGetLikes() {
     //TODO complete this
