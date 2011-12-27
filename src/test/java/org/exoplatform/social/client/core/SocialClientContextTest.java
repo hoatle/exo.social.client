@@ -49,6 +49,21 @@ public class SocialClientContextTest {
                equalTo(false));
   }
 
+  @Test
+  public void shouldSupportV1Alpha1() {
+    SocialClientContext.setRestVersion("v1-alpha1");
+  }
+
+  @Test
+  public void shouldSupportV1Alpha2() {
+    SocialClientContext.setRestVersion("v1-alpha2");
+  }
+
+  @Test
+  public void shouldSupportV1Alpha3() {
+    SocialClientContext.setRestVersion("v1-alpha3");
+  }
+
 
   @Test(expectedExceptions = UnsupportedRestVersionException.class)
   public void shouldThrowExceptionIfNotSupported() {

@@ -108,7 +108,8 @@ public interface RestActivityStream {
   /**
    * Gets the full name of activity stream owner.
    *
-   * @return the fullName of activity stream.
+   * @return the fullName of activity stream owner.
+   * @since  1.0.0-alpha3 (Rest v1-alpha3)
    */
   String getFullName();
 
@@ -116,6 +117,7 @@ public interface RestActivityStream {
    * Sets the full name for the activity stream owner.
    *
    * @param fullName the full name
+   * @since 1.0.0-alpha3 (Rest v1-alpha3)
    */
   void setFullName(String fullName);
   

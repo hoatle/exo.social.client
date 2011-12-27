@@ -9,8 +9,8 @@ any 3rd parties do not have to care about low level eXo Social Rest APIs when us
 
 ##################################### 1.0.0-alpha3 ####################################################
 
-Fully support Social Rest API v1-alpha3.
-Fully test on Social 1.2.7.
+Fully support Social Rest API v1-alpha3, v1-alpha2, v1-alpha1
+Fully tested on Social 1.2.7.
 
 Issues closed: https://jira.exoplatform.org/secure/IssueNavigator.jspa?reset=true&jqlQuery=project+%3D+SCL+AND+fixVersion+%3D+%221.0.0-alpha3%22+AND+status+%3D+Closed+ORDER+BY+priority+DESC
 
@@ -19,9 +19,13 @@ ADDITIONS IN 1.0.0-alpha3
     Support Social Rest APIs v1-alpha3.
     Update activity stream model for fullName.
 
+    APIs:
+      RestActivityStream#getFullName();
+      RestActivityStream#setFullName(String fullName);
+
 REMOVALS IN 1.0.0-alpha3
 =========================
-    Remove support for Social Rest APIs v1-alpha1 and v1-alpha2, only support final rest version as backward compatibility.
+
 
 IMPROVEMENTS IN 1.0.0-alpha3
 ============================
