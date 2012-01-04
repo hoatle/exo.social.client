@@ -37,6 +37,13 @@ BUG FIXES IN 1.0.0-alpha3
 
 DETAILED ISSUES IN 1.0.0-alpha3
 ==============================
+** Improvement
+    * [SCL-39] - Http Client always send two requests on basic authenticate request
+
+** Task
+    * [SCL-43] - Update model for fullName of ActivityStream (supported by Social Rest v1-alpha3)
+    * [SCL-44] - Support Social Rest APIs v1-alpha3
+    * [SCL-45] - Social Client Lib must support multiple rest versions
 
 
 ##################################### 1.0.0-alpha2 ####################################################

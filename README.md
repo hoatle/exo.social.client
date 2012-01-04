@@ -127,7 +127,10 @@ Sample code:
     SocialClientContext.setPassword("gtn");
 
     ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
-
+    VersionService versionService = clientServiceFactory.createVersionService();
+    SocialClientContext.setRestVersion(versionService.getLatest());
+    //Whenever SocialClientContext has changes its properties, clientServiceFactory must be re-created.
+    ClientServiceFactory clientServiceFactory = ClientServiceFactoryHelper.getClientServiceFactory();
     //it's all for Client to work, now just get the Service to use
     ActivityService activityService = clientServiceFactory.createActivityService();;
 
