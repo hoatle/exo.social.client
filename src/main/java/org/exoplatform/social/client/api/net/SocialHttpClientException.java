@@ -35,7 +35,8 @@ public class SocialHttpClientException extends IOException {
    * @param cause        the cause of exception
    */
   public SocialHttpClientException(String message, Throwable cause) {
-    super(message, cause);
+    super(message);
+    initCause(cause);
   }
   
   /**
@@ -43,7 +44,7 @@ public class SocialHttpClientException extends IOException {
    * @param message the message of exception
    */
   public SocialHttpClientException(String message) {
-    super(message, null);
+    super(message);
   }
   
 }
