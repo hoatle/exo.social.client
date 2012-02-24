@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.util;
+package org.exoplatform.social.client.api.util;
 
 
 import org.exoplatform.social.client.api.event.PropertyChangeEvent;

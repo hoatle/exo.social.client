@@ -6,7 +6,6 @@ import java.util.List;
 import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.core.AbstractClientTestV1Alpha2;
-import org.exoplatform.social.client.core.model.RestActivityImpl;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -58,7 +57,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2IT extends AbstractClientTestV1
   private List<RestActivity> createActivities(int numberOfActivity) throws SocialClientLibException {
     List<RestActivity> createdActivityList = new ArrayList<RestActivity>();
     for (int i = 0; i < numberOfActivity; i++) {
-      RestActivity restActivityToCreate = new RestActivityImpl();
+      RestActivity restActivityToCreate = new RestActivity();
       restActivityToCreate.setTitle("test " + i);
       RestActivity createdActivity = activityService.create(restActivityToCreate);
       createdActivityList.add(createdActivity);

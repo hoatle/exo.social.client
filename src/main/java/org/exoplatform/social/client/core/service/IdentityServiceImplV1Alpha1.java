@@ -27,14 +27,13 @@ import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
 import org.exoplatform.social.client.api.service.IdentityService;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.model.RestIdentityImpl;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
 import org.json.simple.parser.ParseException;
 
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.buildCommonRestPathFromContext;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.executeGet;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.getContent;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.buildCommonRestPathFromContext;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.executeGet;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.getContent;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.handleError;
 
 /**
  * Created by The eXo Platform SAS
@@ -58,7 +57,7 @@ public class IdentityServiceImplV1Alpha1 extends ServiceBase<RestIdentity, Ident
     try {
       HttpResponse response = executeGet(targetURL, POLICY.BASIC_AUTH);
       handleError(response);
-      return SocialJSONDecodingSupport.parser(RestIdentityImpl.class, response);
+      return SocialJSONDecodingSupport.parser(RestIdentity.class, response);
     } catch (IOException ioex) {
       throw new ServiceException(IdentityServiceImplV1Alpha1.class, "IOException when reads Json Content.", ioex);
     } catch (ParseException pex) {

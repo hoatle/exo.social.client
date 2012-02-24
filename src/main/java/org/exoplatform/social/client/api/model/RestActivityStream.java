@@ -22,7 +22,7 @@ package org.exoplatform.social.client.api.model;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
  */
-public interface RestActivityStream {
+public class RestActivityStream extends Model {
   /**
    * The fields that represent the RestActivityStream object in json form.
    */
@@ -78,32 +78,65 @@ public interface RestActivityStream {
   }
 
   /**
+   * Default constructor
+   */
+  public RestActivityStream() {
+
+  }
+  
+  /**
+   * Constructor to set values.
+   *
+   * @param type       the type
+   * @param prettyId   the pretty id
+   * @param faviconUrl the favicon url
+   * @param title      the title
+   * @param permaLink  the permalink
+   */
+  public RestActivityStream(String type, String prettyId, String fullName, String faviconUrl, String title, String permaLink) {
+    setType(type);
+    setPrettyId(prettyId);
+    setFullName(fullName);
+    setFaviconUrl(faviconUrl);
+    setTitle(title);
+    setPermaLink(permaLink);
+  }
+  
+  /**
    * Gets the type of activity stream.
    *
    * @return the type
    */
-  String getType();
+  public String getType() {
+    return getFieldAsString(Field.TYPE.toString());
+  }
 
   /**
    * Sets the type of activity stream.
    *
    * @param type the type
    */
-  void setType(String type);
+  public void setType(String type) {
+    setField(Field.TYPE.toString(), type);
+  }
 
   /**
    * Gets the pretty id from the activity stream.
    *
    * @return the pretty id
    */
-  String getPrettyId();
+  public String getPrettyId() {
+    return getFieldAsString(Field.PRETTY_ID.toString());
+  }
 
   /**
    * Sets the pretty id for the activity stream.
    *
    * @param prettyId the pretty id
    */
-  void setPrettyId(String prettyId);
+  public void setPrettyId(String prettyId) {
+    setField(Field.PRETTY_ID.toString(), prettyId);
+  }
   
   /**
    * Gets the full name of activity stream owner.
@@ -111,7 +144,9 @@ public interface RestActivityStream {
    * @return the fullName of activity stream owner.
    * @since  1.0.0-alpha3 (Rest v1-alpha3)
    */
-  String getFullName();
+  public String getFullName() {
+    return getFieldAsString(Field.FULL_NAME.toString());
+  }
 
   /**
    * Sets the full name for the activity stream owner.
@@ -119,48 +154,62 @@ public interface RestActivityStream {
    * @param fullName the full name
    * @since 1.0.0-alpha3 (Rest v1-alpha3)
    */
-  void setFullName(String fullName);
+  public void setFullName(String fullName) {
+    setField(Field.FULL_NAME.toString(), fullName);
+  }
   
   /**
    * Gets the favicon url of the activity stream.
    *
    * @return the favicon url
    */
-  String getFaviconUrl();
+  public String getFaviconUrl() {
+    return getFieldAsString(Field.FAVICON_URL.toString());
+  }
 
   /**
    * Sets the favicon url for the activity stream.
    *
    * @param faviconUrl the favicon url
    */
-  void setFaviconUrl(String faviconUrl);
+  public void setFaviconUrl(String faviconUrl) {
+    setField(Field.FAVICON_URL.toString(), faviconUrl);
+  }
 
   /**
    * Gets activity stream's title.
    *
    * @return the activity stream's title
    */
-  String getTitle();
+  public String getTitle() {
+    return getFieldAsString(Field.TITLE.toString());
+  }
 
   /**
    * Sets the activity stream title.
    *
    * @param title the activity stream's title
    */
-  void setTitle(String title);
+  public void setTitle(String title) {
+    setField(Field.TITLE.toString(), title);
+  }
 
   /**
    * Gets the permanent link for activity stream.
    *
    * @return the permanent link
    */
-  String getPermaLink();
+  public String getPermaLink() {
+    return getFieldAsString(Field.PERMALINK.toString());
+  }
 
   /**
    * Sets the permanent link for activity stream.
    *
    * @param permaLink the permanent link
    */
-  void setPermaLink(String permaLink);
+  public void setPermaLink(String permaLink) {
+    setField(Field.PERMALINK.toString(), permaLink);
+  }
 
 }

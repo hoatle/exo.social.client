@@ -22,7 +22,7 @@ package org.exoplatform.social.client.api.model;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface RestProfile extends Model {
+public class RestProfile extends Model {
   /**
    * The fields that represent the Profile object in json form. <p/> </p>
    */
@@ -68,45 +68,77 @@ public interface RestProfile extends Model {
   }
 
   /**
+   * Default constructor.
+   */
+  public RestProfile() {
+
+  }
+
+  /**
+   * Constructor to set values.
+   *
+   * @param identityId the identity id
+   * @param fullName   the full name
+   * @param avatarUrl  the avatar url
+   */
+  public RestProfile(String identityId, String fullName, String avatarUrl) {
+    setIdentityId(identityId);
+    setFullName(fullName);
+    setAvatarUrl(avatarUrl);
+  }
+  
+  /**
    * Gets the identity id associated with this profile.
    *
    * @return the identity id
    */
-  String getIdentityId();
+  public String getIdentityId() {
+    return getFieldAsString(Field.IDENTITY_ID.toString());
+  }
 
   /**
    * Sets the identity id associated with this profile.
    *
    * @param identityId the identity id
    */
-  void setIdentityId(String identityId);
+  public void setIdentityId(String identityId) {
+    setField(Field.IDENTITY_ID.toString(), identityId);
+  }
 
   /**
    * Gets the full name of the associated identity.
    *
    * @return the full name
    */
-  String getFullName();
+  public String getFullName() {
+    return getFieldAsString(Field.FULL_NAME.toString());
+  }
 
   /**
    * Sets the full name of the associated identity.
    *
    * @param fullName the full name
    */
-  void setFullName(String fullName);
+  public void setFullName(String fullName) {
+    setField(Field.FULL_NAME.toString(), fullName);
+  }
 
   /**
    * Gets the avatar url of the associated identity.
    *
    * @return the avatar url
    */
-  String getAvatarUrl();
+  public String getAvatarUrl() {
+    return getFieldAsString(Field.AVATAR_URL.toString());
+  }
 
   /**
    * Sets the avatar url of the associated identity.
    *
    * @param avatarUrl the avatar url
    */
-  void setAvatarUrl(String avatarUrl);
+  public void setAvatarUrl(String avatarUrl) {
+    setField(Field.AVATAR_URL.toString(), avatarUrl);
+  }
 
 }

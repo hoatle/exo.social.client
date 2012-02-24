@@ -30,16 +30,15 @@ import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.QueryParams;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.model.RestActivityImpl;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.buildCommonRestPathFromContext;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.executeGet;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.getContent;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.buildCommonRestPathFromContext;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.executeGet;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.getContent;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.handleError;
 
 /**
  * Created by The eXo Platform SAS
@@ -320,7 +319,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
     try {
       JSONObject jsonObject = (JSONObject) JSONValue.parse(getContent(response));
       JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-      List<RestActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString());
+      List<RestActivity> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivity.class, jsonArray.toJSONString());
       List<RestActivity> copyRestActivities = new ArrayList(activities);
       Collections.copy(copyRestActivities, activities);
       return copyRestActivities;

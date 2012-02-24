@@ -14,57 +14,55 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.social.client.core.util;
+package org.exoplatform.social.client.api.util;
 
-import org.exoplatform.social.client.api.event.Lifecycle;
-import org.exoplatform.social.client.api.event.LifecycleEvent;
-import org.exoplatform.social.client.api.event.LifecycleListener;
+import org.exoplatform.social.client.api.event.CRUDLifecycle;
+import org.exoplatform.social.client.api.event.CRUDLifecycleEvent;
+import org.exoplatform.social.client.api.event.CRUDLifecycleListener;
 
 /**
  * 
- * This is a utility class that can be used by models that assist
- * in firing LifecycleEvent notifications to registered LifecycleListeners
- * and delegate various work to it
+ *  This is a utility class that can be used by models that assist 
+ *  in firing CRUDLifecycleEvent notifications to registered CRUDLifecycleListeners 
+ *  and delegate various work to it
  * 
  * @author thanh_vucong
  *
  */
-public final class LifecycleSupport<M, L> {
-
+public class CRUDLifecycleSupport<M> {
   /**
-   * The source component for lifecycle events that we will broadcast.
+   * The source component for crud lifecycle events that we will broadcast.
    */
-  private Lifecycle<M,L> lifecycle = null;
+  private CRUDLifecycle<M> crudlifecycle = null;
   
   /**
    * The set of registered LifecycleListeners for event notifications.
    */
-  private LifecycleListener<M,L> listeners[] = new LifecycleListener[0];
+  private CRUDLifecycleListener<M> listeners[] = new CRUDLifecycleListener[0];
   
   /**
-   * Locks object for change to listeners
+   * Lock object for change to listeners
    */
   private final Object listenersLock = new Object();
   
   /**
    * Constructs a new LifecycleHelper object associated with the specified Lifecycle component.
-   * @param lifecycle
+   * @param crudlifecycle
    */
-  public LifecycleSupport(Lifecycle<M,L> lifecycle) {
-    this.lifecycle = lifecycle;
+  public CRUDLifecycleSupport(CRUDLifecycle<M> crudlifecycle) {
+    this.crudlifecycle = crudlifecycle;
   }
   
   
   
   /**
-   * Adds a Lifecycle event listener to this component.
-   *
+   * Add a Lifecycle event listener to this component
    * @param listener The listener is added.
    */
-  public void addLifecycleListener(LifecycleListener<M,L> listener) {
+  public void addCRUDLifecycleListener(CRUDLifecycleListener<M> listener) {
     
     synchronized(listenersLock) {
-      LifecycleListener<M,L> results[] = new LifecycleListener[listeners.length + 1];
+      CRUDLifecycleListener<M> results[] = new CRUDLifecycleListener[listeners.length + 1];
       System.arraycopy(listeners, 0, results, 0, listeners.length);
       //Add the LifecycleListener to the new position.    
       results[listeners.length] = listener;
@@ -73,27 +71,26 @@ public final class LifecycleSupport<M, L> {
   }
   
   /**
-   * Notifies all Lifecycle event listeners that a particular event has
+   * Notify all CRUDLifecycle event listeners that a particular event has 
    * occurred for this Container. The default implementation performs 
    * this notification synchronously using the calling thread.
    * 
    * @param type Event type
    * @param data Event data
    */
-  public void broadcastEvent(String type, L data) {
-    LifecycleEvent<M,L> event = new LifecycleEvent<M,L>(this.lifecycle, type, data);
-    LifecycleListener<M,L> interested[] = listeners;
+  public void broadcastEvent(String type, M data) {
+    CRUDLifecycleEvent<M> event = new CRUDLifecycleEvent<M>(this.crudlifecycle, type, data);
+    CRUDLifecycleListener<M> interested[] = listeners;
     for (int i = 0; i < interested.length; i++) {
       interested[i].broadcast(event);
     }
   }
   
   /**
-   * Removes a lifecycle event listener which was registered to component.
-   *
+   * Remove a CRUDLifecycle event listener which was registered to component
    * @param listener The listener will be removed.
    */
-  public void removeLifecycleListener(LifecycleListener<M, L> listener) {
+  public void removeCRUDLifecycleListener(CRUDLifecycleListener<M> listener) {
     synchronized (listenersLock) {
       int n = -1;
       for (int i = 0; i < listeners.length; i++) {
@@ -109,7 +106,7 @@ public final class LifecycleSupport<M, L> {
 
 
       //Execute to remove the listener
-      LifecycleListener<M, L> results[] = new LifecycleListener[listeners.length - 1];
+      CRUDLifecycleListener<M> results[] = new CRUDLifecycleListener[listeners.length - 1];
       int j = 0;
       for (int i = 0; i < listeners.length; i++) {
         if (i != n) {
@@ -119,16 +116,13 @@ public final class LifecycleSupport<M, L> {
       listeners = results;
     }
   }
-  
+
   /**
-   * Gets the lifecycle listeners associated with this lifecycle. If this
-   * Lifecycle has no listeners registered, a zero-length array is returned.
+   * Get the crud lifecycle listeners associated with this lifecycle. If this 
+   * crud Lifecycle has no listeners registered, a zero-length array is returned.
    */
-  public LifecycleListener<M, L>[] findLifecycleListeners() {
-
-    return listeners;
-
+  public CRUDLifecycleListener<M>[] findCRUDLifecycleListeners() {
+      return listeners;
   }
-  
-  
+
 }

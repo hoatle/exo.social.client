@@ -16,11 +16,15 @@
  */
 package org.exoplatform.social.client.api.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.exoplatform.social.client.api.event.PropertyChangeListener;
+import org.exoplatform.social.client.api.util.PropertyChangeSupport;
 import org.json.simple.JSONAware;
+import org.json.simple.JSONObject;
 import org.json.simple.JSONStreamAware;
 
 /**
@@ -31,14 +35,30 @@ import org.json.simple.JSONStreamAware;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface Model extends Map, JSONAware, JSONStreamAware {
+public abstract class Model extends JSONObject implements Map, JSONAware, JSONStreamAware {
 
+  /**
+   * The property change event support for this model.
+   */
+  protected PropertyChangeSupport propertyChanges = new PropertyChangeSupport(this);
+  
   /**
    * Returns the complete set of properties associated with the model instance.
    *
    * @return a string array
    */
-  String[] getFieldNames();
+  public String[] getFieldNames() {
+    int i = 0;
+    String[] fieldNames = new String[size()];
+
+    Set<Map.Entry<String, Object>> fields = entrySet();
+    for (Map.Entry<String, Object> field : fields) {
+      fieldNames[i] = field.getKey();
+      i++;
+    }
+
+    return fieldNames;
+  }
 
   /**
    * Returns {@code true} if a value is associated with the specified field name, {@code false} otherwise.
@@ -46,7 +66,9 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param fieldName name of field to look up
    * @return a boolean value
    */
-  boolean hasField(String fieldName);
+  public boolean hasField(String fieldName) {
+    return containsKey(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as an Object.
@@ -54,7 +76,9 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param fieldName name of field whose value is to be returned
    * @return an object associated with fieldName
    */
-  Object getField(String fieldName);
+  public Object getField(String fieldName) {
+    return get(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as a {@link Map}. Equivalent to {@code (Map) getField(fieldName)}, hence
@@ -64,7 +88,9 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @return a map associated with fieldName
    * @see ClassCastException
    */
-  Map getFieldAsMap(String fieldName);
+  public Map getFieldAsMap(String fieldName) {
+    return (Map) get(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as a {@link java.util.List}. Equivalent to {@code (List)
@@ -74,7 +100,9 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @return a list associated with fieldName
    * @see ClassCastException
    */
-  List getFieldAsList(String fieldName);
+  public List getFieldAsList(String fieldName) {
+    return (List) get(fieldName);
+  }
 
   /**
    * Returns the value of the specified field as a {@link String}. Equivalent to {@code (String) getField(fieldName)},
@@ -84,7 +112,13 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @return a string associated with fieldName
    * @see ClassCastException
    */
-  String getFieldAsString(String fieldName);
+  public String getFieldAsString(String fieldName) {
+    try {
+      return (String) get(fieldName);
+    } catch (ClassCastException e) {
+      return "" + get(fieldName);
+    }
+  }
 
   /**
    * Returns {@code true} if the value of the specified field implements {@link Map}, {@code false} otherwise.
@@ -92,7 +126,14 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param fieldName name of field to look up
    * @return a boolean value
    */
-  boolean isFieldMultikeyed(String fieldName);
+  public boolean isFieldMultikeyed(String fieldName) {
+    Object field = get(fieldName);
+    if (field instanceof Map) {
+      return true;
+    }
+
+    return false;
+  }
 
   /**
    * Returns {@code true} if the value of the specified field implements {@link List}, {@code false} otherwise.
@@ -100,7 +141,14 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param fieldName name of field to look up
    * @return a boolean value
    */
-  boolean isFieldMultivalued(String fieldName);
+  public boolean isFieldMultivalued(String fieldName) {
+    Object field = get(fieldName);
+    if (field instanceof List) {
+      return true;
+    }
+
+    return false;
+  }
 
   /**
    * Sets the value of the specified field to the passed Object.
@@ -108,7 +156,11 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param fieldName name of field to set
    * @param value     object to associate with passed field name
    */
-  void setField(String fieldName, Object value);
+  public void setField(String fieldName, Object value) {
+  //Raise event when change value of property.
+    propertyChanges.propertyChange(fieldName, get(fieldName), value);
+    put(fieldName, value);
+  }
 
   /**
    * Adds the passed Object to the list field with the specified name.
@@ -116,21 +168,36 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * @param fieldName name of list field for which the passed item should be added
    * @param item      item to add
    */
-  void addToListField(String fieldName, Object item);
+  public void addToListField(String fieldName, Object item) {
+    List<Object> listField;
+
+    if (containsKey(fieldName)) {
+      listField = getFieldAsList(fieldName);
+    } else {
+      listField = new ArrayList<Object>();
+    }
+
+    listField.add(item);
+    put(fieldName, listField);
+  }
   
   /**
    * Adds a property change event listener to this model
    * 
    * @param listener The listener to be added
    */
-  void addPropertyChangeListener(PropertyChangeListener listener);
+  public void addPropertyChangeListener(PropertyChangeListener listener) {
+    propertyChanges.addPropertyChangeListener(listener);
+  }
   
   /**
    * Removes a property change event listener which was added to this model.
    *
    * @param listener The listener to be removed.
    */
-  void removePropertyChangeListener(PropertyChangeListener listener);
+  public void removePropertyChangeListener(PropertyChangeListener listener) {
+    propertyChanges.removeLifecycleListener(listener);
+  }
   
   /**
    * Gets the property change listeners registered and associated with this property change listener. If this
@@ -138,5 +205,7 @@ public interface Model extends Map, JSONAware, JSONStreamAware {
    * 
    * @return an array of listeners
    */
-  PropertyChangeListener[] findPropertyChangeListeners();
+  public PropertyChangeListener[] findPropertyChangeListeners() {
+    return propertyChanges.findPropertyChangeListeners();
+  }
 }

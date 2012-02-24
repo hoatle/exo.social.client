@@ -22,8 +22,6 @@ import java.util.List;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientLibException;
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.common.RealtimeListAccess;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
@@ -32,14 +30,12 @@ import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.QueryParams;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.model.RestActivityImpl;
-import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.*;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.*;
 
 /**
  * Created by The eXo Platform SAS
@@ -320,7 +316,7 @@ public class ActivitiesRealtimeListAccessV1Alpha3 implements RealtimeListAccess<
     try {
       JSONObject jsonObject = (JSONObject) JSONValue.parse(getContent(response));
       JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-      List<RestActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString());
+      List<RestActivity> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivity.class, jsonArray.toJSONString());
       List<RestActivity> copyRestActivities = new ArrayList(activities);
       Collections.copy(copyRestActivities, activities);
       return copyRestActivities;

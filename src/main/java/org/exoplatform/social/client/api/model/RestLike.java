@@ -22,7 +22,7 @@ package org.exoplatform.social.client.api.model;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface RestLike extends Model {
+public class RestLike extends Model {
 
   /**
    * The fields that represent the RestLike object in json form. <p/>
@@ -65,32 +65,58 @@ public interface RestLike extends Model {
   }
 
   /**
+   * Constructor without param.
+   */
+  public RestLike() {
+
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param activityId the activity id
+   * @param identityId the identity id
+   */
+  public RestLike(String activityId, String identityId) {
+    setActivityId(activityId);
+    setIdentityId(identityId);
+  }
+  
+  /**
    * Gets the activity id.
    *
    * @return the activity id
    */
-  String getActivityId();
+  public String getActivityId() {
+    return getFieldAsString(Field.ACTIVITY_ID.toString());
+  }
 
   /**
    * Sets the activity id.
    *
    * @param activityId the activity id
    */
-  void setActivityId(String activityId);
+  public void setActivityId(String activityId) {
+    setField(Field.ACTIVITY_ID.toString(), activityId);
+  }
 
   /**
    * Gets the identity id.
    *
    * @return the identity id
    */
-  String getIdentityId();
+  public String getIdentityId() {
+    return getFieldAsString(Field.IDENTITY_ID.toString());
+  }
 
   /**
    * Sets the identity id.
    *
    * @param identityId the identity id
    */
-  void setIdentityId(String identityId);
+  public void setIdentityId(String identityId) {
+    setField(Field.IDENTITY_ID.toString(), identityId);
+  }
 
   /**
    * Gets the activity associated with this like.
@@ -99,7 +125,10 @@ public interface RestLike extends Model {
    *
    * @return the activity
    */
-  RestActivity getActivity();
+  public RestActivity getActivity() {
+    //TODO implement this
+    return null;
+  }
 
   /**
    * Gets the identity associated with this like.
@@ -108,5 +137,8 @@ public interface RestLike extends Model {
    *
    * @return the identity
    */
-  RestIdentity getIdentity();
+  public RestIdentity getIdentity() {
+    //TODO implement this
+    return null;
+  }
 }

@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 /**
- * Unit Test for {@link RestIdentityImpl}
+ * Unit Test for {@link RestIdentity}
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 25, 2011
@@ -33,14 +33,14 @@ public class IdentityImplTest {
 
   @Test
   public void shouldCreteInstanceAndGetFields() {
-    RestProfile restProfile = new RestProfileImpl();
-    RestIdentity restIdentity = new RestIdentityImpl("123", "organization", "demo", restProfile);
+    RestProfile restProfile = new RestProfile();
+    RestIdentity restIdentity = new RestIdentity("123", "organization", "demo", restProfile);
     assertThat("restIdentity.getId() must return 123", restIdentity.getId(), equalTo("123"));
     assertThat("restIdentity.getProviderId() must return organization",
                restIdentity.getProviderId(), equalTo("organization"));
     assertThat("restIdentity.getRemoteId() must return demo", restIdentity.getRemoteId(), equalTo("demo"));
     //gets default value
     assertThat("restIdentity.getProfile() must be null",
-                restIdentity.getProfile(), equalTo((RestProfile)new RestProfileImpl()));
+                restIdentity.getProfile(), equalTo((RestProfile)new RestProfile()));
   }
 }

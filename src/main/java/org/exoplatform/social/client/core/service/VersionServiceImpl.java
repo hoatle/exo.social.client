@@ -22,18 +22,12 @@ import java.util.Map;
 
 import org.apache.http.HttpResponse;
 import org.exoplatform.social.client.api.SocialClientContext;
-import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.net.SocialHttpClient.POLICY;
-import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.api.service.VersionService;
-import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
-import org.json.simple.parser.ParseException;
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
 
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.*;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.*;
 
 /**
  * Created by The eXo Platform SAS

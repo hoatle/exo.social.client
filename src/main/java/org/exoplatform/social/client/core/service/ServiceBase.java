@@ -18,7 +18,6 @@ package org.exoplatform.social.client.core.service;
 
 import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.auth.AccessDeniedException;
-import org.exoplatform.social.client.api.auth.NotFoundException;
 import org.exoplatform.social.client.api.event.CRUDLifecycle;
 import org.exoplatform.social.client.api.event.CRUDLifecycleListener;
 import org.exoplatform.social.client.api.event.Lifecycle;
@@ -26,8 +25,8 @@ import org.exoplatform.social.client.api.event.LifecycleException;
 import org.exoplatform.social.client.api.event.LifecycleListener;
 import org.exoplatform.social.client.api.service.Service;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.util.CRUDLifecycleSupport;
-import org.exoplatform.social.client.core.util.LifecycleSupport;
+import org.exoplatform.social.client.api.util.CRUDLifecycleSupport;
+import org.exoplatform.social.client.api.util.LifecycleSupport;
 
 /**
  * Abstract implementation of the <b>Lifecycle</b> interface, CRUDLifecycle interface, 

@@ -21,7 +21,6 @@ import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestProfile;
 import org.exoplatform.social.client.core.AbstractClientTestV1Alpha1;
-import org.exoplatform.social.client.core.model.RestIdentityImpl;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -61,7 +60,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     if (!canRunTest()) {
       throw new UnsupportedMethodException();
     }
-    identityService.create(new RestIdentityImpl());
+    identityService.create(new RestIdentity());
   }
   
   /**

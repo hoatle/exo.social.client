@@ -16,13 +16,16 @@
  */
 package org.exoplatform.social.client.api.model;
 
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
+import org.json.simple.parser.ParseException;
+
 /**
  * eXo Social Identity.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since May 19, 2011
  */
-public interface RestIdentity extends Model {
+public class RestIdentity extends Model {
 
   /**
    * The fields that represent the Identity object in json form.
@@ -68,57 +71,104 @@ public interface RestIdentity extends Model {
   }
 
   /**
+   * The associated restProfile with this identity.
+   */
+  private RestProfile restProfile;
+
+  /**
+   * Constructor without any param.
+   */
+  public RestIdentity() {
+
+  }
+
+  /**
+   * Constructor.
+   *
+   * @param id         the identity id
+   * @param providerId the identity provider id
+   * @param remoteId   the remote id
+   */
+  public RestIdentity(String id, String providerId, String remoteId, RestProfile restProfile) {
+    setId(id);
+    setProviderId(providerId);
+    setRemoteId(remoteId);
+    setProfile(restProfile);
+  }
+  
+  /**
    * Gets the identity id.
    *
    * @return the identity id
    */
-  String getId();
+  public String getId() {
+    return getFieldAsString(Field.ID.toString());
+  }
 
   /**
    * Sets the identity id.
    *
    * @param id the identity id
    */
-  void setId(String id);
+  public void setId(String id) {
+    setField(Field.ID.toString(), id);
+  }
 
   /**
    * Gets identity provider id.
    *
    * @return the provider id
    */
-  String getProviderId();
+  public String getProviderId() {
+    return getFieldAsString(Field.PROVIDER_ID.toString());
+  }
 
   /**
    * Sets identity provider id.
    *
    * @param providerId the provider id
    */
-  void setProviderId(String providerId);
+  public void setProviderId(String providerId) {
+    setField(Field.PROVIDER_ID.toString(), providerId);
+  }
 
   /**
    * Gets the remote identity id.
    * @return the remote id
    */
-  String getRemoteId();
+  public String getRemoteId() {
+    return getFieldAsString(Field.REMOTE_ID.toString());
+  }
 
   /**
    * Sets the remote identity id.
    *
    * @param remoteId the remote id
    */
-  void setRemoteId(String remoteId);
+  public void setRemoteId(String remoteId) {
+    setField(Field.REMOTE_ID.toString(), remoteId);
+  }
 
   /**
    * Gets the profile associated with this identity.
    *
    * @return the associated profile.
    */
-  RestProfile getProfile();
+  public RestProfile getProfile() {
+    String jsonProfile = getFieldAsString(Field.PROFILE.toString());
+    try {
+      return jsonProfile == null ? new RestProfile() : SocialJSONDecodingSupport.parser(RestProfile.class, jsonProfile);
+    } catch (ParseException pex) {
+      return new RestProfile();
+    }
+  }
 
   /**
    * Sets the profile associated with this identity.
    *
    * @param restProfile the associated profile.
    */
-  void setProfile(RestProfile restProfile);
+  public void setProfile(RestProfile restProfile) {
+    this.restProfile = restProfile;
+  }
 }

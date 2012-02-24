@@ -26,8 +26,6 @@ import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.service.ServiceException;
 import org.exoplatform.social.client.core.AbstractClientTestV1Alpha1;
-import org.exoplatform.social.client.core.model.RestActivityImpl;
-import org.exoplatform.social.client.core.model.RestCommentImpl;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -91,7 +89,7 @@ public class ActivityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     }
 
 
-    RestActivity activity = new RestActivityImpl();
+    RestActivity activity = new RestActivity();
     activity.setTitle("Hello There");
       activityService.create(activity);
     startSessionAs("mary", "gtn");
@@ -106,7 +104,7 @@ public class ActivityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     RestActivity demoActivity = createActivities(1).get(0);
     startSessionAs("mary", "gtn");
 
-    RestComment comment = new RestCommentImpl();
+    RestComment comment = new RestComment();
     comment.setText("comment");
 
     try {
@@ -231,7 +229,7 @@ public class ActivityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
   private List<RestActivity> createActivities(int numberOfActivity) throws SocialClientLibException {
     List<RestActivity> createdActivityList = new ArrayList<RestActivity>();
     for (int i = 0; i < numberOfActivity; i++) {
-      RestActivity restActivityToCreate = new RestActivityImpl();
+      RestActivity restActivityToCreate = new RestActivity();
       restActivityToCreate.setTitle("test " + i);
       RestActivity createdActivity = activityService.create(restActivityToCreate);
       createdActivityList.add(createdActivity);

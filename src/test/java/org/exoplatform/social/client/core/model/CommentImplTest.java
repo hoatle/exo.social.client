@@ -24,7 +24,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 
 /**
- * Unit Test for {@link RestCommentImpl}.
+ * Unit Test for {@link RestComment}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since  May 26, 2011
@@ -38,7 +38,7 @@ public class CommentImplTest {
     final String activityId = "12345689abcdefgh";
     final long postedTime = System.currentTimeMillis();
     final String createdAt = "Tue Jun 21 15:09:19 +0700 2011";
-    RestComment restComment = new RestCommentImpl(id, identityId, activityId, postedTime, createdAt);
+    RestComment restComment = new RestComment(id, identityId, activityId, postedTime, createdAt);
     assertThat("restComment must not be null", restComment, notNullValue());
     assertThat("restComment.getId() must return: " + id, restComment.getId(), equalTo(id));
     assertThat("restComment.getIdentityId() must return: " + identityId, restComment.getIdentityId(), equalTo(identityId));

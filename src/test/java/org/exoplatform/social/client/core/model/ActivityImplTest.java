@@ -23,7 +23,7 @@ import java.util.Map;
 import org.exoplatform.social.client.api.model.RestActivity;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestProfile;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -50,7 +50,7 @@ public class ActivityImplTest {
     final double priority = 0.9;
     final String title = "title foo";
     final long postedTime = System.currentTimeMillis();
-    RestActivity restActivity = new RestActivityImpl();
+    RestActivity restActivity = new RestActivity();
     assertThat("restActivity must not be null", restActivity, notNullValue());
     restActivity.setId(id);
     restActivity.setAppId(appId);
@@ -118,7 +118,7 @@ public class ActivityImplTest {
                               +"}" //optional
                               +"}\"";
 
-    RestActivityImpl model3 = SocialJSONDecodingSupport.parser(RestActivityImpl.class, jsonActivity1);
+    RestActivity model3 = SocialJSONDecodingSupport.parser(RestActivity.class, jsonActivity1);
     assertEquals(model3.getIdentityId(), "123456789abcdefghi");
 
     //
@@ -129,7 +129,7 @@ public class ActivityImplTest {
 
     assertEquals(actual, jsonArray.toJSONString());
 
-    List<RestIdentityImpl> identities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestIdentityImpl.class, actual);
+    List<RestIdentity> identities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestIdentity.class, actual);
     assertEquals(identities.size(), 1);
   }
 
@@ -150,7 +150,7 @@ public class ActivityImplTest {
 
     JSONObject jsonObject = (JSONObject) JSONValue.parse(jsonActivity1);
     JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-    RestActivityImpl model3 = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString()).get(0);
+    RestActivity model3 = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivity.class, jsonArray.toJSONString()).get(0);
     assertEquals(model3.getIdentityId(), "f845f6ed7f000101003ed4d98a09beb3");
   }
 
@@ -259,10 +259,10 @@ public class ActivityImplTest {
 
     JSONObject jsonObject = (JSONObject) JSONValue.parse(jsonActivity1);
     JSONArray jsonArray =  (JSONArray)jsonObject.get("activities");
-    List<RestActivityImpl> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivityImpl.class, jsonArray.toJSONString());
+    List<RestActivity> activities = SocialJSONDecodingSupport.JSONArrayObjectParser(RestActivity.class, jsonArray.toJSONString());
     assertEquals(activities.size(), 2);
 
-    for(RestActivityImpl e : activities) {
+    for(RestActivity e : activities) {
       assertThat("PosterIdentity must not be null.", e.getPosterIdentity(), notNullValue());
       assertThat("ActivityStream must not be null.", e.getActivityStream(), notNullValue());
       assertThat("LikedByIdentity must not be null.", e.getAvailableLikes(), notNullValue());

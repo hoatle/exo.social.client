@@ -16,9 +16,10 @@
  */
 package org.exoplatform.social.client.core.service;
 
-import org.exoplatform.social.client.core.model.ModelImpl;
+import org.exoplatform.social.client.api.model.Model;
 
-public class MockModel extends ModelImpl {
+
+public class MockModel extends Model {
   /**
    * 
    */

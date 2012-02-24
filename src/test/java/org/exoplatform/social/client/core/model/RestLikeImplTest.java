@@ -35,7 +35,7 @@ public class RestLikeImplTest {
   public void shouldCreateLikeInstance() {
     final String activityId = "1234";
     final String identityId = "abcdegheogi30";
-    RestLike restLike = new RestLikeImpl(activityId, identityId);
+    RestLike restLike = new RestLike(activityId, identityId);
     assertThat("restLike must not be null", restLike, notNullValue());
     assertThat("restLike.getActivityId() must return: " + activityId , restLike.getActivityId(), equalTo(activityId));
     assertThat("restLike.getIdentityId() must return: " + identityId, restLike.getIdentityId(), equalTo(identityId));

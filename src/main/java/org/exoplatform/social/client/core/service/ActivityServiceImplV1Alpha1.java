@@ -32,20 +32,17 @@ import org.exoplatform.social.client.api.net.SocialHttpClientException;
 import org.exoplatform.social.client.api.service.ActivityService;
 import org.exoplatform.social.client.api.service.QueryParams;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.model.RestActivityImpl;
-import org.exoplatform.social.client.core.model.RestCommentImpl;
-import org.exoplatform.social.client.core.model.RestLikeImpl;
 import org.exoplatform.social.client.core.service.ActivitiesRealtimeListAccessV1Alpha1.ActivityType;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.json.simple.parser.ParseException;
 
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.buildCommonRestPathFromContext;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.executeGet;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.executePost;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.getContent;
-import static org.exoplatform.social.client.core.util.SocialHttpClientSupport.handleError;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.buildCommonRestPathFromContext;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.executeGet;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.executePost;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.getContent;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.handleError;
 
 /**
  * Implementation of {@link org.exoplatform.social.client.api.service.ActivityService}.
@@ -66,7 +63,7 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
         HttpResponse response = executePost(POST_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH, newInstance);
         handleError(response);
         String responseContent = getContent(response);
-        RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
+        RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivity.class, responseContent);
         return restActivity;
       } catch (SocialHttpClientException e) {
         throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
@@ -91,7 +88,7 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
         HttpResponse response = executeGet(GET_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
         handleError(response);
         String responseContent = getContent(response);
-        RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
+        RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivity.class, responseContent);
         return restActivity;
       } catch (SocialHttpClientException e) {
         throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
@@ -119,7 +116,7 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
       HttpResponse response = executePost(DELETE_ACTIVITY_REQUEST_URL, POLICY.BASIC_AUTH);
       handleError(response);
       String responseContent = getContent(response);
-      RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivityImpl.class, responseContent);
+      RestActivity restActivity = SocialJSONDecodingSupport.parser(RestActivity.class, responseContent);
       return restActivity;
     } catch (SocialHttpClientException e) {
       throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
@@ -164,7 +161,7 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
         HttpResponse response = executePost(CREATE_COMMENT_REQUEST_URL, POLICY.BASIC_AUTH, newRestComment);
         handleError(response);
         String responseContent = getContent(response);
-        RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
+        RestComment restComment = SocialJSONDecodingSupport.parser(RestComment.class, responseContent);
         return restComment;
       } catch (SocialHttpClientException e) {
         throw new ServiceException(ActivityServiceImplV1Alpha1.class,e.getMessage(),null);
@@ -210,7 +207,7 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
       HttpResponse response = executePost(DELETE_COMMENT_REQUEST_URL, POLICY.BASIC_AUTH);
       handleError(response);
       String responseContent = getContent(response);
-      RestComment restComment = SocialJSONDecodingSupport.parser(RestCommentImpl.class, responseContent);
+      RestComment restComment = SocialJSONDecodingSupport.parser(RestComment.class, responseContent);
       return restComment;
     } catch (SocialHttpClientException e) {
       throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
@@ -232,7 +229,7 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
 
       JSONObject responseJson = (JSONObject)JSONValue.parse(responseContent);
       if((Boolean) responseJson.get("like")){
-        return new RestLikeImpl(existingRestActivity.getId(), null);
+        return new RestLike(existingRestActivity.getId(), null);
       } else {
         throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
       }
@@ -255,7 +252,7 @@ public class ActivityServiceImplV1Alpha1 extends ServiceBase<RestActivity, Activ
       JSONObject responseJson = (JSONObject)JSONValue.parse(responseContent);
 
       if(!(Boolean) responseJson.get("like")){
-        return new RestLikeImpl(existingRestActivity.getId(), null);
+        return new RestLike(existingRestActivity.getId(), null);
       } else {
         throw new ServiceException(ActivityServiceImplV1Alpha1.class,"invalid response",null);
       }

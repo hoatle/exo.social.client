@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Unit Test for {@link RestActivityStreamImpl}.
+ * Unit Test for {@link RestActivityStream}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
@@ -33,7 +33,7 @@ public class RestActivityStreamImplTest {
 
   @Test
   public void shouldGetDefaultValues() {
-    RestActivityStream restActivityStream = new RestActivityStreamImpl();
+    RestActivityStream restActivityStream = new RestActivityStream();
     assertThat("restActivityStream.getType() must be null", restActivityStream.getType(), nullValue());
     assertThat("restActivityStream.getPrettyId() must be null", restActivityStream.getPrettyId(), nullValue());
     assertThat("restActivityStream.getFullName() must be null", restActivityStream.getFullName(), nullValue());
@@ -50,7 +50,7 @@ public class RestActivityStreamImplTest {
     final String faviconUrl = "";
     final String permaLink = "http://platform35.demo.exoplatform.org/portal/classic/profile/demo";
     final String title = "Activity Stream of Demo";
-    RestActivityStream restActivityStream = new RestActivityStreamImpl(type, prettyId, fullName, faviconUrl, title, permaLink);
+    RestActivityStream restActivityStream = new RestActivityStream(type, prettyId, fullName, faviconUrl, title, permaLink);
 
     assertThat("restActivityStream.getType() must return: " + type, restActivityStream.getType(), equalTo(type));
     assertThat("restActivityStream.getPrettyId() must return: " + prettyId, restActivityStream.getPrettyId(), equalTo(prettyId));

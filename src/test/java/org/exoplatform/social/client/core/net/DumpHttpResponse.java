@@ -22,13 +22,11 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
-import org.apache.http.util.EntityUtils;
 import org.exoplatform.social.client.api.net.SocialHttpClientException;
-import org.exoplatform.social.client.core.util.SocialHttpClientSupport;
-import org.exoplatform.social.client.core.util.SocialJSONDecodingSupport;
+import org.exoplatform.social.client.api.util.SocialHttpClientSupport;
+import org.exoplatform.social.client.api.util.SocialJSONDecodingSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

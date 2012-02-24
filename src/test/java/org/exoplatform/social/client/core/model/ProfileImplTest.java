@@ -24,7 +24,7 @@ import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 /**
- * Unit Test for {@link RestProfileImpl}.
+ * Unit Test for {@link RestProfile}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jun 29, 2011
@@ -33,7 +33,7 @@ public class ProfileImplTest {
 
   @Test
   public void shouldGetDefaultValues() {
-    RestProfile restProfile = new RestProfileImpl();
+    RestProfile restProfile = new RestProfile();
     assertThat("restProfile.getIdentityId() must be null", restProfile.getIdentityId(), nullValue());
     assertThat("restProfile.getFullName() must be null", restProfile.getFullName(), nullValue());
     assertThat("restProfile.getAvatarUrl() must be null", restProfile.getAvatarUrl(), nullValue());
@@ -44,7 +44,7 @@ public class ProfileImplTest {
     final String identityId = "123456789";
     final String fullName = "Demo Gtn";
     final String avatarUrl = "http://platform35.demo.exoplatform.org/restProfile/avatar/demo.jpg";
-    RestProfile restProfile = new RestProfileImpl(identityId, fullName, avatarUrl);
+    RestProfile restProfile = new RestProfile(identityId, fullName, avatarUrl);
 
     assertThat("restProfile.getIdentityId() must return: " + identityId, restProfile.getIdentityId(), equalTo(identityId));
     assertThat("restProfile.getFullName() must return: " + fullName, restProfile.getFullName(), equalTo(fullName));
