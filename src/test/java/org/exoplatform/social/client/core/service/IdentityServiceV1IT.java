@@ -20,29 +20,33 @@ import org.exoplatform.social.client.api.SocialClientLibException;
 import org.exoplatform.social.client.api.UnsupportedMethodException;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.model.RestProfile;
-import org.exoplatform.social.client.core.AbstractClientTestV1Alpha1;
+import org.exoplatform.social.client.core.AbstractClientTestV1;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.nullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.testng.Assert.fail;
 
 /**
- * Unit Test for {@link IdentityServiceImplV1Alpha1}.
+ * Unit Test for {@link IdentityServiceImplV1}.
  *
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 1, 2011
  */
-public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
+public class IdentityServiceV1IT extends AbstractClientTestV1 {
+
 
   @BeforeMethod
   @Override
   public void setUp() {
     super.setUp();
+  }
+
+  @Override
+  public void afterSetup() {
     startSessionAs("demo", "gtn");
   }
 
@@ -62,7 +66,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     }
     identityService.create(new RestIdentity());
   }
-  
+
   /**
    * Test the case update an existing identity.
    */
@@ -71,7 +75,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     if (!canRunTest()) {
       throw new UnsupportedMethodException();
     }
-    identityService.update(identityService.get(getDemoIdentityId()));
+    identityService.update(identityService.get(getDemoIdentity().getId()));
   }
 
   /**
@@ -82,9 +86,9 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     if (!canRunTest()) {
       throw new UnsupportedMethodException();
     }
-    identityService.delete(identityService.get(getDemoIdentityId()));
+    identityService.delete(identityService.get(getDemoIdentity().getId()));
   }
-  
+
   /**
    * Test the case get an identity by its id.
    */
@@ -93,24 +97,24 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     if (!canRunTest()) {
       return;
     }
-    String id = getDemoIdentityId();
+    String id = getDemoIdentity().getId();
     RestIdentity identity = identityService.get(id);
     assertThat("Identity must not be null", identity, notNullValue());
     assertThat("Identity provider must be organization", identity.getProviderId(), equalTo("organization"));
     assertThat("RemoteId must be demo", identity.getRemoteId(), equalTo("demo"));
-    
+
     RestProfile profile = identity.getProfile();
     assertThat("profile must not be null", profile, notNullValue());
-    assertThat("profile.getAvatarUrl() must be null", profile.getAvatarUrl(), nullValue());
+    assertThat("profile.getAvatarUrl() must not be null", profile.getAvatarUrl(), notNullValue());
     assertThat("profile.getFullName() must return: Demo gtn", profile.getFullName(), equalTo("Demo gtn"));
-    
+
     try {
       identity = identityService.get(null);
       fail("Expecting NullPointerException from IdentityService#get(String)");
     } catch (NullPointerException npe) {
     }
   }
-  
+
   /**
    * Test the case get id of identity.
    */
@@ -119,16 +123,16 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     if (!canRunTest()) {
       return;
     }
-    String expectedId = getDemoIdentityId();
+    String expectedId = getDemoIdentity().getId();
     String resultId = identityService.getIdentityId("organization", "demo");
     assertThat("identity id must be " + expectedId, resultId, equalTo(expectedId));
-    
+
     try {
       resultId = identityService.getIdentityId(null, "demo");
       fail("Expecting NullPointerException from IdentityService#getIdentityId(String, String)");
     } catch (NullPointerException npe) {
     }
-    
+
     try {
       resultId = identityService.getIdentityId(null, null);
       fail("Expecting NullPointerException from IdentityService#getIdentityId(String, String)");
@@ -146,7 +150,7 @@ public class IdentityServiceV1Alpha1IT extends AbstractClientTestV1Alpha1 {
     assertThat("RemoteId must be demo", "demo", equalTo(restIdentity.getRemoteId()));
     assertThat("Provider must be organization", "organization", equalTo(restIdentity.getProviderId()));
     RestProfile restProfile = restIdentity.getProfile();
-    assertThat("Avatar URL must be null", restProfile.getAvatarUrl(), nullValue());
+    assertThat("Avatar URL must not be null", restProfile.getAvatarUrl(), notNullValue());
     assertThat("Profile's full name must be Demo gtn", "Demo gtn", equalTo(restProfile.getFullName()));
   }
 }

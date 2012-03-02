@@ -35,10 +35,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.buildCommonRestPathFromContext;
-import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.executeGet;
-import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.getContent;
-import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.handleError;
+import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.*;
 
 /**
  * Created by The eXo Platform SAS
@@ -46,7 +43,7 @@ import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.han
  *          phuonglm@exoplatform.com
  * Jul 5, 2011  
  */
-public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<RestActivity> {
+public class ActivitiesRealtimeListAccessV1 implements RealtimeListAccess<RestActivity> {
 
   /** The activity type.*/
   public static enum ActivityType {
@@ -77,7 +74,7 @@ public class ActivitiesRealtimeListAccessV1Alpha2 implements RealtimeListAccess<
    * @param ownerIdentity
    * @param activityType
    */
-  public ActivitiesRealtimeListAccessV1Alpha2(RestIdentity ownerIdentity, ActivityType activityType, QueryParams queryParams) {
+  public ActivitiesRealtimeListAccessV1(RestIdentity ownerIdentity, ActivityType activityType, QueryParams queryParams) {
     this.ownerIdentity = ownerIdentity;
     this.activityType = activityType;
     if(queryParams != null ){

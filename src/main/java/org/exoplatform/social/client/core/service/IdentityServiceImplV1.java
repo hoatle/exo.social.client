@@ -35,7 +35,7 @@ import static org.exoplatform.social.client.api.util.SocialHttpClientSupport.han
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since 10/6/11
  */
-public class IdentityServiceImplV1Alpha3 implements IdentityService<RestIdentity> {
+public class IdentityServiceImplV1 implements IdentityService<RestIdentity> {
 
   private static final String BASE_URL = SocialHttpClientSupport.buildCommonRestPathFromContext(true);
 
@@ -48,9 +48,9 @@ public class IdentityServiceImplV1Alpha3 implements IdentityService<RestIdentity
       handleError(response);
       return SocialJSONDecodingSupport.parser(RestIdentity.class, response);
     } catch (IOException ioex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "IOException when reads Json Content.", ioex);
+      throw new ServiceException(IdentityServiceImplV1.class, "IOException when reads Json Content.", ioex);
     } catch (ParseException pex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "ParseException when reads Json Content.", pex);
+      throw new ServiceException(IdentityServiceImplV1.class, "ParseException when reads Json Content.", pex);
     }
   }
 
@@ -73,9 +73,9 @@ public class IdentityServiceImplV1Alpha3 implements IdentityService<RestIdentity
       handleError(response);
       return SocialJSONDecodingSupport.parser(RestIdentity.class, response);
     } catch (IOException ioex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "IOException when reads Json Content.", ioex);
+      throw new ServiceException(IdentityServiceImplV1.class, "IOException when reads Json Content.", ioex);
     } catch (ParseException pex) {
-      throw new ServiceException(IdentityServiceImplV1Alpha3.class, "ParseException when reads Json Content.", pex);
+      throw new ServiceException(IdentityServiceImplV1.class, "ParseException when reads Json Content.", pex);
     }
   }
 

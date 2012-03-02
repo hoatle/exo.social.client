@@ -27,7 +27,7 @@ import org.exoplatform.social.client.api.model.RestActivityStream;
 import org.exoplatform.social.client.api.model.RestComment;
 import org.exoplatform.social.client.api.model.RestIdentity;
 import org.exoplatform.social.client.api.service.ServiceException;
-import org.exoplatform.social.client.core.AbstractClientTestV1Alpha3;
+import org.exoplatform.social.client.core.AbstractClientTestV1;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -43,7 +43,7 @@ import static org.testng.Assert.fail;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since Jul 3, 2011
  */
-public class ActivityServiceV1Alpha3IT extends AbstractClientTestV1Alpha3 {
+public class ActivityServiceV1IT extends AbstractClientTestV1 {
 
   private List<RestActivity> tearDownActivityList;
 

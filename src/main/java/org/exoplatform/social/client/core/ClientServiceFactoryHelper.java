@@ -21,9 +21,7 @@ import org.exoplatform.social.client.api.SocialClientContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.exoplatform.social.client.api.SocialClientContext.SupportedVersion.V1_ALPHA1;
-import static org.exoplatform.social.client.api.SocialClientContext.SupportedVersion.V1_ALPHA2;
-import static org.exoplatform.social.client.api.SocialClientContext.SupportedVersion.V1_ALPHA3;
+import static org.exoplatform.social.client.api.SocialClientContext.SupportedVersion.V1;
 
 /**
  * The clientServiceFactory helper to get {@link org.exoplatform.social.client.api.ClientServiceFactory} to work
@@ -55,12 +53,8 @@ public class ClientServiceFactoryHelper {
   public static ClientServiceFactory getClientServiceFactory() {
     if (clientServiceFactory == null || isVersionChanged()) {
       currentRestVersion = SocialClientContext.getRestVersion();
-      if (V1_ALPHA3.toString().equals(currentRestVersion)) {
-        clientServiceFactory = new ClientServiceFactoryImplV1Alpha3();
-      } else if (V1_ALPHA2.toString().equals(currentRestVersion)) {
-        clientServiceFactory = new ClientServiceFactoryImplV1Alpha2();
-      } else  if (V1_ALPHA1.toString().equals(currentRestVersion)) {
-        clientServiceFactory = new ClientServiceFactoryImplV1Alpha1();
+      if (V1.toString().equals(currentRestVersion)) {
+        clientServiceFactory = new ClientServiceFactoryImplV1();
       }
     }
     return clientServiceFactory;

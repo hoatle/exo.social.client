@@ -30,7 +30,7 @@ import org.exoplatform.social.client.api.model.RestIdentity;
  * @author <a href="http://hoatle.net">hoatle (hoatlevan at gmail dot com)</a>
  * @since 1.0.0-alpha2
  */
-public abstract class AbstractClientTestV1Alpha3 extends AbstractClientTest {
+public abstract class AbstractClientTestV1 extends AbstractClientTest {
 
   private RestIdentity demoIdentity;
 
@@ -39,7 +39,7 @@ public abstract class AbstractClientTestV1Alpha3 extends AbstractClientTest {
    */
   @Override
   protected void setRestVersion() {
-    SocialClientContext.setRestVersion("v1-alpha3");
+    SocialClientContext.setRestVersion("v1");
   }
 
   /**
