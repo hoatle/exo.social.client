@@ -30,7 +30,7 @@
 
     <!-- project dependencies versions -->
     <json_simple.version>1.1</json_simple.version>
-    <org.apache.httpclient.version>4.0</org.apache.httpclient.version>
+    <org.apache.httpclient.version>4.3.6</org.apache.httpclient.version>
     <org.testng.version>6.1.1</org.testng.version>
     <org.hamcrest.version>1.2.1</org.hamcrest.version>
 
